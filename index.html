@@ -1,12 +1,12 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
-  <title>MakineBul - İş Makinesi Kiralama ve Kiralatma Platformu</title>
+  <title>KepçeBurada - İş Makinesi Kiralama ve Kiralatma Platformu</title>
   <meta name="description" content="En basit ve hızlı iş makinesi, kepçe ve ekskavatör kiralama ve kiralatma platformu.">
   <link rel="stylesheet" href="styles.css?v=22.0">
   <!-- Google Fonts: Manrope & Poppins -->
@@ -17,25 +17,24 @@
 <body>
 
   <!-- ==================== 1. SPLASH ENTRANCE SCREEN ==================== -->
-  <!-- ==================== 1. ENTRANCE LANDING SCREEN ==================== -->
   <div id="splash-screen" class="splash-screen active">
     
     <!-- Top Full-Width Bar: Logo Far Left + Biz Kimiz & Atla Buttons Far Right -->
     <header class="splash-header-bar">
       <div class="brand" onclick="enterMainApp('rent')" style="cursor: pointer;" title="Uygulamaya Giriş Yap">
         <div class="brand-icon-3d-wrapper">
-          <img src="assets/logo_3d.png" alt="MakineBul 3D Logo" class="brand-icon-3d">
+          <img src="assets/logo_3d.png" alt="KepçeBurada 3D Logo" class="brand-icon-3d">
         </div>
         <div class="brand-text-3d">
-          <h1 class="logo-title-3d">Makine<span class="highlight-3d">Bul</span></h1>
+          <h1 class="logo-title-3d">Kepçe<span class="highlight-3d">Burada</span></h1>
           <p class="logo-sub-3d">81 İlde Komisyonsuz &amp; Doğrudan Kiralama</p>
         </div>
       </div>
 
-      <div style="display: flex; gap: 0.4rem; align-items: center; flex-shrink: 0;">
-        <button id="btn-biz-kimiz" class="btn-splash-info" onclick="openAboutModal()">
+      <div style="display: flex; gap: 0.65rem; align-items: center;">
+        <button id="btn-biz-kimiz" class="btn-splash-skip" onclick="openAboutModal()">
           <span class="btn-3d-info-icon-badge">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:12px; height:12px;">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:14px; height:14px;">
               <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
               <path d="M12 16V12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
               <circle cx="12" cy="8" r="1" fill="currentColor"/>
@@ -43,10 +42,9 @@
           </span>
           Biz Kimiz
         </button>
-        <button class="btn-splash-close" onclick="enterMainApp('rent')" title="Kapat">
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
-            <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-          </svg>
+        <button class="btn-splash-skip" onclick="enterMainApp('rent')">
+          <span>Atla</span>
+          <span style="font-size: 0.85rem;">→</span>
         </button>
       </div>
     </header>
@@ -120,25 +118,25 @@
       <div class="header-container">
         <div class="brand" onclick="returnToSplash()" style="cursor: pointer;" title="Giriş Ekranına Dön">
           <div class="brand-icon-3d-wrapper">
-            <img src="assets/logo_3d.png" alt="MakineBul 3D Logo" class="brand-icon-3d">
+            <img src="assets/logo_3d.png" alt="KepçeBurada 3D Logo" class="brand-icon-3d">
           </div>
           <div class="brand-text-3d">
-            <h1 class="logo-title-3d">Makine<span class="highlight-3d">Bul</span></h1>
+            <h1 class="logo-title-3d">Kepçe<span class="highlight-3d">Burada</span></h1>
             <p class="logo-sub-3d">81 İlde Komisyonsuz & Doğrudan Kiralama</p>
           </div>
         </div>
         
         <!-- Top Action Switcher Buttons & Right Close X Icon -->
         <div class="header-right-group">
-          <div id="user-profile-badge"></div>
           <div class="mode-switcher">
             <button id="btn-mode-rent" class="mode-btn active" onclick="switchMode('rent')">
-              <span class="btn-icon">🔍</span> Kirala
+              <span class="btn-icon">🔍</span> Kepçe Kirala
             </button>
             <button id="btn-mode-list" class="mode-btn" onclick="switchMode('list')">
               <span class="btn-icon">🚀</span> İlan Ver
             </button>
           </div>
+          <button class="btn-close-to-splash" onclick="returnToSplash()" title="Giriş Ekranına Dön (Çıkış)">✕</button>
         </div>
       </div>
     </header>
@@ -288,10 +286,10 @@
               <!-- Row 5: Photo Dropzone -->
               <div class="form-group" style="margin-bottom: 1.25rem;">
                 <label>Makine Fotoğrafı <span style="font-weight:400; color:#6B7280; font-size:0.8rem;">(Opsiyonel)</span></label>
-                <div class="custom-file-dropzone-compact" style="cursor:pointer; display:block;" onclick="triggerPhotoUpload(event)">
-                  <input type="file" id="input-image-file" name="photo" accept="image/*" class="file-upload-input-hidden" onchange="previewUserImage(event)">
+                <div class="custom-file-dropzone-compact" onclick="document.getElementById('input-image-file').click()">
+                  <input type="file" id="input-image-file" accept="image/*" class="file-upload-input-hidden" onchange="previewUserImage(event)">
                   <div id="dropzone-prompt" class="dropzone-prompt-compact" style="display: flex;">
-                    <span style="font-weight: 600; font-size: 0.88rem; color: #D97706;">📷 Galeriden Fotoğraf Seç</span>
+                    <span style="font-weight: 600; font-size: 0.88rem; color: #D97706;">Fotoğraf Yüklemek İçin Tıklayın veya Sürükleyin</span>
                   </div>
                   <div id="image-preview-container" class="image-preview-container-compact" style="display: none;">
                     <img id="image-preview-img" src="" alt="Önizleme">
@@ -322,139 +320,76 @@
 
     </main>
 
+
+
   </div><!-- End main-app-content -->
 
   <!-- ==================== 3. BİZ KİMİZ MODAL ==================== -->
   <div id="about-modal" class="modal">
-    <div style="background: linear-gradient(160deg, rgba(15,23,42,0.97) 0%, rgba(30,58,95,0.97) 100%); max-width: 560px; width: 94%; max-height: 88vh; overflow-y: auto; border-radius: 22px; position: relative; box-shadow: 0 24px 60px rgba(0,0,0,0.55); border: 1px solid rgba(255,255,255,0.08);">
+    <div style="background: linear-gradient(160deg, rgba(15,23,42,0.97) 0%, rgba(30,58,95,0.97) 100%); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); max-width: 580px; width: 95%; max-height: 88vh; overflow-y: auto; border-radius: 24px; position: relative; box-shadow: 0 30px 80px rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1);">
 
       <!-- Close button -->
-      <button onclick="closeAboutModal()" style="position: absolute; top: 0.9rem; right: 0.9rem; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); color: rgba(255,255,255,0.65); width: 30px; height: 30px; border-radius: 50%; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10;">✕</button>
+      <button onclick="closeAboutModal()" style="position: absolute; top: 1.1rem; right: 1.1rem; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.7); width: 34px; height: 34px; border-radius: 50%; font-size: 1.15rem; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10;">✕</button>
 
-      <div style="padding: 1.5rem 1.5rem 1.5rem;">
+      <div style="padding: 2.25rem 2.25rem 2rem;">
+
+        <!-- Badge -->
+        <span style="background: rgba(245,158,11,0.18); color: #FCD34D; border: 1px solid rgba(245,158,11,0.3); padding: 0.3rem 0.85rem; border-radius: 20px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em; display: inline-block; margin-bottom: 1rem; text-transform: uppercase;">Türkiye'nin Komisyonsuz İş Makinesi Platformu</span>
 
         <!-- Title -->
-        <h2 style="font-family: 'Poppins', sans-serif; font-size: 1.45rem; font-weight: 700; color: #ffffff; margin: 0 0 0.25rem; line-height: 1.2;">
+        <h2 style="font-family: 'Poppins', sans-serif; font-size: 1.9rem; font-weight: 800; color: #ffffff; margin: 0 0 0.4rem; line-height: 1.2; text-shadow: 0 2px 8px rgba(0,0,0,0.5);">
           Biz Kimiz &amp;<br><span style="color: #F59E0B;">Ne İçin Varız?</span>
         </h2>
-        <p style="font-size: 0.72rem; font-weight: 400; color: rgba(255,255,255,0.4); margin: 0 0 1.25rem;">Ağır Sanayide Aracısız · Dijital · Güvenilir</p>
+        <p style="font-size: 0.85rem; color: rgba(255,255,255,0.5); margin: 0 0 2rem;">Ağır Sanayide Aracısız · Dijital · Güvenilir</p>
 
         <!-- Q1 -->
-        <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); border-left: 3px solid #F59E0B; border-radius: 12px; padding: 0.75rem 1rem; margin-bottom: 0.65rem;">
-          <div style="font-size: 0.75rem; font-weight: 700; color: #F59E0B; margin-bottom: 0.3rem;">Biz Kimiz?</div>
-          <p style="font-size: 0.73rem; font-weight: 400; color: rgba(255,255,255,0.6); line-height: 1.55; margin: 0;"><strong style="color:#fff; font-weight:600;">MakineBul.com</strong>; Türkiye'nin 81 ilinde iş makinesi arayan müteahhitler ile kepçe, ekskavatör, vinç ve kamyon sahiplerini <strong style="color:#FCD34D; font-weight:600;">aracısız, %0 komisyonla</strong> buluşturan bağımsız sanayi platformudur.</p>
+        <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-left: 3px solid #F59E0B; border-radius: 14px; padding: 1.1rem 1.25rem; margin-bottom: 1rem;">
+          <div style="font-family: 'Poppins', sans-serif; font-size: 0.88rem; font-weight: 700; color: #F59E0B; margin-bottom: 0.4rem;">Biz Kimiz?</div>
+          <p style="font-size: 0.84rem; color: rgba(255,255,255,0.7); line-height: 1.65; margin: 0;"><strong style="color:#fff;">KepçeBurada.com</strong>; Türkiye'nin 81 ilinde iş makinesi arayan müteahhitler ile kepçe, ekskavatör, vinç ve kamyon sahiplerini <strong style="color:#FCD34D;">aracısız, %0 komisyonla</strong> buluşturan bağımsız sanayi platformudur.</p>
         </div>
 
         <!-- Q2 -->
-        <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); border-left: 3px solid #60A5FA; border-radius: 12px; padding: 0.75rem 1rem; margin-bottom: 0.65rem;">
-          <div style="font-size: 0.75rem; font-weight: 700; color: #60A5FA; margin-bottom: 0.3rem;">Ne İçin Varız?</div>
-          <p style="font-size: 0.73rem; font-weight: 400; color: rgba(255,255,255,0.6); line-height: 1.55; margin: 0;">Sektördeki <strong style="color:#fff; font-weight:600;">komisyoncu ücretlerini, aracı bürokrasisini ve makine arama çilesini sonlandırmak</strong> için varız. Herkes en yakınındaki makine sahibine tek tıkla ulaşsın.</p>
+        <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-left: 3px solid #60A5FA; border-radius: 14px; padding: 1.1rem 1.25rem; margin-bottom: 1rem;">
+          <div style="font-family: 'Poppins', sans-serif; font-size: 0.88rem; font-weight: 700; color: #60A5FA; margin-bottom: 0.4rem;">Ne İçin Varız?</div>
+          <p style="font-size: 0.84rem; color: rgba(255,255,255,0.7); line-height: 1.65; margin: 0;">Sektördeki <strong style="color:#fff;">komisyoncu ücretlerini, aracı bürokrasisini ve makine arama çilesini sonlandırmak</strong> için varız. Herkes en yakınındaki makine sahibine tek tıkla ulaşsın.</p>
         </div>
 
         <!-- Q3 -->
-        <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); border-left: 3px solid #34D399; border-radius: 12px; padding: 0.75rem 1rem; margin-bottom: 1.1rem;">
-          <div style="font-size: 0.75rem; font-weight: 700; color: #34D399; margin-bottom: 0.4rem;">Neden Çalışıyoruz?</div>
-          <div style="display: flex; flex-direction: column; gap: 0.35rem;">
-            <div style="font-size: 0.72rem; font-weight: 400; color: rgba(255,255,255,0.6); line-height: 1.5;"><span style="color:#F59E0B; font-weight:700;">› </span><strong style="color:rgba(255,255,255,0.85); font-weight:600;">Makine Sahipleri İçin:</strong> Makineler boşta beklemesin, her gün kesintisiz kazanç sağlasın.</div>
-            <div style="font-size: 0.72rem; font-weight: 400; color: rgba(255,255,255,0.6); line-height: 1.5;"><span style="color:#60A5FA; font-weight:700;">› </span><strong style="color:rgba(255,255,255,0.85); font-weight:600;">Kiralayanlar İçin:</strong> En yakın makine 1 dakikada şantiyeye ulaşsın, işler aksımasın.</div>
-            <div style="font-size: 0.72rem; font-weight: 400; color: rgba(255,255,255,0.6); line-height: 1.5;"><span style="color:#34D399; font-weight:700;">› </span><strong style="color:rgba(255,255,255,0.85); font-weight:600;">Türkiye İçin:</strong> Altyapı ve sanayi çarklarının maksimum verimle dönmesi için çalışıyoruz.</div>
+        <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-left: 3px solid #34D399; border-radius: 14px; padding: 1.1rem 1.25rem; margin-bottom: 1.75rem;">
+          <div style="font-family: 'Poppins', sans-serif; font-size: 0.88rem; font-weight: 700; color: #34D399; margin-bottom: 0.6rem;">Neden Çalışıyoruz?</div>
+          <div style="display: flex; flex-direction: column; gap: 0.45rem;">
+            <div style="font-size: 0.83rem; color: rgba(255,255,255,0.65); line-height: 1.55;"><span style="color:#F59E0B; font-weight:700;">› </span><strong style="color:rgba(255,255,255,0.9);">Makine Sahipleri İçin:</strong> Makineler boşta beklemesin, her gün kesintisiz kazanç sağlasın.</div>
+            <div style="font-size: 0.83rem; color: rgba(255,255,255,0.65); line-height: 1.55;"><span style="color:#60A5FA; font-weight:700;">› </span><strong style="color:rgba(255,255,255,0.9);">Kiralayanlar İçin:</strong> En yakın makine 1 dakikada şantiyeye ulaşsın, işler aksımasın.</div>
+            <div style="font-size: 0.83rem; color: rgba(255,255,255,0.65); line-height: 1.55;"><span style="color:#34D399; font-weight:700;">› </span><strong style="color:rgba(255,255,255,0.9);">Türkiye İçin:</strong> Altyapı ve sanayi çarklarının maksimum verimle dönmesi için çalışıyoruz.</div>
           </div>
         </div>
 
-        <!-- Stats row — 2x2 grid, taşma yok -->
-        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; margin-bottom: 1rem;">
-          <div style="background: rgba(245,158,11,0.10); border: 1px solid rgba(245,158,11,0.22); border-radius: 10px; padding: 0.55rem 0.4rem; text-align: center;">
-            <div style="font-size: 0.95rem; font-weight: 700; color: #F59E0B;">%0</div>
-            <div style="font-size: 0.62rem; font-weight: 400; color: rgba(255,255,255,0.4); margin-top: 2px;">Komisyon</div>
+        <!-- Stats row -->
+        <div style="display: grid; grid-template-columns: repeat(4,1fr); gap: 0.6rem; margin-bottom: 1.5rem;">
+          <div style="background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.25); border-radius: 12px; padding: 0.65rem 0.4rem; text-align: center;">
+            <div style="font-size: 1.05rem; font-weight: 800; color: #F59E0B;">%0</div>
+            <div style="font-size: 0.65rem; color: rgba(255,255,255,0.45); margin-top: 2px;">Komisyon</div>
           </div>
-          <div style="background: rgba(96,165,250,0.08); border: 1px solid rgba(96,165,250,0.18); border-radius: 10px; padding: 0.55rem 0.4rem; text-align: center;">
-            <div style="font-size: 0.95rem; font-weight: 700; color: #60A5FA;">81 İl</div>
-            <div style="font-size: 0.62rem; font-weight: 400; color: rgba(255,255,255,0.4); margin-top: 2px;">Kapsama</div>
+          <div style="background: rgba(96,165,250,0.1); border: 1px solid rgba(96,165,250,0.2); border-radius: 12px; padding: 0.65rem 0.4rem; text-align: center;">
+            <div style="font-size: 1.05rem; font-weight: 800; color: #60A5FA;">81 İl</div>
+            <div style="font-size: 0.65rem; color: rgba(255,255,255,0.45); margin-top: 2px;">Kapsama</div>
           </div>
-          <div style="background: rgba(52,211,153,0.08); border: 1px solid rgba(52,211,153,0.18); border-radius: 10px; padding: 0.55rem 0.4rem; text-align: center;">
-            <div style="font-size: 0.95rem; font-weight: 700; color: #34D399;">✓</div>
-            <div style="font-size: 0.62rem; font-weight: 400; color: rgba(255,255,255,0.4); margin-top: 2px;">Doğrudan</div>
+          <div style="background: rgba(52,211,153,0.1); border: 1px solid rgba(52,211,153,0.2); border-radius: 12px; padding: 0.65rem 0.4rem; text-align: center;">
+            <div style="font-size: 1.05rem; font-weight: 800; color: #34D399;">✓</div>
+            <div style="font-size: 0.65rem; color: rgba(255,255,255,0.45); margin-top: 2px;">Doğrudan</div>
           </div>
-          <div style="background: rgba(167,139,250,0.08); border: 1px solid rgba(167,139,250,0.18); border-radius: 10px; padding: 0.55rem 0.4rem; text-align: center;">
-            <div style="font-size: 0.95rem; font-weight: 700; color: #A78BFA;">Ücretsiz</div>
-            <div style="font-size: 0.62rem; font-weight: 400; color: rgba(255,255,255,0.4); margin-top: 2px;">İlan Ver</div>
+          <div style="background: rgba(167,139,250,0.1); border: 1px solid rgba(167,139,250,0.2); border-radius: 12px; padding: 0.65rem 0.4rem; text-align: center;">
+            <div style="font-size: 1.05rem; font-weight: 800; color: #A78BFA;">Free</div>
+            <div style="font-size: 0.65rem; color: rgba(255,255,255,0.45); margin-top: 2px;">İlan</div>
           </div>
-        </div>
-
         <!-- CTA -->
-        <button onclick="closeAboutModal(); enterMainApp('rent');" style="width: 100%; padding: 0.75rem; background: linear-gradient(135deg, #F59E0B, #D97706); color: #1F2937; font-weight: 700; font-family: 'Poppins', sans-serif; font-size: 0.85rem; border-radius: 12px; border: none; cursor: pointer; box-shadow: 0 4px 16px rgba(245,158,11,0.30);">
+        <button onclick="closeAboutModal()" style="width: 100%; padding: 0.9rem; background: linear-gradient(135deg, #F59E0B, #D97706); color: #1F2937; font-weight: 800; font-family: 'Poppins', sans-serif; font-size: 0.95rem; border-radius: 14px; border: none; cursor: pointer; box-shadow: 0 6px 20px rgba(245,158,11,0.35);">
           Makineleri İncelemeye Başla
         </button>
 
       </div>
     </div>
   </div><!-- End about-modal -->
-
-  <!-- User Authentication / Registration Modal -->
-  <div id="auth-modal" class="modal">
-    <div class="modal-content card" style="max-width: 440px; width: 92%; padding: 1.5rem; background: #0F172A; border: 1px solid rgba(245,158,11,0.3); border-radius: 20px; box-shadow: 0 25px 50px rgba(0,0,0,0.5); color: #F8FAFC;">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.75rem;">
-        <div style="display: flex; align-items: center; gap: 0.5rem;">
-          <span style="font-size: 1.4rem;">🔐</span>
-          <h3 id="auth-modal-title" style="font-size: 1.15rem; font-weight: 800; color: #FFFFFF; margin: 0;">Üyelik &amp; SMS Doğrulama</h3>
-        </div>
-        <button type="button" onclick="closeAuthModal()" style="background: rgba(255,255,255,0.1); border: none; font-size: 1.1rem; font-weight: 700; cursor: pointer; color: #94A3B8; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">✕</button>
-      </div>
-
-      <!-- Step 1: User Info Form -->
-      <form id="auth-form-step1" onsubmit="handleUserAuthStep1(event)">
-        <p style="font-size: 0.82rem; color: #94A3B8; margin-bottom: 1.25rem; line-height: 1.4;">
-          Makinelerinizi listeleyebilmek ve alıcıların size kolayca ulaşması için lütfen bilgilerinizi giriniz.
-        </p>
-
-        <div class="form-group" style="margin-bottom: 0.85rem;">
-          <label for="auth-name" style="font-size: 0.84rem; font-weight: 600; color: #CBD5E1; display: block; margin-bottom: 0.3rem;">Adınız Soyadınız *</label>
-          <input type="text" id="auth-name" placeholder="Örn: Ahmet Yılmaz" required style="width: 100%; padding: 0.7rem 0.85rem; background: #1E293B; border: 1.5px solid #334155; border-radius: 10px; font-size: 0.88rem; color: #FFFFFF; outline: none;">
-        </div>
-
-        <div class="form-group" style="margin-bottom: 0.85rem;">
-          <label for="auth-company" style="font-size: 0.84rem; font-weight: 600; color: #CBD5E1; display: block; margin-bottom: 0.3rem;">Firma Adı <span style="font-weight:400; color:#94A3B8; font-size:0.75rem;">(Opsiyonel)</span></label>
-          <input type="text" id="auth-company" placeholder="Örn: Yılmaz Hafriyat Ltd." style="width: 100%; padding: 0.7rem 0.85rem; background: #1E293B; border: 1.5px solid #334155; border-radius: 10px; font-size: 0.88rem; color: #FFFFFF; outline: none;">
-        </div>
-
-        <div class="form-group" style="margin-bottom: 1rem;">
-          <label for="auth-phone" style="font-size: 0.84rem; font-weight: 600; color: #CBD5E1; display: block; margin-bottom: 0.35rem;">Telefon Numaranız (WhatsApp) *</label>
-          <input type="tel" id="auth-phone" placeholder="0532 123 45 67" required style="width: 100%; padding: 0.75rem 0.9rem; background: #1E293B; border: 1.5px solid #334155; border-radius: 10px; font-size: 0.9rem; color: #FFFFFF; outline: none;">
-        </div>
-
-        <div class="form-group" style="margin-bottom: 1.25rem;">
-          <label for="auth-city" style="font-size: 0.84rem; font-weight: 600; color: #CBD5E1; display: block; margin-bottom: 0.35rem;">Bulunduğunuz Şehir *</label>
-          <select id="auth-city" required style="width: 100%; padding: 0.75rem 0.9rem; background: #1E293B; border: 1.5px solid #334155; border-radius: 10px; font-size: 0.9rem; color: #FFFFFF; outline: none;">
-          </select>
-        </div>
-
-        <button type="submit" style="width: 100%; padding: 0.85rem; background: linear-gradient(135deg, #F59E0B, #D97706); border: none; color: #0F172A; font-weight: 800; font-size: 0.95rem; border-radius: 12px; cursor: pointer; box-shadow: 0 4px 14px rgba(245,158,11,0.35);">
-          SMS Doğrulama Koduna Geç ›
-        </button>
-      </form>
-
-      <!-- Step 2: SMS Verification Code (OTP) Form -->
-      <form id="auth-form-step2" onsubmit="handleUserAuthStep2(event)" style="display: none;">
-        <p style="font-size: 0.84rem; color: #F59E0B; margin-bottom: 1rem; line-height: 1.4; background: rgba(245,158,11,0.1); padding: 0.75rem; border-radius: 10px; border: 1px solid rgba(245,158,11,0.25);">
-          📱 <span id="auth-target-phone">0532 ...</span> numaranıza SMS onay kodu gönderildi.
-        </p>
-
-        <div class="form-group" style="margin-bottom: 1.25rem;">
-          <label for="auth-sms-code" style="font-size: 0.84rem; font-weight: 600; color: #CBD5E1; display: block; margin-bottom: 0.35rem;">6 Haneli SMS Doğrulama Kodu *</label>
-          <input type="number" id="auth-sms-code" placeholder="Örn: 213091" value="213091" style="width: 100%; padding: 0.85rem; background: #1E293B; border: 1.5px solid #F59E0B; border-radius: 10px; font-size: 1.25rem; font-weight: 800; color: #F59E0B; text-align: center; letter-spacing: 0.2em; outline: none;">
-        </div>
-
-        <div style="display: flex; gap: 0.5rem;">
-          <button type="button" onclick="backToAuthStep1()" style="flex: 1; padding: 0.8rem; background: #334155; border: none; color: #FFFFFF; font-weight: 700; font-size: 0.85rem; border-radius: 10px; cursor: pointer;">
-            ‹ Geri
-          </button>
-          <button type="submit" style="flex: 2; padding: 0.8rem; background: linear-gradient(135deg, #10B981, #059669); border: none; color: #FFFFFF; font-weight: 800; font-size: 0.9rem; border-radius: 10px; cursor: pointer; box-shadow: 0 4px 14px rgba(16,185,129,0.35);">
-            ✓ Kod İle Doğrula
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
 
   <!-- Edit Listing Modal -->
   <div id="edit-modal" class="modal">
