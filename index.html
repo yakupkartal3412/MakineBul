@@ -188,30 +188,85 @@
       <!-- ==================== OWNER VIEW (3D KEPÇENİ KİRALAT & KAYIT SİHİRBAZI) ==================== -->
       <section id="list-view" class="view-section">
         
-        <!-- LOGGED-IN USER DASHBOARD (Giriş yapıldığında görünür) -->
-        <div id="logged-in-user-dashboard" style="display: none; background: linear-gradient(145deg, #0F172A 0%, #1E293B 100%); border: 1.5px solid rgba(245,158,11,0.4); border-radius: 20px; padding: 1.25rem; margin-bottom: 1.5rem; box-shadow: 0 12px 30px rgba(0,0,0,0.5);">
-          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.85rem;">
-            <div>
-              <span style="background: rgba(245,158,11,0.2); color: #FCD34D; border: 1px solid rgba(245,158,11,0.3); padding: 0.2rem 0.65rem; border-radius: 12px; font-size: 0.72rem; font-weight: 800; text-transform: uppercase;">🟢 Hesabınız Aktif &amp; Giriş Yapıldı</span>
-              <h3 id="dash-user-name" style="font-size: 1.25rem; font-weight: 800; color: #fff; margin: 0.4rem 0 0.15rem;">👤 Makine Sahibi</h3>
-              <p id="dash-user-sub" style="font-size: 0.82rem; color: #94A3B8; margin: 0;">📞 Telefon: | 📍 Şehir: </p>
+        <!-- LOGGED-IN USER DASHBOARD (Giriş yapıldığında görünen Profesyonel Paneli) -->
+        <div id="logged-in-user-dashboard" style="display: none; background: linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #0F172A 100%); border: 1.5px solid rgba(245,158,11,0.4); border-radius: 24px; padding: 1.35rem 1.2rem; margin-bottom: 1.5rem; box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 30px rgba(245,158,11,0.15); color: #fff; position: relative; overflow: hidden;">
+          
+          <!-- Background Glow Elements -->
+          <div style="position: absolute; top: -50px; right: -50px; width: 160px; height: 160px; background: radial-gradient(circle, rgba(245,158,11,0.25) 0%, rgba(0,0,0,0) 70%); border-radius: 50%; pointer-events: none;"></div>
+          <div style="position: absolute; bottom: -50px; left: -50px; width: 160px; height: 160px; background: radial-gradient(circle, rgba(16,185,129,0.2) 0%, rgba(0,0,0,0) 70%); border-radius: 50%; pointer-events: none;"></div>
+
+          <!-- Header User Info Box -->
+          <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.85rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 1.1rem;">
+            
+            <div style="display: flex; align-items: center; gap: 0.85rem;">
+              <!-- 3D Avatar Circle -->
+              <div style="width: 52px; height: 52px; border-radius: 18px; background: linear-gradient(135deg, #F59E0B, #D97706); display: flex; align-items: center; justify-content: center; font-size: 1.6rem; box-shadow: 0 8px 20px rgba(245,158,11,0.4); border: 2px solid #FCD34D; flex-shrink: 0;">
+                🚜
+              </div>
+              <div>
+                <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                  <span style="background: rgba(16,185,129,0.2); color: #34D399; border: 1px solid rgba(16,185,129,0.4); padding: 0.15rem 0.6rem; border-radius: 10px; font-size: 0.68rem; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase;">🟢 Aktif Makine Sahibi</span>
+                </div>
+                <h3 id="dash-user-name" style="font-family: 'Poppins', sans-serif; font-size: 1.2rem; font-weight: 800; color: #FFFFFF; margin: 0.2rem 0 0.1rem; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">Yakup Kartal (Bey Hafriyat)</h3>
+                <p id="dash-user-sub" style="font-size: 0.82rem; color: #94A3B8; margin: 0;">📞 Telefon: <strong style="color: #FCD34D;">0531 726 84 54</strong> | 📍 Şehir: <strong style="color: #fff;">Bingöl</strong></p>
+              </div>
             </div>
-            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-              <button type="button" onclick="showFastAddFormInline()" style="padding: 0.6rem 1.1rem; background: linear-gradient(135deg, #F59E0B, #D97706); border: none; color: #1F2937; font-weight: 800; border-radius: 12px; cursor: pointer; font-size: 0.88rem; box-shadow: 0 4px 14px rgba(245,158,11,0.35);">
-                ➕ Yeni İlan Ekle
-              </button>
-              <button type="button" onclick="scrollToMyListingsList()" style="padding: 0.6rem 1.1rem; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #fff; font-weight: 700; border-radius: 12px; cursor: pointer; font-size: 0.88rem;">
-                📋 İlanlarımı Yönet
-              </button>
-              <button type="button" onclick="logoutUser()" style="padding: 0.6rem 0.85rem; background: rgba(239,68,68,0.2); border: 1px solid #EF4444; color: #EF4444; font-weight: 700; border-radius: 12px; cursor: pointer; font-size: 0.88rem;">
-                🚪 Çıkış
-              </button>
+
+            <!-- Quick Action Logout Button -->
+            <button type="button" onclick="logoutUser()" style="padding: 0.5rem 0.9rem; background: rgba(239,68,68,0.18); border: 1px solid rgba(239,68,68,0.4); color: #FCA5A5; font-weight: 700; border-radius: 12px; cursor: pointer; font-size: 0.8rem; display: flex; align-items: center; gap: 4px; backdrop-filter: blur(4px);">
+              🚪 Oturumu Kapat
+            </button>
+          </div>
+
+          <!-- Quick Stats 3D Counter Cards -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.75rem; margin-bottom: 1.1rem;">
+            
+            <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 0.75rem 0.9rem; display: flex; align-items: center; gap: 0.65rem;">
+              <span style="font-size: 1.5rem;">🚜</span>
+              <div>
+                <div id="dash-stat-my-listings" style="font-size: 1.15rem; font-weight: 800; color: #F59E0B; line-height: 1;">1 Makine</div>
+                <div style="font-size: 0.7rem; color: #94A3B8; font-weight: 600; margin-top: 2px;">Aktif İlanlarım</div>
+              </div>
             </div>
+
+            <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 0.75rem 0.9rem; display: flex; align-items: center; gap: 0.65rem;">
+              <span style="font-size: 1.5rem;">📥</span>
+              <div>
+                <div id="dash-stat-requests" style="font-size: 1.15rem; font-weight: 800; color: #60A5FA; line-height: 1;">0 Talep</div>
+                <div style="font-size: 0.7rem; color: #94A3B8; font-weight: 600; margin-top: 2px;">Gelen Kiralama</div>
+              </div>
+            </div>
+
+            <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 0.75rem 0.9rem; display: flex; align-items: center; gap: 0.65rem;">
+              <span style="font-size: 1.5rem;">⚡</span>
+              <div>
+                <div style="font-size: 1.15rem; font-weight: 800; color: #34D399; line-height: 1;">%0 Komisyon</div>
+                <div style="font-size: 0.7rem; color: #94A3B8; font-weight: 600; margin-top: 2px;">Doğrudan Müşteri</div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Action Buttons Bar -->
+          <div style="display: flex; gap: 0.65rem; flex-wrap: wrap;">
+            <button type="button" onclick="showFastAddFormInline()" style="flex: 1.2; min-width: 140px; padding: 0.75rem 1.1rem; background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); border: none; color: #1F2937; font-weight: 800; border-radius: 14px; cursor: pointer; font-size: 0.88rem; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 8px 20px rgba(245,158,11,0.35);">
+              <span>➕ Yeni İlan Ekle</span>
+            </button>
+
+            <button type="button" onclick="scrollToMyListingsList()" style="flex: 1; min-width: 130px; padding: 0.75rem 1rem; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18); color: #FFFFFF; font-weight: 700; border-radius: 14px; cursor: pointer; font-size: 0.88rem; display: flex; align-items: center; justify-content: center; gap: 6px;">
+              <span>📋 İlanlarımı Yönet</span>
+            </button>
           </div>
 
           <!-- FAST ADD LISTING FORM (Giriş yapış üyeler için tek tıkla ilan!) -->
-          <div id="fast-add-listing-box" style="display: none; margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid rgba(255,255,255,0.1);">
-            <div style="font-size: 1.05rem; font-weight: 800; color: #F59E0B; margin-bottom: 0.85rem;">🚜 Hızlı İlan Yayınlama Formu</div>
+          <div id="fast-add-listing-box" style="display: none; margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid rgba(255,255,255,0.12);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.9rem;">
+              <div style="font-size: 1.05rem; font-weight: 800; color: #F59E0B; display: flex; align-items: center; gap: 6px;">
+                <span>🚜 Hızlı İlan Yayınlama Formu</span>
+              </div>
+              <button type="button" onclick="hideFastAddFormInline()" style="background: none; border: none; color: #94A3B8; font-size: 1.2rem; cursor: pointer; font-weight: 700;">✕</button>
+            </div>
+            
             <form onsubmit="handleFastAddListing(event)">
               <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; margin-bottom: 0.85rem;">
                 <div>
@@ -233,7 +288,7 @@
 
               <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.85rem; margin-bottom: 0.85rem;">
                 <div>
-                  <label style="font-size: 0.8rem; font-weight: 700; color: #CBD5E1; display: block; margin-bottom: 0.3rem;">Şehir *</label>
+                  <label style="font-size: 0.8rem; font-weight: 700; color: #CBD5E1; display: block; margin-bottom: 0.3rem;">Bulunduğu İl *</label>
                   <select id="fast-reg-city" required class="input-3d-dark" style="width: 100%;">
                   </select>
                 </div>
@@ -433,21 +488,18 @@
               <label for="main-login-phone">Telefon Numaranız *</label>
               <input type="tel" id="main-login-phone" placeholder="Örn: 0532 123 45 67" required class="input-3d-dark">
             </div>
-            <div class="form-group-3d">
-              <label for="main-login-password">Giriş Şifreniz *</label>
-              <input type="password" id="main-login-password" placeholder="••••••••" required class="input-3d-dark">
-            </div>
             <button type="submit" class="btn-3d-gold-action">
               <span>Giriş Yap ›</span>
             </button>
           </form>
         </div>
-      </section>
 
         <!-- TAB 2: Manage My Listings -->
-        <div id="owner-tab-manage" class="owner-tab-content">
-          <div class="card">
-            <h3 class="manage-title">Yayınladığınız İlanlar</h3>
+        <div id="owner-tab-manage" class="owner-tab-content" style="margin-top: 1.5rem;">
+          <div class="card" style="background: rgba(15,23,42,0.6); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 1.25rem;">
+            <h3 class="manage-title" style="font-family:'Poppins',sans-serif; font-size:1.15rem; font-weight:800; color:#F59E0B; margin-bottom:1rem; display:flex; align-items:center; gap:6px;">
+              <span>🚜 Yayınladığınız İlanlar &amp; Makine Yönetimi</span>
+            </h3>
             <div id="my-listings-list" class="my-listings-grid">
               <!-- Rendered dynamically -->
             </div>

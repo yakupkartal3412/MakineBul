@@ -1160,8 +1160,22 @@ function updateLoggedInDashboardUI() {
       dashContainer.style.display = "block";
       const nameEl = document.getElementById("dash-user-name");
       const subEl = document.getElementById("dash-user-sub");
-      if (nameEl) nameEl.textContent = `👤 ${currentUser.displayName || currentUser.name}`;
-      if (subEl) subEl.textContent = `📞 Telefon: ${currentUser.phone || 'Girilmedi'} | 📍 Şehir: ${currentUser.city || '81 İl'}`;
+      const statListingsEl = document.getElementById("dash-stat-my-listings");
+      const statReqsEl = document.getElementById("dash-stat-requests");
+
+      if (nameEl) nameEl.textContent = `${currentUser.displayName || currentUser.name}`;
+      if (subEl) {
+        subEl.innerHTML = `📞 Telefon: <strong style="color: #FCD34D;">${currentUser.phone || 'Girilmedi'}</strong> | 📍 Şehir: <strong style="color: #fff;">${currentUser.city || '81 İl'}</strong>`;
+      }
+      
+      if (statListingsEl) {
+        const myCount = listings.filter(i => i.isMyListing).length || listings.length || 0;
+        statListingsEl.textContent = `${myCount} Makine`;
+      }
+
+      if (statReqsEl) {
+        statReqsEl.textContent = `${requests.length} Talep`;
+      }
     }
     if (wizHeader) wizHeader.style.display = "none";
     if (authTabs) authTabs.style.display = "none";
