@@ -391,6 +391,157 @@
     </div>
   </div><!-- End about-modal -->
 
+  <!-- ==================== 4. 3-STEP MACHINE OWNER ONBOARDING WIZARD MODAL ==================== -->
+  <div id="auth-modal" class="modal">
+    <div class="modal-content card" style="max-width: 520px; width: 94%; padding: 1.5rem; background: #0F172A; border: 1px solid rgba(245,158,11,0.4); border-radius: 20px; box-shadow: 0 25px 60px rgba(0,0,0,0.7); color: #F8FAFC; position: relative;">
+      
+      <!-- Top Modal Header -->
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.75rem;">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <span style="font-size: 1.4rem;">🚜</span>
+          <div>
+            <h3 id="auth-modal-title" style="font-size: 1.1rem; font-weight: 800; color: #FFFFFF; margin: 0;">Makine Sahibi Kayıt &amp; İlan Sihirbazı</h3>
+            <p style="font-size: 0.72rem; color: #94A3B8; margin: 0;">3 Adımda İlanınızı Yayına Alın</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeAuthModal()" style="background: rgba(255,255,255,0.1); border: none; font-size: 1.1rem; font-weight: 700; cursor: pointer; color: #94A3B8; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">✕</button>
+      </div>
+
+      <!-- Step Progress Bar -->
+      <div class="wizard-steps-bar" style="display: flex; justify-content: space-between; margin-bottom: 1.25rem; background: rgba(30,41,59,0.8); padding: 0.5rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08);">
+        <div id="wiz-step-pill-1" class="wiz-step-pill active" style="flex: 1; text-align: center; font-size: 0.73rem; font-weight: 700; padding: 0.35rem 0.2rem; border-radius: 8px; color: #F59E0B; background: rgba(245,158,11,0.2); border: 1px solid rgba(245,158,11,0.4);">
+          1. Üyelik &amp; Şifre
+        </div>
+        <div id="wiz-step-pill-2" class="wiz-step-pill" style="flex: 1; text-align: center; font-size: 0.73rem; font-weight: 700; padding: 0.35rem 0.2rem; border-radius: 8px; color: #64748B;">
+          2. Hizmet &amp; Ücret
+        </div>
+        <div id="wiz-step-pill-3" class="wiz-step-pill" style="flex: 1; text-align: center; font-size: 0.73rem; font-weight: 700; padding: 0.35rem 0.2rem; border-radius: 8px; color: #64748B;">
+          3. Kepçe Fotoğrafı
+        </div>
+      </div>
+
+      <!-- ================= ADIM 1: KİŞİSEL & ÜYELİK BİLGİLERİ ================= -->
+      <form id="auth-form-step1" onsubmit="goToWizardStep2(event)">
+        <p style="font-size: 0.8rem; color: #94A3B8; margin-bottom: 1rem;">
+          🔑 <strong>1. Adım:</strong> Adınız, şifreniz ve iletişim bilgileriniz.
+        </p>
+
+        <div class="form-group" style="margin-bottom: 0.85rem;">
+          <label for="auth-name" style="font-size: 0.83rem; font-weight: 600; color: #CBD5E1; display: block; margin-bottom: 0.3rem;">Adınız Soyadınız *</label>
+          <input type="text" id="auth-name" placeholder="Örn: Yakup Kartal" required style="width: 100%; padding: 0.7rem 0.85rem; background: #1E293B; border: 1.5px solid #334155; border-radius: 10px; font-size: 0.88rem; color: #FFFFFF; outline: none;">
+        </div>
+
+        <div class="form-group" style="margin-bottom: 0.85rem;">
+          <label for="auth-company" style="font-size: 0.83rem; font-weight: 600; color: #CBD5E1; display: block; margin-bottom: 0.3rem;">Firma Adı <span style="font-weight:400; color:#94A3B8; font-size:0.75rem;">(Opsiyonel)</span></label>
+          <input type="text" id="auth-company" placeholder="Örn: Bey Hafriyat Ltd." style="width: 100%; padding: 0.7rem 0.85rem; background: #1E293B; border: 1.5px solid #334155; border-radius: 10px; font-size: 0.88rem; color: #FFFFFF; outline: none;">
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-bottom: 0.85rem;">
+          <div class="form-group">
+            <label for="auth-password" style="font-size: 0.83rem; font-weight: 600; color: #CBD5E1; display: block; margin-bottom: 0.3rem;">Şifreniz *</label>
+            <input type="password" id="auth-password" placeholder="••••••••" required style="width: 100%; padding: 0.7rem 0.85rem; background: #1E293B; border: 1.5px solid #334155; border-radius: 10px; font-size: 0.88rem; color: #FFFFFF; outline: none;">
+          </div>
+          <div class="form-group">
+            <label for="auth-phone" style="font-size: 0.83rem; font-weight: 600; color: #CBD5E1; display: block; margin-bottom: 0.3rem;">Telefon (WhatsApp) *</label>
+            <input type="tel" id="auth-phone" placeholder="0532 123 45 67" required style="width: 100%; padding: 0.7rem 0.85rem; background: #1E293B; border: 1.5px solid #334155; border-radius: 10px; font-size: 0.88rem; color: #FFFFFF; outline: none;">
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 1.25rem;">
+          <label for="auth-city" style="font-size: 0.83rem; font-weight: 600; color: #CBD5E1; display: block; margin-bottom: 0.3rem;">Bulunduğunuz Şehir *</label>
+          <select id="auth-city" required style="width: 100%; padding: 0.7rem 0.85rem; background: #1E293B; border: 1.5px solid #334155; border-radius: 10px; font-size: 0.88rem; color: #FFFFFF; outline: none;">
+          </select>
+        </div>
+
+        <button type="submit" style="width: 100%; padding: 0.85rem; background: linear-gradient(135deg, #F59E0B, #D97706); border: none; color: #0F172A; font-weight: 800; font-size: 0.92rem; border-radius: 12px; cursor: pointer; box-shadow: 0 4px 14px rgba(245,158,11,0.35);">
+          İlerle: Hizmet &amp; Ücret Bilgisine Geç ›
+        </button>
+      </form>
+
+
+      <!-- ================= ADIM 2: HİZMET BÖLGESİ & ÜCRET BİLGİSİ ================= -->
+      <form id="auth-form-step2" style="display: none;" onsubmit="goToWizardStep3(event)">
+        <p style="font-size: 0.8rem; color: #94A3B8; margin-bottom: 1rem;">
+          📍 <strong>2. Adım:</strong> Kepçenizin türü, çalıştığınız il/ilçe ve kiralama ücretleri.
+        </p>
+
+        <div class="form-group" style="margin-bottom: 0.85rem;">
+          <label for="wiz-machine-type" style="font-size: 0.83rem; font-weight: 600; color: #CBD5E1; display: block; margin-bottom: 0.3rem;">Makine / Kepçe Türü *</label>
+          <select id="wiz-machine-type" required style="width: 100%; padding: 0.7rem 0.85rem; background: #1E293B; border: 1.5px solid #334155; border-radius: 10px; font-size: 0.88rem; color: #FFFFFF; outline: none;">
+            <option value="JCB Beko Loder Kepçe">🚜 JCB Beko Loder Kepçe</option>
+            <option value="Paletli Ekskavatör">🏗️ Paletli Ekskavatör</option>
+            <option value="Mini Ekskavatör / Kepçe">🚜 Mini Ekskavatör / Kepçe</option>
+            <option value="Bobcat Mini Yükleyici">🚜 Bobcat Mini Yükleyici</option>
+            <option value="Hafriyat Kamyonu">🚛 Hafriyat Kamyonu</option>
+            <option value="Manitou Telehandler">🏗️ Manitou / Vinç</option>
+          </select>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 0.85rem;">
+          <label for="wiz-listing-title" style="font-size: 0.83rem; font-weight: 600; color: #CBD5E1; display: block; margin-bottom: 0.3rem;">İlan Başlığı / Model *</label>
+          <input type="text" id="wiz-listing-title" placeholder="Örn: JCB 3CX Beko Loder Kiralık Kepçe" required style="width: 100%; padding: 0.7rem 0.85rem; background: #1E293B; border: 1.5px solid #334155; border-radius: 10px; font-size: 0.88rem; color: #FFFFFF; outline: none;">
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-bottom: 0.85rem;">
+          <div class="form-group">
+            <label for="wiz-hourly-price" style="font-size: 0.83rem; font-weight: 600; color: #CBD5E1; display: block; margin-bottom: 0.3rem;">Saatlik Ücret (TL) *</label>
+            <input type="number" id="wiz-hourly-price" placeholder="Örn: 500" required style="width: 100%; padding: 0.7rem 0.85rem; background: #1E293B; border: 1.5px solid #334155; border-radius: 10px; font-size: 0.88rem; color: #FFFFFF; outline: none;">
+          </div>
+          <div class="form-group">
+            <label for="wiz-daily-price" style="font-size: 0.83rem; font-weight: 600; color: #CBD5E1; display: block; margin-bottom: 0.3rem;">Günlük Ücret (TL) *</label>
+            <input type="number" id="wiz-daily-price" placeholder="Örn: 4000" required style="width: 100%; padding: 0.7rem 0.85rem; background: #1E293B; border: 1.5px solid #334155; border-radius: 10px; font-size: 0.88rem; color: #FFFFFF; outline: none;">
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 0.6rem; margin-top: 1rem;">
+          <button type="button" onclick="backToWizardStep1()" style="flex: 1; padding: 0.8rem; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #CBD5E1; font-weight: 700; font-size: 0.85rem; border-radius: 12px; cursor: pointer;">
+            ‹ Geri
+          </button>
+          <button type="submit" style="flex: 2; padding: 0.8rem; background: linear-gradient(135deg, #F59E0B, #D97706); border: none; color: #0F172A; font-weight: 800; font-size: 0.9rem; border-radius: 12px; cursor: pointer; box-shadow: 0 4px 14px rgba(245,158,11,0.35);">
+            İlerle: Fotoğraf Yüklemeye Geç ›
+          </button>
+        </div>
+      </form>
+
+
+      <!-- ================= ADIM 3: KEPÇE FOTOĞRAFLARI & TAMAMLAMA ================= -->
+      <form id="auth-form-step3" style="display: none;" onsubmit="completeWizardListing(event)">
+        <p style="font-size: 0.8rem; color: #94A3B8; margin-bottom: 1rem;">
+          📸 <strong>3. Adım:</strong> Kepçenizin fotoğrafını yükleyin ve ilanı yayına alın.
+        </p>
+
+        <div class="form-group" style="margin-bottom: 1.25rem;">
+          <label style="font-size: 0.83rem; font-weight: 600; color: #CBD5E1; display: block; margin-bottom: 0.4rem;">Kepçe Fotoğrafı <span style="font-weight:400; color:#94A3B8; font-size:0.75rem;">(Opsiyonel)</span></label>
+          
+          <div class="custom-file-dropzone-compact" onclick="document.getElementById('wiz-photo-file').click()" style="background: #1E293B; border: 2px dashed rgba(245,158,11,0.4); border-radius: 14px; padding: 1.25rem; text-align: center; cursor: pointer;">
+            <input type="file" id="wiz-photo-file" accept="image/*" class="file-upload-input-hidden" onchange="previewWizPhoto(event)" style="display: none;">
+            
+            <div id="wiz-dropzone-prompt" style="display: flex; flex-direction: column; align-items: center; gap: 0.4rem;">
+              <span style="font-size: 1.8rem;">📸</span>
+              <span style="font-weight: 700; font-size: 0.86rem; color: #F59E0B;">Fotoğraf Yüklemek İçin Dokunun</span>
+              <span style="font-size: 0.74rem; color: #94A3B8;">Galeriden kepçenizin net bir fotoğrafını seçebilirsiniz.</span>
+            </div>
+
+            <div id="wiz-image-preview-container" style="display: none; flex-direction: column; align-items: center; gap: 0.5rem;">
+              <img id="wiz-image-preview-img" src="" alt="Kepçe Önizleme" style="max-height: 140px; border-radius: 10px; border: 1.5px solid #F59E0B;">
+              <span style="font-size: 0.78rem; color: #10B981; font-weight: 700;">✓ Fotoğraf Başarıyla Yüklendi</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 0.6rem; margin-top: 1rem;">
+          <button type="button" onclick="backToWizardStep2()" style="flex: 1; padding: 0.85rem; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #CBD5E1; font-weight: 700; font-size: 0.85rem; border-radius: 12px; cursor: pointer;">
+            ‹ Geri
+          </button>
+          <button type="submit" style="flex: 2; padding: 0.85rem; background: linear-gradient(135deg, #10B981, #059669); border: none; color: #FFFFFF; font-weight: 800; font-size: 0.95rem; border-radius: 12px; cursor: pointer; box-shadow: 0 4px 16px rgba(16,185,129,0.4);">
+            🎉 İlanı Yayına Al &amp; Üye Ol
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
   <!-- Edit Listing Modal -->
   <div id="edit-modal" class="modal">
     <div class="modal-content card" style="max-width: 520px; width: 90%; padding: 1.75rem; background: #ffffff; border-radius: 16px; box-shadow: 0 20px 40px rgba(0,0,0,0.2);">

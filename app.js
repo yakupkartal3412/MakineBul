@@ -506,92 +506,203 @@ function closeAuthModal() {
   }
 }
 
-let pendingAuthData = null;
+let pendingAuthData = {};
+let wizPhotoDataUrl = "";
 
-function handleUserAuthStep1(event) {
+function previewWizPhoto(event) {
+  const file = event.target && event.target.files && event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const img = new Image();
+    img.onload = function() {
+      const canvas = document.createElement("canvas");
+      let width = img.width;
+      let height = img.height;
+      const MAX_SIZE = 800;
+      if (width > height) {
+        if (width > MAX_SIZE) {
+          height = Math.round((height * MAX_SIZE) / width);
+          width = MAX_SIZE;
+        }
+      } else {
+        if (height > MAX_SIZE) {
+          width = Math.round((width * MAX_SIZE) / height);
+          height = MAX_SIZE;
+        }
+      }
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, width, height);
+
+      wizPhotoDataUrl = canvas.toDataURL("image/jpeg", 0.85);
+
+      const promptBox = document.getElementById("wiz-dropzone-prompt");
+      const container = document.getElementById("wiz-image-preview-container");
+      const imgEl = document.getElementById("wiz-image-preview-img");
+
+      if (imgEl) imgEl.src = wizPhotoDataUrl;
+      if (promptBox) promptBox.style.display = "none";
+      if (container) container.style.display = "flex";
+      showToast("📸 Kepçe fotoğrafı yüklendi!");
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function updateWizardPills(stepNum) {
+  for (let i = 1; i <= 3; i++) {
+    const pill = document.getElementById(`wiz-step-pill-${i}`);
+    if (!pill) continue;
+    if (i === stepNum) {
+      pill.style.color = "#F59E0B";
+      pill.style.background = "rgba(245,158,11,0.2)";
+      pill.style.border = "1px solid rgba(245,158,11,0.4)";
+    } else {
+      pill.style.color = "#64748B";
+      pill.style.background = "transparent";
+      pill.style.border = "none";
+    }
+  }
+}
+
+function goToWizardStep2(event) {
   event.preventDefault();
   const name = document.getElementById("auth-name").value.trim();
   const company = document.getElementById("auth-company") ? document.getElementById("auth-company").value.trim() : "";
+  const password = document.getElementById("auth-password").value.trim();
   const phone = document.getElementById("auth-phone").value.trim();
   const city = document.getElementById("auth-city").value;
 
-  if (!name || !phone || !city) {
-    showToast("⚠️ Lütfen Ad Soyad, Telefon ve Şehir alanlarını doldurunuz.");
+  if (!name || !password || !phone || !city) {
+    showToast("⚠️ Lütfen 1. Adımdaki tüm zorunlu alanları doldurunuz.");
     return;
   }
 
-  pendingAuthData = { name, company, phone, city };
+  pendingAuthData = { name, company, password, phone, city };
 
-  const step1 = document.getElementById("auth-form-step1");
-  const step2 = document.getElementById("auth-form-step2");
-  const phoneTarget = document.getElementById("auth-target-phone");
-  const smsInput = document.getElementById("auth-sms-code");
+  document.getElementById("auth-form-step1").style.display = "none";
+  document.getElementById("auth-form-step2").style.display = "block";
+  document.getElementById("auth-form-step3").style.display = "none";
+  updateWizardPills(2);
 
-  if (phoneTarget) phoneTarget.textContent = phone;
-  if (smsInput) smsInput.value = "213091"; // Default preset code for instant 1-tap verification!
-
-  if (step1) step1.style.display = "none";
-  if (step2) step2.style.display = "block";
-
-  showToast("📩 SMS Onay Kodunuz (213091) hazır!");
+  // Pre-fill listing title
+  const titleInput = document.getElementById("wiz-listing-title");
+  if (titleInput && !titleInput.value) {
+    const brandName = company || name;
+    titleInput.value = `${brandName} - Kiralık Kepçe`;
+  }
 }
 
-function backToAuthStep1() {
-  const step1 = document.getElementById("auth-form-step1");
-  const step2 = document.getElementById("auth-form-step2");
-  if (step1) step1.style.display = "block";
-  if (step2) step2.style.display = "none";
+function backToWizardStep1() {
+  document.getElementById("auth-form-step1").style.display = "block";
+  document.getElementById("auth-form-step2").style.display = "none";
+  document.getElementById("auth-form-step3").style.display = "none";
+  updateWizardPills(1);
 }
 
-function handleUserAuthStep2(event) {
+function goToWizardStep3(event) {
   event.preventDefault();
-  const code = document.getElementById("auth-sms-code").value.trim();
+  const type = document.getElementById("wiz-machine-type").value;
+  const title = document.getElementById("wiz-listing-title").value.trim();
+  const hourlyPrice = parseFloat(document.getElementById("wiz-hourly-price").value) || 0;
+  const dailyPrice = parseFloat(document.getElementById("wiz-daily-price").value) || 0;
 
-  if (!code) {
-    showToast("⚠️ Lütfen 6 haneli SMS onay kodunu giriniz.");
+  if (!title || !hourlyPrice || !dailyPrice) {
+    showToast("⚠️ Lütfen 2. Adımdaki makine ve ücret bilgilerini doldurunuz.");
     return;
   }
 
-  if (!pendingAuthData) {
-    const nameVal = document.getElementById("auth-name").value.trim() || "Makine Sahibi";
-    const companyVal = document.getElementById("auth-company") ? document.getElementById("auth-company").value.trim() : "";
-    const phoneVal = document.getElementById("auth-phone").value.trim() || "0532 000 00 00";
-    const cityVal = document.getElementById("auth-city").value || "Bingöl";
-    pendingAuthData = { name: nameVal, company: companyVal, phone: phoneVal, city: cityVal };
-  }
+  pendingAuthData.type = type;
+  pendingAuthData.title = title;
+  pendingAuthData.hourlyPrice = hourlyPrice;
+  pendingAuthData.dailyPrice = dailyPrice;
+
+  document.getElementById("auth-form-step1").style.display = "none";
+  document.getElementById("auth-form-step2").style.display = "none";
+  document.getElementById("auth-form-step3").style.display = "block";
+  updateWizardPills(3);
+}
+
+function backToWizardStep2() {
+  document.getElementById("auth-form-step1").style.display = "none";
+  document.getElementById("auth-form-step2").style.display = "block";
+  document.getElementById("auth-form-step3").style.display = "none";
+  updateWizardPills(2);
+}
+
+function completeWizardListing(event) {
+  event.preventDefault();
 
   const displayName = pendingAuthData.company 
     ? `${pendingAuthData.name} (${pendingAuthData.company})`
     : pendingAuthData.name;
 
+  // 1. Create User Account
   currentUser = {
     name: pendingAuthData.name,
     company: pendingAuthData.company || "",
     displayName: displayName,
     phone: pendingAuthData.phone,
     city: pendingAuthData.city,
-    verifiedCode: code,
+    password: pendingAuthData.password,
+    verifiedCode: "213091",
     createdAt: new Date().toISOString()
   };
 
   localStorage.setItem("makinebul_current_user", JSON.stringify(currentUser));
 
-  closeAuthModal();
-  backToAuthStep1();
-
-  // Auto fill listing form fields
-  const phoneInput = document.getElementById("input-phone");
-  const cityInput = document.getElementById("input-city-select");
-  if (phoneInput) phoneInput.value = currentUser.phone;
-  if (cityInput && currentUser.city) {
-    cityInput.value = currentUser.city;
-    handleCityChange(currentUser.city);
+  // 2. Select Machine Image
+  let image = wizPhotoDataUrl;
+  if (!image) {
+    image = pendingAuthData.type === "Beko Loder (JCB)" || pendingAuthData.type === "JCB Beko Loder Kepçe"
+      ? "assets/backhoe_loader.png" 
+      : pendingAuthData.type === "Mini Ekskavatör / Kepçe" 
+      ? "assets/mini_excavator.png" 
+      : pendingAuthData.type === "Bobcat Mini Yükleyici"
+      ? "assets/bobcat.png"
+      : pendingAuthData.type === "Manitou Telehandler"
+      ? "assets/manitou.png"
+      : pendingAuthData.type === "Hafriyat Kamyonu"
+      ? "assets/dump_truck.png"
+      : "assets/excavator1.png";
   }
 
-  renderUserBadge();
-  showToast("🎉 SMS Kodu (" + code + ") Doğrulandı! Üyeliğiniz tamamlandı.");
+  // 3. Create Listing
+  const newListing = {
+    id: "kepce-" + Date.now(),
+    title: pendingAuthData.title,
+    type: pendingAuthData.type,
+    city: pendingAuthData.city,
+    district: "Merkez",
+    price: pendingAuthData.dailyPrice,
+    hourlyPrice: pendingAuthData.hourlyPrice,
+    period: "Günlük",
+    operator: "Operatörlü",
+    specs: "Kiralık İş Makinesi",
+    phone: pendingAuthData.phone,
+    owner: displayName,
+    image: image,
+    status: "available",
+    isMyListing: true,
+    createdAt: new Date().toISOString()
+  };
 
-  enterMainApp('list');
+  listings.unshift(newListing);
+  saveListingsToStorage();
+
+  closeAuthModal();
+  backToWizardStep1();
+
+  renderUserBadge();
+  renderListings();
+
+  showToast("🎉 Üyeliğiniz oluşturuldu ve kepçe ilanınız başarıyla yayınlandı!");
+
+  enterMainApp('rent');
 }
 
 function logoutUser() {
