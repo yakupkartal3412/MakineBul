@@ -620,20 +620,34 @@ function previewMainWizPhoto(event) {
 }
 
 function handleMainWizStep3(event) {
-  event.preventDefault();
+  if (event) event.preventDefault();
 
-  const displayName = mainPendingAuthData.company 
-    ? `${mainPendingAuthData.name} (${mainPendingAuthData.company})`
-    : mainPendingAuthData.name;
+  if (!mainPendingAuthData) {
+    mainPendingAuthData = {
+      name: "Makine Sahibi",
+      company: "",
+      phone: "0532 000 00 00",
+      city: userCurrentCity || "İstanbul",
+      password: "123",
+      type: "Beko Loder (JCB)",
+      title: "Kiralık Beko Loder",
+      hourlyPrice: 1500,
+      dailyPrice: 10000
+    };
+  }
+
+  const name = mainPendingAuthData.name || "Makine Sahibi";
+  const company = mainPendingAuthData.company || "";
+  const displayName = company ? `${name} (${company})` : name;
 
   // 1. Create User Account
   currentUser = {
-    name: mainPendingAuthData.name,
-    company: mainPendingAuthData.company || "",
+    name: name,
+    company: company,
     displayName: displayName,
-    phone: mainPendingAuthData.phone,
-    city: mainPendingAuthData.city,
-    password: mainPendingAuthData.password,
+    phone: mainPendingAuthData.phone || "",
+    city: mainPendingAuthData.city || userCurrentCity || "İstanbul",
+    password: mainPendingAuthData.password || "123",
     verifiedCode: "213091",
     createdAt: new Date().toISOString()
   };
@@ -643,15 +657,16 @@ function handleMainWizStep3(event) {
   // 2. Select Machine Image
   let image = mainWizPhotoDataUrl;
   if (!image) {
-    image = mainPendingAuthData.type === "Beko Loder (JCB)" || mainPendingAuthData.type === "JCB Beko Loder Kepçe"
+    const machineType = mainPendingAuthData.type || "Beko Loder (JCB)";
+    image = machineType.includes("Beko") || machineType.includes("JCB")
       ? "assets/backhoe_loader.png" 
-      : mainPendingAuthData.type === "Mini Ekskavatör / Kepçe" 
+      : machineType.includes("Mini") 
       ? "assets/mini_excavator.png" 
-      : mainPendingAuthData.type === "Bobcat Mini Yükleyici"
+      : machineType.includes("Bobcat")
       ? "assets/bobcat.png"
-      : mainPendingAuthData.type === "Manitou Telehandler"
+      : machineType.includes("Manitou")
       ? "assets/manitou.png"
-      : mainPendingAuthData.type === "Hafriyat Kamyonu"
+      : machineType.includes("Kamyon")
       ? "assets/dump_truck.png"
       : "assets/excavator1.png";
   }
@@ -659,16 +674,16 @@ function handleMainWizStep3(event) {
   // 3. Create Listing
   const newListing = {
     id: "kepce-" + Date.now(),
-    title: mainPendingAuthData.title,
-    type: mainPendingAuthData.type,
-    city: mainPendingAuthData.city,
+    title: mainPendingAuthData.title || "Kiralık İş Makinesi",
+    type: mainPendingAuthData.type || "Beko Loder (JCB)",
+    city: mainPendingAuthData.city || userCurrentCity || "İstanbul",
     district: "Merkez",
-    price: mainPendingAuthData.dailyPrice,
-    hourlyPrice: mainPendingAuthData.hourlyPrice,
+    price: mainPendingAuthData.dailyPrice || 10000,
+    hourlyPrice: mainPendingAuthData.hourlyPrice || 1500,
     period: "Günlük",
     operator: "Operatörlü",
     specs: "Kiralık İş Makinesi",
-    phone: mainPendingAuthData.phone,
+    phone: mainPendingAuthData.phone || "0532 000 00 00",
     owner: displayName,
     image: image,
     status: "available",
@@ -677,15 +692,20 @@ function handleMainWizStep3(event) {
   };
 
   listings.unshift(newListing);
-  saveListingsToStorage();
+  saveListings();
+
+  // Reset Photo Preview
+  mainWizPhotoDataUrl = "";
 
   backToMainWizStep1();
   renderUserBadge();
   renderListings();
+  renderMyListings();
 
   showToast("🎉 Üyeliğiniz oluşturuldu ve kepçe ilanınız başarıyla yayınlandı!");
 
   enterMainApp('rent');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function handleMainQuickLogin(event) {
@@ -1009,7 +1029,7 @@ function completeWizardListing(event) {
   };
 
   listings.unshift(newListing);
-  saveListingsToStorage();
+  saveListings();
 
   closeAuthModal();
   backToWizardStep1();
