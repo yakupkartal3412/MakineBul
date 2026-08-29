@@ -31,7 +31,8 @@
         </div>
       </div>
 
-      <div style="display: flex; gap: 0.65rem; align-items: center;">
+      <div style="display: flex; gap: 0.5rem; align-items: center;">
+        <div id="splash-user-badge"></div>
         <button id="btn-biz-kimiz" class="btn-splash-skip" onclick="openAboutModal()">
           <span class="btn-3d-info-icon-badge">
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:14px; height:14px;">
@@ -185,126 +186,197 @@
         </div>
       </section>
 
-      <!-- ==================== OWNER VIEW (KEPÇENİ KİRALAT) ==================== -->
+      <!-- ==================== OWNER VIEW (3D KEPÇENİ KİRALAT & KAYIT SİHİRBAZI) ==================== -->
       <section id="list-view" class="view-section">
         
-        <!-- Sub Nav for Owner View -->
-        <div class="owner-tabs">
-          <button id="tab-add-btn" class="owner-tab-btn active" onclick="switchOwnerTab('add')">
-            ✨ Hızlı İlan Ekle
-          </button>
-          <button id="tab-manage-btn" class="owner-tab-btn" onclick="switchOwnerTab('manage')">
-            📋 İlanlarım
-          </button>
-        </div>
-
-        <!-- TAB 1: Add Listing Form -->
-        <div id="owner-tab-add" class="owner-tab-content active">
-          <div class="card simple-form-card">
-            <h2 class="form-title">Makinenizi Kiraya Çıkarın</h2>
-            <p class="form-subtitle">Komisyon yok, aracı yok! İlanınız doğrudan müteahhitlere ve şantiyelere ulaşsın.</p>
-            
-            <form id="add-listing-form" onsubmit="handleCreateListing(event)">
-              
-              <!-- Row 1: Full-Width Title -->
-              <div class="form-group" style="margin-bottom: 1.1rem;">
-                <label for="input-title">İlan Başlığı / Makine Modeli <span style="color:#EF4444">*</span></label>
-                <input type="text" id="input-title" required placeholder="Örn: JCB 3CX Beko Loder Kepçe">
-              </div>
-
-              <!-- Row 2: Type & City -->
-              <div class="form-row-2">
-                <div class="form-group">
-                  <label for="input-type">Makine Türü <span style="color:#EF4444">*</span></label>
-                  <select id="input-type" required onchange="handleTypeChange(this.value)">
-                    <option value="">Seçiniz...</option>
-                    <option value="Paletli Ekskavatör">Paletli Ekskavatör</option>
-                    <option value="Beko Loder (JCB)">Beko Loder (JCB / Lastikli)</option>
-                    <option value="Mini Ekskavatör / Kepçe">Mini Kepçe / Ekskavatör</option>
-                    <option value="Bobcat Mini Yükleyici">Bobcat Mini Yükleyici</option>
-                    <option value="Manitou Telehandler">Manitou Telehandler</option>
-                    <option value="Mobil Vinç">Mobil Vinç</option>
-                    <option value="Dozer">Dozer</option>
-                    <option value="Hafriyat Kamyonu">Hafriyat Kamyonu</option>
-                    <option value="Diğer">✏️ Diğer (Kendim Yazacağım)</option>
-                  </select>
-                  <input type="text" id="input-custom-type" placeholder="Örn: Silindir, Asfalt Serici, Forklift..." style="display: none; margin-top: 0.5rem;" />
-                </div>
-
-                <div class="form-group">
-                  <label for="input-city-select">Bulunduğu İl <span style="color:#EF4444">*</span></label>
-                  <select id="input-city-select" required onchange="handleCityChange(this.value)">
-                    <option value="">İl Seçiniz (81 İl)</option>
-                    <option value="İstanbul">İstanbul</option>
-                    <option value="Ankara">Ankara</option>
-                    <option value="İzmir">İzmir</option>
-                    <option value="Bursa">Bursa</option>
-                    <option value="Antalya">Antalya</option>
-                    <option value="Adana">Adana</option>
-                    <option value="Konya">Konya</option>
-                    <option value="Gaziantep">Gaziantep</option>
-                    <option value="Şanlıurfa">Şanlıurfa</option>
-                    <option value="Kocaeli">Kocaeli</option>
-                    <option value="Mersin">Mersin</option>
-                    <option value="Diyarbakır">Diyarbakır</option>
-                    <option value="Samsun">Samsun</option>
-                    <option value="Denizli">Denizli</option>
-                    <option value="Eskişehir">Eskişehir</option>
-                    <option value="Trabzon">Trabzon</option>
-                  </select>
-                </div>
-              </div>
-
-              <!-- Row 3: District & Phone -->
-              <div class="form-row-2">
-                <div class="form-group">
-                  <label for="input-district-select">Bulunduğu İlçe <span style="font-weight:400; color:#6B7280; font-size:0.8rem;">(Opsiyonel)</span></label>
-                  <select id="input-district-select">
-                    <option value="Merkez">Merkez</option>
-                  </select>
-                </div>
-
-                <div class="form-group">
-                  <label for="input-phone">Telefon Numaranız (WhatsApp) <span style="color:#EF4444">*</span></label>
-                  <input type="tel" id="input-phone" required placeholder="Örn: 0532 000 00 00">
-                </div>
-              </div>
-
-              <!-- Row 4: Günlük & Saatlik Ücret (YAN YANA!) -->
-              <div class="form-row-2">
-                <div class="form-group">
-                  <label for="input-price">Günlük Kiralama Ücreti (TL) <span style="color:#EF4444">*</span></label>
-                  <input type="number" id="input-price" required placeholder="Örn: 3000">
-                </div>
-
-                <div class="form-group">
-                  <label for="input-hourly-price">Saatlik Ücret (TL) <span style="font-weight:400; color:#6B7280; font-size:0.8rem;">(Opsiyonel)</span></label>
-                  <input type="number" id="input-hourly-price" placeholder="Örn: 400">
-                </div>
-              </div>
-
-              <!-- Row 5: Photo Dropzone -->
-              <div class="form-group" style="margin-bottom: 1.25rem;">
-                <label>Makine Fotoğrafı <span style="font-weight:400; color:#6B7280; font-size:0.8rem;">(Opsiyonel)</span></label>
-                <div class="custom-file-dropzone-compact" onclick="document.getElementById('input-image-file').click()">
-                  <input type="file" id="input-image-file" accept="image/*" class="file-upload-input-hidden" onchange="previewUserImage(event)">
-                  <div id="dropzone-prompt" class="dropzone-prompt-compact" style="display: flex;">
-                    <span style="font-weight: 600; font-size: 0.88rem; color: #D97706;">Fotoğraf Yüklemek İçin Tıklayın veya Sürükleyin</span>
-                  </div>
-                  <div id="image-preview-container" class="image-preview-container-compact" style="display: none;">
-                    <img id="image-preview-img" src="" alt="Önizleme">
-                    <span class="preview-ok-text">✓ Fotoğraf Yüklendi</span>
-                    <button type="button" class="btn-remove-photo-sm" onclick="removeUserPhoto(event)">Kaldır</button>
-                  </div>
-                </div>
-              </div>
-
-              <button type="submit" class="btn-submit-listing" style="margin-top: 0.5rem;">
-                İlanı Yayına Al (Ücretsiz)
-              </button>
-            </form>
+        <!-- 3D Ultra-Premium Header Banner -->
+        <div class="card-3d-hero">
+          <div class="hero-3d-icon-badge">
+            <img src="assets/logo_3d.png" alt="3D Logo" class="hero-3d-logo-img">
+          </div>
+          <div class="hero-3d-text-content">
+            <h2 class="hero-3d-title">Makine Sahibi Kayıt &amp; İlan Sihirbazı</h2>
+            <p class="hero-3d-sub">81 İlde Komisyonsuz · %0 Aracı · Doğrudan Müteahhit ve Müşteri</p>
           </div>
         </div>
+
+        <!-- 3D Auth Switcher Tabs (Ana Sayfada Canlı!) -->
+        <div class="main-3d-auth-tabs">
+          <button type="button" id="main-tab-wiz" class="btn-3d-auth-tab active" onclick="switchMainAuthTab('wizard')">
+            <span>🚜 3D Makine Sahibi Kaydı (3 Adım)</span>
+          </button>
+          <button type="button" id="main-tab-login" class="btn-3d-auth-tab" onclick="switchMainAuthTab('login')">
+            <span>🔐 Zaten Üyeyim: Şifreli Hızlı Giriş</span>
+          </button>
+        </div>
+
+        <!-- 3D WIZARD CONTAINER -->
+        <div id="main-wiz-container" class="card-3d-glass-container">
+          
+          <!-- 3D Step Progress Bar -->
+          <div class="wiz-3d-steps-indicator">
+            <div id="main-step-pill-1" class="step-3d-pill active">
+              <span class="step-3d-num">1</span>
+              <span class="step-3d-label">Üyelik &amp; Şifre</span>
+            </div>
+            <div class="step-3d-line"></div>
+            <div id="main-step-pill-2" class="step-3d-pill">
+              <span class="step-3d-num">2</span>
+              <span class="step-3d-label">Hizmet &amp; Ücret</span>
+            </div>
+            <div class="step-3d-line"></div>
+            <div id="main-step-pill-3" class="step-3d-pill">
+              <span class="step-3d-num">3</span>
+              <span class="step-3d-label">Kepçe Fotoğrafı</span>
+            </div>
+          </div>
+
+          <!-- Step 1 Form -->
+          <form id="main-wiz-form-step1" onsubmit="handleMainWizStep1(event)" class="form-3d-step">
+            <div class="form-3d-header">
+              <span class="icon-3d-step">🔑</span>
+              <h3>1. Adım: Kişisel Bilgiler, Şifre &amp; WhatsApp</h3>
+            </div>
+
+            <div class="form-3d-grid-2">
+              <div class="form-group-3d">
+                <label for="main-reg-name">Adınız Soyadınız *</label>
+                <input type="text" id="main-reg-name" placeholder="Örn: Yakup Kartal" required class="input-3d-dark">
+              </div>
+
+              <div class="form-group-3d">
+                <label for="main-reg-company">Firma / İşletme Adı <span class="label-opt">(Opsiyonel)</span></label>
+                <input type="text" id="main-reg-company" placeholder="Örn: Bey Hafriyat Ltd." class="input-3d-dark">
+              </div>
+            </div>
+
+            <div class="form-3d-grid-2">
+              <div class="form-group-3d">
+                <label for="main-reg-password">Giriş Şifreniz *</label>
+                <input type="password" id="main-reg-password" placeholder="••••••••" required class="input-3d-dark">
+              </div>
+
+              <div class="form-group-3d">
+                <label for="main-reg-phone">Telefon Numaranız (WhatsApp) *</label>
+                <input type="tel" id="main-reg-phone" placeholder="Örn: 0532 123 45 67" required class="input-3d-dark">
+              </div>
+            </div>
+
+            <div class="form-group-3d">
+              <label for="main-reg-city">Bulunduğunuz Şehir (81 İl) *</label>
+              <select id="main-reg-city" required class="input-3d-dark">
+              </select>
+            </div>
+
+            <button type="submit" class="btn-3d-gold-action">
+              <span>İlerle: Hizmet Bölgesi &amp; Ücret Bilgisi ›</span>
+            </button>
+          </form>
+
+          <!-- Step 2 Form -->
+          <form id="main-wiz-form-step2" onsubmit="handleMainWizStep2(event)" class="form-3d-step" style="display:none;">
+            <div class="form-3d-header">
+              <span class="icon-3d-step">📍</span>
+              <h3>2. Adım: Nerelere Hizmet Ediyor &amp; Kiralama Ücreti</h3>
+            </div>
+
+            <div class="form-3d-grid-2">
+              <div class="form-group-3d">
+                <label for="main-reg-type">Makine / Kepçe Türü *</label>
+                <select id="main-reg-type" required class="input-3d-dark">
+                  <option value="JCB Beko Loder Kepçe">🚜 JCB Beko Loder Kepçe</option>
+                  <option value="Paletli Ekskavatör">🏗️ Paletli Ekskavatör</option>
+                  <option value="Mini Ekskavatör / Kepçe">🚜 Mini Ekskavatör / Kepçe</option>
+                  <option value="Bobcat Mini Yükleyici">🚜 Bobcat Mini Yükleyici</option>
+                  <option value="Hafriyat Kamyonu">🚛 Hafriyat Kamyonu</option>
+                  <option value="Manitou Telehandler">🏗️ Manitou / Vinç</option>
+                </select>
+              </div>
+
+              <div class="form-group-3d">
+                <label for="main-reg-title">İlan Başlığı / Model *</label>
+                <input type="text" id="main-reg-title" placeholder="Örn: JCB 3CX Beko Loder Kiralık Kepçe" required class="input-3d-dark">
+              </div>
+            </div>
+
+            <div class="form-3d-grid-2">
+              <div class="form-group-3d">
+                <label for="main-reg-hourly">Saatlik Ücret (TL) *</label>
+                <input type="number" id="main-reg-hourly" placeholder="Örn: 500" required class="input-3d-dark">
+              </div>
+
+              <div class="form-group-3d">
+                <label for="main-reg-daily">Günlük Ücret (TL) *</label>
+                <input type="number" id="main-reg-daily" placeholder="Örn: 4000" required class="input-3d-dark">
+              </div>
+            </div>
+
+            <div class="btn-3d-row">
+              <button type="button" onclick="backToMainWizStep1()" class="btn-3d-secondary">
+                ‹ Geri
+              </button>
+              <button type="submit" class="btn-3d-gold-action" style="flex:2;">
+                <span>İlerle: Fotoğraf Yüklemeye Geç ›</span>
+              </button>
+            </div>
+          </form>
+
+          <!-- Step 3 Form -->
+          <form id="main-wiz-form-step3" onsubmit="handleMainWizStep3(event)" class="form-3d-step" style="display:none;">
+            <div class="form-3d-header">
+              <span class="icon-3d-step">📸</span>
+              <h3>3. Adım: Kepçe Fotoğrafı &amp; Yayına Alma</h3>
+            </div>
+
+            <div class="form-group-3d">
+              <label>Kepçe Fotoğrafı <span class="label-opt">(Opsiyonel)</span></label>
+              <div class="dropzone-3d-glow" onclick="document.getElementById('main-reg-photo-file').click()">
+                <input type="file" id="main-reg-photo-file" accept="image/*" onchange="previewMainWizPhoto(event)" style="display:none;">
+                <div id="main-wiz-prompt" class="dropzone-3d-prompt">
+                  <span style="font-size: 2.2rem;">📸</span>
+                  <span class="dropzone-3d-title">Fotoğraf Yüklemek İçin Tıklayın veya Galeriden Seçin</span>
+                  <span class="dropzone-3d-sub">Net bir fotoğraf ilanın kiralanma şansını %80 artırır.</span>
+                </div>
+                <div id="main-wiz-preview-box" class="dropzone-3d-preview" style="display:none;">
+                  <img id="main-wiz-preview-img" src="" alt="Kepçe Fotoğrafı" class="img-3d-preview">
+                  <span class="preview-3d-success">✓ Fotoğraf Başarıyla Yüklendi</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="btn-3d-row">
+              <button type="button" onclick="backToMainWizStep2()" class="btn-3d-secondary">
+                ‹ Geri
+              </button>
+              <button type="submit" class="btn-3d-emerald-action" style="flex:2;">
+                <span>🎉 İlanı Yayına Al &amp; Üye Ol</span>
+              </button>
+            </div>
+          </form>
+
+        </div>
+
+        <!-- 3D LOGIN CONTAINER -->
+        <div id="main-login-container" class="card-3d-glass-container" style="display:none;">
+          <form id="main-quick-login-form" onsubmit="handleMainQuickLogin(event)" class="form-3d-step">
+            <div class="form-3d-header">
+              <span class="icon-3d-step">🔐</span>
+              <h3>Mevcut Üye Girişi</h3>
+            </div>
+            <div class="form-group-3d">
+              <label for="main-login-phone">Telefon Numaranız *</label>
+              <input type="tel" id="main-login-phone" placeholder="Örn: 0532 123 45 67" required class="input-3d-dark">
+            </div>
+            <div class="form-group-3d">
+              <label for="main-login-password">Giriş Şifreniz *</label>
+              <input type="password" id="main-login-password" placeholder="••••••••" required class="input-3d-dark">
+            </div>
+            <button type="submit" class="btn-3d-gold-action">
+              <span>Giriş Yap ›</span>
+            </button>
+          </form>
+        </div>
+      </section>
 
         <!-- TAB 2: Manage My Listings -->
         <div id="owner-tab-manage" class="owner-tab-content">
@@ -407,8 +479,39 @@
         <button type="button" onclick="closeAuthModal()" style="background: rgba(255,255,255,0.1); border: none; font-size: 1.1rem; font-weight: 700; cursor: pointer; color: #94A3B8; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">✕</button>
       </div>
 
+      <!-- Auth Mode Switcher Header -->
+      <div style="display: flex; gap: 0.4rem; margin-bottom: 0.85rem; background: rgba(30,41,59,0.9); padding: 0.3rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08);">
+        <button type="button" id="auth-tab-register" onclick="switchAuthTab('register')" style="flex: 1; padding: 0.45rem; background: rgba(245,158,11,0.25); border: 1px solid #F59E0B; color: #F59E0B; font-weight: 700; font-size: 0.76rem; border-radius: 8px; cursor: pointer;">
+          🚜 Yeni Makine Sahibi Kaydı
+        </button>
+        <button type="button" id="auth-tab-login" onclick="switchAuthTab('login')" style="flex: 1; padding: 0.45rem; background: transparent; border: 1px solid transparent; color: #94A3B8; font-weight: 700; font-size: 0.76rem; border-radius: 8px; cursor: pointer;">
+          🔐 Mevcut Üye Girişi
+        </button>
+      </div>
+
+      <!-- ================= MEVCUT ÜYE GİRİŞ FORMU ================= -->
+      <form id="auth-login-form" style="display: none;" onsubmit="handleQuickLogin(event)">
+        <p style="font-size: 0.8rem; color: #94A3B8; margin-bottom: 1rem;">
+          🔐 Telefon numaranız ve şifreniz ile hızlıca giriş yapın.
+        </p>
+
+        <div class="form-group" style="margin-bottom: 0.85rem;">
+          <label for="login-phone" style="font-size: 0.83rem; font-weight: 600; color: #CBD5E1; display: block; margin-bottom: 0.3rem;">Telefon Numaranız *</label>
+          <input type="tel" id="login-phone" placeholder="Örn: 0532 123 45 67" required style="width: 100%; padding: 0.7rem 0.85rem; background: #1E293B; border: 1.5px solid #334155; border-radius: 10px; font-size: 0.88rem; color: #FFFFFF; outline: none;">
+        </div>
+
+        <div class="form-group" style="margin-bottom: 1.25rem;">
+          <label for="login-password" style="font-size: 0.83rem; font-weight: 600; color: #CBD5E1; display: block; margin-bottom: 0.3rem;">Şifreniz *</label>
+          <input type="password" id="login-password" placeholder="••••••••" required style="width: 100%; padding: 0.7rem 0.85rem; background: #1E293B; border: 1.5px solid #334155; border-radius: 10px; font-size: 0.88rem; color: #FFFFFF; outline: none;">
+        </div>
+
+        <button type="submit" style="width: 100%; padding: 0.85rem; background: linear-gradient(135deg, #F59E0B, #D97706); border: none; color: #0F172A; font-weight: 800; font-size: 0.92rem; border-radius: 12px; cursor: pointer; box-shadow: 0 4px 14px rgba(245,158,11,0.35);">
+          Giriş Yap ›
+        </button>
+      </form>
+
       <!-- Step Progress Bar -->
-      <div class="wizard-steps-bar" style="display: flex; justify-content: space-between; margin-bottom: 1.25rem; background: rgba(30,41,59,0.8); padding: 0.5rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08);">
+      <div id="wizard-steps-bar" class="wizard-steps-bar" style="display: flex; justify-content: space-between; margin-bottom: 1.25rem; background: rgba(30,41,59,0.8); padding: 0.5rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08);">
         <div id="wiz-step-pill-1" class="wiz-step-pill active" style="flex: 1; text-align: center; font-size: 0.73rem; font-weight: 700; padding: 0.35rem 0.2rem; border-radius: 8px; color: #F59E0B; background: rgba(245,158,11,0.2); border: 1px solid rgba(245,158,11,0.4);">
           1. Üyelik &amp; Şifre
         </div>

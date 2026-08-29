@@ -472,6 +472,250 @@ function populateCitySelect(id) {
   }
 }
 
+let mainPendingAuthData = {};
+let mainWizPhotoDataUrl = "";
+
+function switchMainAuthTab(tab) {
+  try {
+    populateCitySelect("main-reg-city");
+  } catch(e) {}
+
+  const wizTab = document.getElementById("main-tab-wiz");
+  const loginTab = document.getElementById("main-tab-login");
+  const wizContainer = document.getElementById("main-wiz-container");
+  const loginContainer = document.getElementById("main-login-container");
+
+  if (tab === 'login') {
+    if (wizTab) wizTab.classList.remove("active");
+    if (loginTab) loginTab.classList.add("active");
+    if (wizContainer) wizContainer.style.display = "none";
+    if (loginContainer) loginContainer.style.display = "block";
+  } else {
+    if (loginTab) loginTab.classList.remove("active");
+    if (wizTab) wizTab.classList.add("active");
+    if (loginContainer) loginContainer.style.display = "none";
+    if (wizContainer) wizContainer.style.display = "block";
+    backToMainWizStep1();
+  }
+}
+
+function updateMainWizPills(stepNum) {
+  for (let i = 1; i <= 3; i++) {
+    const pill = document.getElementById(`main-step-pill-${i}`);
+    if (!pill) continue;
+    if (i === stepNum) {
+      pill.classList.add("active");
+    } else {
+      pill.classList.remove("active");
+    }
+  }
+}
+
+function handleMainWizStep1(event) {
+  event.preventDefault();
+  const name = document.getElementById("main-reg-name").value.trim();
+  const company = document.getElementById("main-reg-company") ? document.getElementById("main-reg-company").value.trim() : "";
+  const password = document.getElementById("main-reg-password").value.trim();
+  const phone = document.getElementById("main-reg-phone").value.trim();
+  const city = document.getElementById("main-reg-city").value;
+
+  if (!name || !password || !phone || !city) {
+    showToast("⚠️ Lütfen 1. Adımdaki tüm zorunlu alanları doldurunuz.");
+    return;
+  }
+
+  mainPendingAuthData = { name, company, password, phone, city };
+
+  document.getElementById("main-wiz-form-step1").style.display = "none";
+  document.getElementById("main-wiz-form-step2").style.display = "block";
+  document.getElementById("main-wiz-form-step3").style.display = "none";
+  updateMainWizPills(2);
+
+  const titleInput = document.getElementById("main-reg-title");
+  if (titleInput && !titleInput.value) {
+    const brandName = company || name;
+    titleInput.value = `${brandName} - Kiralık Kepçe`;
+  }
+}
+
+function backToMainWizStep1() {
+  document.getElementById("main-wiz-form-step1").style.display = "block";
+  document.getElementById("main-wiz-form-step2").style.display = "none";
+  document.getElementById("main-wiz-form-step3").style.display = "none";
+  updateMainWizPills(1);
+}
+
+function handleMainWizStep2(event) {
+  event.preventDefault();
+  const type = document.getElementById("main-reg-type").value;
+  const title = document.getElementById("main-reg-title").value.trim();
+  const hourlyPrice = parseFloat(document.getElementById("main-reg-hourly").value) || 0;
+  const dailyPrice = parseFloat(document.getElementById("main-reg-daily").value) || 0;
+
+  if (!title || !hourlyPrice || !dailyPrice) {
+    showToast("⚠️ Lütfen 2. Adımdaki makine ve ücret bilgilerini doldurunuz.");
+    return;
+  }
+
+  mainPendingAuthData.type = type;
+  mainPendingAuthData.title = title;
+  mainPendingAuthData.hourlyPrice = hourlyPrice;
+  mainPendingAuthData.dailyPrice = dailyPrice;
+
+  document.getElementById("main-wiz-form-step1").style.display = "none";
+  document.getElementById("main-wiz-form-step2").style.display = "none";
+  document.getElementById("main-wiz-form-step3").style.display = "block";
+  updateMainWizPills(3);
+}
+
+function backToMainWizStep2() {
+  document.getElementById("main-wiz-form-step1").style.display = "none";
+  document.getElementById("main-wiz-form-step2").style.display = "block";
+  document.getElementById("main-wiz-form-step3").style.display = "none";
+  updateMainWizPills(2);
+}
+
+function previewMainWizPhoto(event) {
+  const file = event.target && event.target.files && event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const img = new Image();
+    img.onload = function() {
+      const canvas = document.createElement("canvas");
+      let width = img.width;
+      let height = img.height;
+      const MAX_SIZE = 800;
+      if (width > height) {
+        if (width > MAX_SIZE) {
+          height = Math.round((height * MAX_SIZE) / width);
+          width = MAX_SIZE;
+        }
+      } else {
+        if (height > MAX_SIZE) {
+          width = Math.round((width * MAX_SIZE) / height);
+          height = MAX_SIZE;
+        }
+      }
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, width, height);
+
+      mainWizPhotoDataUrl = canvas.toDataURL("image/jpeg", 0.85);
+
+      const promptBox = document.getElementById("main-wiz-prompt");
+      const container = document.getElementById("main-wiz-preview-box");
+      const imgEl = document.getElementById("main-wiz-preview-img");
+
+      if (imgEl) imgEl.src = mainWizPhotoDataUrl;
+      if (promptBox) promptBox.style.display = "none";
+      if (container) container.style.display = "block";
+      showToast("📸 Kepçe fotoğrafı yüklendi!");
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function handleMainWizStep3(event) {
+  event.preventDefault();
+
+  const displayName = mainPendingAuthData.company 
+    ? `${mainPendingAuthData.name} (${mainPendingAuthData.company})`
+    : mainPendingAuthData.name;
+
+  // 1. Create User Account
+  currentUser = {
+    name: mainPendingAuthData.name,
+    company: mainPendingAuthData.company || "",
+    displayName: displayName,
+    phone: mainPendingAuthData.phone,
+    city: mainPendingAuthData.city,
+    password: mainPendingAuthData.password,
+    verifiedCode: "213091",
+    createdAt: new Date().toISOString()
+  };
+
+  localStorage.setItem("makinebul_current_user", JSON.stringify(currentUser));
+
+  // 2. Select Machine Image
+  let image = mainWizPhotoDataUrl;
+  if (!image) {
+    image = mainPendingAuthData.type === "Beko Loder (JCB)" || mainPendingAuthData.type === "JCB Beko Loder Kepçe"
+      ? "assets/backhoe_loader.png" 
+      : mainPendingAuthData.type === "Mini Ekskavatör / Kepçe" 
+      ? "assets/mini_excavator.png" 
+      : mainPendingAuthData.type === "Bobcat Mini Yükleyici"
+      ? "assets/bobcat.png"
+      : mainPendingAuthData.type === "Manitou Telehandler"
+      ? "assets/manitou.png"
+      : mainPendingAuthData.type === "Hafriyat Kamyonu"
+      ? "assets/dump_truck.png"
+      : "assets/excavator1.png";
+  }
+
+  // 3. Create Listing
+  const newListing = {
+    id: "kepce-" + Date.now(),
+    title: mainPendingAuthData.title,
+    type: mainPendingAuthData.type,
+    city: mainPendingAuthData.city,
+    district: "Merkez",
+    price: mainPendingAuthData.dailyPrice,
+    hourlyPrice: mainPendingAuthData.hourlyPrice,
+    period: "Günlük",
+    operator: "Operatörlü",
+    specs: "Kiralık İş Makinesi",
+    phone: mainPendingAuthData.phone,
+    owner: displayName,
+    image: image,
+    status: "available",
+    isMyListing: true,
+    createdAt: new Date().toISOString()
+  };
+
+  listings.unshift(newListing);
+  saveListingsToStorage();
+
+  backToMainWizStep1();
+  renderUserBadge();
+  renderListings();
+
+  showToast("🎉 Üyeliğiniz oluşturuldu ve kepçe ilanınız başarıyla yayınlandı!");
+
+  enterMainApp('rent');
+}
+
+function handleMainQuickLogin(event) {
+  event.preventDefault();
+  const phone = document.getElementById("main-login-phone").value.trim();
+  const password = document.getElementById("main-login-password").value.trim();
+
+  if (!phone || !password) {
+    showToast("⚠️ Lütfen telefon numaranızı ve şifrenizi giriniz.");
+    return;
+  }
+
+  currentUser = {
+    name: "Yakup Kartal",
+    company: "Bey Hafriyat",
+    displayName: "Yakup Kartal (Bey Hafriyat)",
+    phone: phone,
+    city: "Bingöl",
+    verifiedCode: "213091",
+    createdAt: new Date().toISOString()
+  };
+
+  localStorage.setItem("makinebul_current_user", JSON.stringify(currentUser));
+
+  renderUserBadge();
+  showToast("🎉 Giriş başarılı! Hoş geldiniz, " + currentUser.name);
+
+  enterMainApp('rent');
+}
+
 function openAuthModal() {
   try {
     populateCitySelect("auth-city");
@@ -493,9 +737,82 @@ function openAuthModal() {
     if (cityEl && currentUser.city) cityEl.value = currentUser.city;
   }
   
+  switchAuthTab('register');
+
   modal.style.display = "flex";
   modal.style.zIndex = "999999";
   modal.classList.add("active");
+}
+
+function switchAuthTab(tab) {
+  const regBtn = document.getElementById("auth-tab-register");
+  const loginBtn = document.getElementById("auth-tab-login");
+  const loginForm = document.getElementById("auth-login-form");
+  const wizBar = document.getElementById("wizard-steps-bar");
+  const step1 = document.getElementById("auth-form-step1");
+  const step2 = document.getElementById("auth-form-step2");
+  const step3 = document.getElementById("auth-form-step3");
+
+  if (tab === 'login') {
+    if (regBtn) {
+      regBtn.style.background = "transparent";
+      regBtn.style.border = "1px solid transparent";
+      regBtn.style.color = "#94A3B8";
+    }
+    if (loginBtn) {
+      loginBtn.style.background = "rgba(245,158,11,0.25)";
+      loginBtn.style.border = "1px solid #F59E0B";
+      loginBtn.style.color = "#F59E0B";
+    }
+    if (loginForm) loginForm.style.display = "block";
+    if (wizBar) wizBar.style.display = "none";
+    if (step1) step1.style.display = "none";
+    if (step2) step2.style.display = "none";
+    if (step3) step3.style.display = "none";
+  } else {
+    if (loginBtn) {
+      loginBtn.style.background = "transparent";
+      loginBtn.style.border = "1px solid transparent";
+      loginBtn.style.color = "#94A3B8";
+    }
+    if (regBtn) {
+      regBtn.style.background = "rgba(245,158,11,0.25)";
+      regBtn.style.border = "1px solid #F59E0B";
+      regBtn.style.color = "#F59E0B";
+    }
+    if (loginForm) loginForm.style.display = "none";
+    if (wizBar) wizBar.style.display = "flex";
+    backToWizardStep1();
+  }
+}
+
+function handleQuickLogin(event) {
+  event.preventDefault();
+  const phone = document.getElementById("login-phone").value.trim();
+  const password = document.getElementById("login-password").value.trim();
+
+  if (!phone || !password) {
+    showToast("⚠️ Lütfen telefon numaranızı ve şifrenizi giriniz.");
+    return;
+  }
+
+  currentUser = {
+    name: "Yakup Kartal",
+    company: "Bey Hafriyat",
+    displayName: "Yakup Kartal (Bey Hafriyat)",
+    phone: phone,
+    city: "Bingöl",
+    verifiedCode: "213091",
+    createdAt: new Date().toISOString()
+  };
+
+  localStorage.setItem("makinebul_current_user", JSON.stringify(currentUser));
+
+  closeAuthModal();
+  renderUserBadge();
+  showToast("🎉 Giriş başarılı! Hoş geldiniz, " + currentUser.name);
+
+  enterMainApp('rent');
 }
 
 function closeAuthModal() {
@@ -726,51 +1043,52 @@ document.addEventListener("click", () => {
 });
 
 function renderUserBadge() {
-  const badgeEl = document.getElementById("user-profile-badge");
-  if (!badgeEl) return;
+  const badgeIds = ["user-profile-badge", "splash-user-badge"];
+  badgeIds.forEach(id => {
+    const badgeEl = document.getElementById(id);
+    if (!badgeEl) return;
 
-  if (currentUser && currentUser.name) {
-    const firstName = currentUser.name.split(' ')[0];
-    
-    badgeEl.innerHTML = `
-      <div style="position: relative;">
-        <button type="button" onclick="toggleUserMenu(event)" style="background: rgba(245,158,11,0.18); border: 1px solid rgba(245,158,11,0.4); padding: 0.28rem 0.5rem; border-radius: 20px; font-size: 0.73rem; font-weight: 700; color: #F59E0B; cursor: pointer; display: flex; align-items: center; gap: 3px; box-shadow: 0 2px 8px rgba(245,158,11,0.15); white-space: nowrap;">
-          <span style="max-width: 68px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block; vertical-align: middle;">👤 ${firstName}</span>
-          <span style="font-size: 0.6rem; opacity: 0.8;">▼</span>
-        </button>
-
-        <!-- Dropdown User Menu Card -->
-        <div id="user-dropdown-menu" style="display: none; position: absolute; right: 0; top: 115%; width: 210px; background: #0F172A; border: 1px solid rgba(245,158,11,0.3); border-radius: 14px; padding: 0.85rem; box-shadow: 0 12px 30px rgba(0,0,0,0.6); z-index: 99999; color: #F8FAFC; text-align: left;">
-          <div style="font-size: 0.84rem; font-weight: 800; color: #F59E0B; margin-bottom: 0.3rem; word-break: break-word;">
-            👤 ${currentUser.name}
-          </div>
-          ${currentUser.company ? `<div style="font-size: 0.75rem; color: #CBD5E1; margin-bottom: 0.4rem;">🏢 ${currentUser.company}</div>` : ''}
-          <div style="font-size: 0.72rem; color: #94A3B8; margin-bottom: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.4rem;">
-            📍 ${currentUser.city || '81 İl'}
-          </div>
-          <button onclick="logoutUser()" style="width: 100%; padding: 0.45rem; background: rgba(239,68,68,0.2); border: 1px solid #EF4444; color: #EF4444; font-size: 0.75rem; font-weight: 700; border-radius: 8px; cursor: pointer;">
-            🚪 Çıkış Yap
+    if (currentUser && currentUser.name) {
+      const firstName = currentUser.name.split(' ')[0];
+      badgeEl.innerHTML = `
+        <div style="position: relative;">
+          <button type="button" onclick="toggleUserMenu(event)" style="background: rgba(245,158,11,0.18); border: 1px solid rgba(245,158,11,0.4); padding: 0.28rem 0.5rem; border-radius: 20px; font-size: 0.73rem; font-weight: 700; color: #F59E0B; cursor: pointer; display: flex; align-items: center; gap: 3px; box-shadow: 0 2px 8px rgba(245,158,11,0.15); white-space: nowrap;">
+            <span style="max-width: 68px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block; vertical-align: middle;">👤 ${firstName}</span>
+            <span style="font-size: 0.6rem; opacity: 0.8;">▼</span>
           </button>
+
+          <!-- Dropdown User Menu Card -->
+          <div id="user-dropdown-menu" style="display: none; position: absolute; right: 0; top: 115%; width: 220px; background: #0F172A; border: 1px solid rgba(245,158,11,0.4); border-radius: 14px; padding: 0.85rem; box-shadow: 0 12px 30px rgba(0,0,0,0.7); z-index: 99999; color: #F8FAFC; text-align: left;">
+            <div style="font-size: 0.84rem; font-weight: 800; color: #F59E0B; margin-bottom: 0.2rem; word-break: break-word;">
+              👤 ${currentUser.name}
+            </div>
+            ${currentUser.company ? `<div style="font-size: 0.75rem; color: #CBD5E1; margin-bottom: 0.3rem;">🏢 ${currentUser.company}</div>` : ''}
+            <div style="font-size: 0.72rem; color: #94A3B8; margin-bottom: 0.65rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.4rem;">
+              📍 ${currentUser.city || '81 İl'}
+            </div>
+            
+            <button onclick="openAuthModal()" style="width: 100%; padding: 0.45rem; background: rgba(245,158,11,0.2); border: 1px solid #F59E0B; color: #F59E0B; font-size: 0.74rem; font-weight: 700; border-radius: 8px; cursor: pointer; margin-bottom: 0.4rem; text-align: center;">
+              📝 Yeni İlan &amp; Kayıt Sihirbazı
+            </button>
+            
+            <button onclick="logoutUser()" style="width: 100%; padding: 0.45rem; background: rgba(239,68,68,0.2); border: 1px solid #EF4444; color: #EF4444; font-size: 0.74rem; font-weight: 700; border-radius: 8px; cursor: pointer; text-align: center;">
+              🚪 Çıkış Yap (Oturumu Kapat)
+            </button>
+          </div>
         </div>
-      </div>
-    `;
-  } else {
-    badgeEl.innerHTML = `
-      <button onclick="openAuthModal()" style="background: rgba(245,158,11,0.25); border: 1.5px solid #F59E0B; color: #F59E0B; padding: 0.3rem 0.6rem; border-radius: 20px; font-size: 0.74rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 4px; box-shadow: 0 2px 8px rgba(245,158,11,0.25); white-space: nowrap;">
-        🔐 Giriş Yap
-      </button>
-    `;
-  }
+      `;
+    } else {
+      badgeEl.innerHTML = `
+        <button onclick="openAuthModal()" style="background: rgba(245,158,11,0.25); border: 1.5px solid #F59E0B; color: #F59E0B; padding: 0.3rem 0.65rem; border-radius: 20px; font-size: 0.74rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 4px; box-shadow: 0 2px 8px rgba(245,158,11,0.25); white-space: nowrap;">
+          🚜 İlan Ver (Kayıt Ol)
+        </button>
+      `;
+    }
+  });
 }
 
 // Mode Switcher (Kirala vs Kiralat)
 function switchMode(mode) {
-  if (mode === 'list' && (!currentUser || !currentUser.name)) {
-    showToast("⚠️ İlan yayınlayabilmek için önce üye olmanız gerekmektedir.");
-    openAuthModal();
-    return;
-  }
-
   activeMode = mode;
   const rentView = document.getElementById("rent-view");
   const listView = document.getElementById("list-view");
@@ -789,16 +1107,7 @@ function switchMode(mode) {
     btnList.classList.add("active");
     btnRent.classList.remove("active");
     
-    // Pre-fill user data into listing form if available
-    if (currentUser) {
-      const phoneInput = document.getElementById("input-phone");
-      const cityInput = document.getElementById("input-city-select");
-      if (phoneInput && !phoneInput.value) phoneInput.value = currentUser.phone || "";
-      if (cityInput && !cityInput.value && currentUser.city) {
-        cityInput.value = currentUser.city;
-        handleCityChange(currentUser.city);
-      }
-    }
+    switchMainAuthTab('wizard');
 
     renderMyListings();
     renderRequests();
