@@ -709,31 +709,52 @@ function handleMainWizStep3(event) {
 }
 
 function handleMainQuickLogin(event) {
-  event.preventDefault();
+  if (event) event.preventDefault();
   const phone = document.getElementById("main-login-phone").value.trim();
   const password = document.getElementById("main-login-password").value.trim();
 
-  if (!phone || !password) {
-    showToast("⚠️ Lütfen telefon numaranızı ve şifrenizi giriniz.");
+  if (!phone) {
+    showToast("⚠️ Lütfen telefon numaranızı giriniz.");
     return;
   }
 
-  currentUser = {
-    name: "Yakup Kartal",
-    company: "Bey Hafriyat",
-    displayName: "Yakup Kartal (Bey Hafriyat)",
-    phone: phone,
-    city: "Bingöl",
-    verifiedCode: "213091",
-    createdAt: new Date().toISOString()
-  };
+  // Restore saved user if found, or create logged-in user profile
+  let foundUser = null;
+  try {
+    const saved = localStorage.getItem("makinebul_current_user");
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (parsed && parsed.name) foundUser = parsed;
+    }
+  } catch(e) {}
+
+  if (foundUser) {
+    currentUser = foundUser;
+    if (phone) currentUser.phone = phone;
+  } else {
+    currentUser = {
+      name: "İş Makinesi Sahibi",
+      company: "",
+      displayName: "İş Makinesi Sahibi",
+      phone: phone,
+      city: userCurrentCity || "İstanbul",
+      password: password,
+      verifiedCode: "213091",
+      createdAt: new Date().toISOString()
+    };
+  }
 
   localStorage.setItem("makinebul_current_user", JSON.stringify(currentUser));
 
   renderUserBadge();
+  renderMyListings();
+  updateLoggedInDashboardUI();
+
   showToast("🎉 Giriş başarılı! Hoş geldiniz, " + currentUser.name);
 
-  enterMainApp('rent');
+  // Switch to list view so user immediately sees their account dashboard and listings!
+  switchMode('list');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function openAuthModal() {
@@ -1046,6 +1067,7 @@ function logoutUser() {
   currentUser = null;
   localStorage.removeItem("makinebul_current_user");
   renderUserBadge();
+  updateLoggedInDashboardUI();
   showToast("Çıkış yapıldı.");
 }
 
@@ -1061,6 +1083,19 @@ document.addEventListener("click", () => {
   const menu = document.getElementById("user-dropdown-menu");
   if (menu) menu.style.display = "none";
 });
+
+function goToMyListings() {
+  switchMode('list');
+  setTimeout(() => {
+    const el = document.getElementById("my-listings-list");
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  }, 100);
+}
+
+function openFastAddListingModal() {
+  switchMode('list');
+  showFastAddFormInline();
+}
 
 function renderUserBadge() {
   const badgeEl = document.getElementById("user-profile-badge");
@@ -1085,8 +1120,12 @@ function renderUserBadge() {
             📍 ${currentUser.city || '81 İl'}
           </div>
           
-          <button onclick="openAuthModal()" style="width: 100%; padding: 0.45rem; background: rgba(245,158,11,0.2); border: 1px solid #F59E0B; color: #F59E0B; font-size: 0.74rem; font-weight: 700; border-radius: 8px; cursor: pointer; margin-bottom: 0.4rem; text-align: center;">
-            📝 Yeni İlan &amp; Kayıt Sihirbazı
+          <button onclick="goToMyListings()" style="width: 100%; padding: 0.45rem; background: rgba(245,158,11,0.25); border: 1px solid #F59E0B; color: #F59E0B; font-size: 0.74rem; font-weight: 700; border-radius: 8px; cursor: pointer; margin-bottom: 0.4rem; text-align: center;">
+            📋 Yayınladığım İlanlarım
+          </button>
+
+          <button onclick="openFastAddListingModal()" style="width: 100%; padding: 0.45rem; background: rgba(16,185,129,0.2); border: 1px solid #10B981; color: #10B981; font-size: 0.74rem; font-weight: 700; border-radius: 8px; cursor: pointer; margin-bottom: 0.4rem; text-align: center;">
+            ➕ Yeni İlan Ekle
           </button>
           
           <button onclick="logoutUser()" style="width: 100%; padding: 0.45rem; background: rgba(239,68,68,0.2); border: 1px solid #EF4444; color: #EF4444; font-size: 0.74rem; font-weight: 700; border-radius: 8px; cursor: pointer; text-align: center;">
@@ -1102,6 +1141,120 @@ function renderUserBadge() {
       </button>
     `;
   }
+}
+
+// Logged In Dashboard UI Controller
+function updateLoggedInDashboardUI() {
+  const dashContainer = document.getElementById("logged-in-user-dashboard");
+  const wizHeader = document.querySelector(".card-3d-hero");
+  const authTabs = document.querySelector(".main-3d-auth-tabs");
+  const wizContainer = document.getElementById("main-wiz-container");
+  const loginContainer = document.getElementById("main-login-container");
+
+  try {
+    populateCitySelect("fast-reg-city");
+  } catch(e) {}
+
+  if (currentUser && currentUser.name) {
+    if (dashContainer) {
+      dashContainer.style.display = "block";
+      const nameEl = document.getElementById("dash-user-name");
+      const subEl = document.getElementById("dash-user-sub");
+      if (nameEl) nameEl.textContent = `👤 ${currentUser.displayName || currentUser.name}`;
+      if (subEl) subEl.textContent = `📞 Telefon: ${currentUser.phone || 'Girilmedi'} | 📍 Şehir: ${currentUser.city || '81 İl'}`;
+    }
+    if (wizHeader) wizHeader.style.display = "none";
+    if (authTabs) authTabs.style.display = "none";
+    if (wizContainer) wizContainer.style.display = "none";
+    if (loginContainer) loginContainer.style.display = "none";
+  } else {
+    if (dashContainer) dashContainer.style.display = "none";
+    if (wizHeader) wizHeader.style.display = "flex";
+    if (authTabs) authTabs.style.display = "flex";
+    switchMainAuthTab('wizard');
+  }
+}
+
+function handleFastAddListing(event) {
+  if (event) event.preventDefault();
+
+  if (!currentUser) {
+    showToast("⚠️ İlan eklemek için lütfen giriş yapınız.");
+    return;
+  }
+
+  const type = document.getElementById("fast-reg-type").value;
+  const title = document.getElementById("fast-reg-title").value.trim();
+  const city = document.getElementById("fast-reg-city").value || currentUser.city || userCurrentCity || "İstanbul";
+  const hourlyPrice = parseFloat(document.getElementById("fast-reg-hourly").value) || 1500;
+  const dailyPrice = parseFloat(document.getElementById("fast-reg-daily").value) || 10000;
+
+  if (!title) {
+    showToast("⚠️ Lütfen ilan başlığını giriniz.");
+    return;
+  }
+
+  let image = type.includes("Beko") || type.includes("JCB")
+    ? "assets/backhoe_loader.png" 
+    : type.includes("Mini") 
+    ? "assets/mini_excavator.png" 
+    : type.includes("Bobcat")
+    ? "assets/bobcat.png"
+    : type.includes("Manitou")
+    ? "assets/manitou.png"
+    : type.includes("Kamyon")
+    ? "assets/dump_truck.png"
+    : "assets/excavator1.png";
+
+  const newListing = {
+    id: "kepce-" + Date.now(),
+    title: title,
+    type: type,
+    city: city,
+    district: "Merkez",
+    price: dailyPrice,
+    hourlyPrice: hourlyPrice,
+    period: "Günlük",
+    operator: "Operatörlü",
+    specs: "Kiralık İş Makinesi",
+    phone: currentUser.phone || "0532 000 00 00",
+    owner: currentUser.displayName || currentUser.name || "Makine Sahibi",
+    image: image,
+    status: "available",
+    isMyListing: true,
+    createdAt: new Date().toISOString()
+  };
+
+  listings.unshift(newListing);
+  saveListings();
+
+  hideFastAddFormInline();
+  document.getElementById("fast-reg-title").value = "";
+
+  renderListings();
+  renderMyListings();
+
+  showToast("🎉 Yeni kepçe ilanınız tek tıkla başarıyla yayınlandı!");
+
+  scrollToMyListingsList();
+}
+
+function showFastAddFormInline() {
+  const formBox = document.getElementById("fast-add-listing-box");
+  if (formBox) {
+    formBox.style.display = "block";
+    formBox.scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
+function hideFastAddFormInline() {
+  const formBox = document.getElementById("fast-add-listing-box");
+  if (formBox) formBox.style.display = "none";
+}
+
+function scrollToMyListingsList() {
+  const container = document.getElementById("owner-tab-manage");
+  if (container) container.scrollIntoView({ behavior: 'smooth' });
 }
 
 // Mode Switcher (Kirala vs Kiralat)
@@ -1124,8 +1277,7 @@ function switchMode(mode) {
     btnList.classList.add("active");
     btnRent.classList.remove("active");
     
-    switchMainAuthTab('wizard');
-
+    updateLoggedInDashboardUI();
     renderMyListings();
     renderRequests();
   }

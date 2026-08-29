@@ -188,6 +188,73 @@
       <!-- ==================== OWNER VIEW (3D KEPÇENİ KİRALAT & KAYIT SİHİRBAZI) ==================== -->
       <section id="list-view" class="view-section">
         
+        <!-- LOGGED-IN USER DASHBOARD (Giriş yapıldığında görünür) -->
+        <div id="logged-in-user-dashboard" style="display: none; background: linear-gradient(145deg, #0F172A 0%, #1E293B 100%); border: 1.5px solid rgba(245,158,11,0.4); border-radius: 20px; padding: 1.25rem; margin-bottom: 1.5rem; box-shadow: 0 12px 30px rgba(0,0,0,0.5);">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.85rem;">
+            <div>
+              <span style="background: rgba(245,158,11,0.2); color: #FCD34D; border: 1px solid rgba(245,158,11,0.3); padding: 0.2rem 0.65rem; border-radius: 12px; font-size: 0.72rem; font-weight: 800; text-transform: uppercase;">🟢 Hesabınız Aktif &amp; Giriş Yapıldı</span>
+              <h3 id="dash-user-name" style="font-size: 1.25rem; font-weight: 800; color: #fff; margin: 0.4rem 0 0.15rem;">👤 Makine Sahibi</h3>
+              <p id="dash-user-sub" style="font-size: 0.82rem; color: #94A3B8; margin: 0;">📞 Telefon: | 📍 Şehir: </p>
+            </div>
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+              <button type="button" onclick="showFastAddFormInline()" style="padding: 0.6rem 1.1rem; background: linear-gradient(135deg, #F59E0B, #D97706); border: none; color: #1F2937; font-weight: 800; border-radius: 12px; cursor: pointer; font-size: 0.88rem; box-shadow: 0 4px 14px rgba(245,158,11,0.35);">
+                ➕ Yeni İlan Ekle
+              </button>
+              <button type="button" onclick="scrollToMyListingsList()" style="padding: 0.6rem 1.1rem; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #fff; font-weight: 700; border-radius: 12px; cursor: pointer; font-size: 0.88rem;">
+                📋 İlanlarımı Yönet
+              </button>
+              <button type="button" onclick="logoutUser()" style="padding: 0.6rem 0.85rem; background: rgba(239,68,68,0.2); border: 1px solid #EF4444; color: #EF4444; font-weight: 700; border-radius: 12px; cursor: pointer; font-size: 0.88rem;">
+                🚪 Çıkış
+              </button>
+            </div>
+          </div>
+
+          <!-- FAST ADD LISTING FORM (Giriş yapış üyeler için tek tıkla ilan!) -->
+          <div id="fast-add-listing-box" style="display: none; margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid rgba(255,255,255,0.1);">
+            <div style="font-size: 1.05rem; font-weight: 800; color: #F59E0B; margin-bottom: 0.85rem;">🚜 Hızlı İlan Yayınlama Formu</div>
+            <form onsubmit="handleFastAddListing(event)">
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; margin-bottom: 0.85rem;">
+                <div>
+                  <label style="font-size: 0.8rem; font-weight: 700; color: #CBD5E1; display: block; margin-bottom: 0.3rem;">Makine Türü *</label>
+                  <select id="fast-reg-type" required class="input-3d-dark" style="width: 100%;">
+                    <option value="JCB Beko Loder Kepçe">🚜 JCB Beko Loder Kepçe</option>
+                    <option value="Paletli Ekskavatör">🏗️ Paletli Ekskavatör</option>
+                    <option value="Mini Ekskavatör / Kepçe">🚜 Mini Ekskavatör / Kepçe</option>
+                    <option value="Bobcat Mini Yükleyici">🚜 Bobcat Mini Yükleyici</option>
+                    <option value="Hafriyat Kamyonu">🚛 Hafriyat Kamyonu</option>
+                    <option value="Manitou Telehandler">🏗️ Manitou / Vinç</option>
+                  </select>
+                </div>
+                <div>
+                  <label style="font-size: 0.8rem; font-weight: 700; color: #CBD5E1; display: block; margin-bottom: 0.3rem;">İlan Başlığı / Model *</label>
+                  <input type="text" id="fast-reg-title" placeholder="Örn: 2022 Model JCB 3CX Kiralık Kepçe" required class="input-3d-dark" style="width: 100%;">
+                </div>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.85rem; margin-bottom: 0.85rem;">
+                <div>
+                  <label style="font-size: 0.8rem; font-weight: 700; color: #CBD5E1; display: block; margin-bottom: 0.3rem;">Şehir *</label>
+                  <select id="fast-reg-city" required class="input-3d-dark" style="width: 100%;">
+                  </select>
+                </div>
+                <div>
+                  <label style="font-size: 0.8rem; font-weight: 700; color: #CBD5E1; display: block; margin-bottom: 0.3rem;">Saatlik Ücret (TL) *</label>
+                  <input type="number" id="fast-reg-hourly" placeholder="1500" required class="input-3d-dark" style="width: 100%;">
+                </div>
+                <div>
+                  <label style="font-size: 0.8rem; font-weight: 700; color: #CBD5E1; display: block; margin-bottom: 0.3rem;">Günlük Ücret (TL) *</label>
+                  <input type="number" id="fast-reg-daily" placeholder="10000" required class="input-3d-dark" style="width: 100%;">
+                </div>
+              </div>
+
+              <div style="display: flex; gap: 0.65rem; justify-content: flex-end; margin-top: 1rem;">
+                <button type="button" onclick="hideFastAddFormInline()" class="btn-3d-secondary" style="padding: 0.6rem 1rem;">İptal</button>
+                <button type="submit" class="btn-3d-emerald-action" style="padding: 0.6rem 1.4rem;">🎉 İlanı Hemen Yayına Al</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
         <!-- 3D Ultra-Premium Header Banner -->
         <div class="card-3d-hero">
           <div class="hero-3d-icon-badge">
