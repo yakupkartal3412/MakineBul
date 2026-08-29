@@ -397,64 +397,66 @@
 
   <!-- ==================== 3. BİZ KİMİZ MODAL ==================== -->
   <div id="about-modal" class="modal">
-    <div style="background: linear-gradient(160deg, rgba(15,23,42,0.97) 0%, rgba(30,58,95,0.97) 100%); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); max-width: 580px; width: 95%; max-height: 88vh; overflow-y: auto; border-radius: 24px; position: relative; box-shadow: 0 30px 80px rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1);">
+    <div style="background: linear-gradient(160deg, #0F172A 0%, #1E293B 100%); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); max-width: 520px; width: 92%; max-height: 90vh; overflow-y: auto; border-radius: 20px; position: relative; box-shadow: 0 30px 80px rgba(0,0,0,0.7); border: 1px solid rgba(245,158,11,0.3); color: #FFFFFF;">
 
-      <!-- Close button -->
-      <button onclick="closeAboutModal()" style="position: absolute; top: 1.1rem; right: 1.1rem; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.7); width: 34px; height: 34px; border-radius: 50%; font-size: 1.15rem; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10;">✕</button>
+      <!-- Modal Header with Close Button -->
+      <div style="position: sticky; top: 0; background: rgba(15,23,42,0.95); backdrop-filter: blur(12px); padding: 1.25rem 1.25rem 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; z-index: 10;">
+        <div>
+          <span style="background: rgba(245,158,11,0.18); color: #FCD34D; border: 1px solid rgba(245,158,11,0.3); padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.68rem; font-weight: 700; text-transform: uppercase;">Komisyonsuz İş Makinesi Platformu</span>
+          <h2 style="font-family: 'Poppins', sans-serif; font-size: 1.35rem; font-weight: 800; color: #ffffff; margin: 0.3rem 0 0; line-height: 1.2;">
+            Biz Kimiz &amp; <span style="color: #F59E0B;">Ne İçin Varız?</span>
+          </h2>
+        </div>
+        <button onclick="closeAboutModal()" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); color: #CBD5E1; width: 32px; height: 32px; border-radius: 50%; font-size: 1.1rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">✕</button>
+      </div>
 
-      <div style="padding: 2.25rem 2.25rem 2rem;">
-
-        <!-- Badge -->
-        <span style="background: rgba(245,158,11,0.18); color: #FCD34D; border: 1px solid rgba(245,158,11,0.3); padding: 0.3rem 0.85rem; border-radius: 20px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em; display: inline-block; margin-bottom: 1rem; text-transform: uppercase;">Türkiye'nin Komisyonsuz İş Makinesi Platformu</span>
-
-        <!-- Title -->
-        <h2 style="font-family: 'Poppins', sans-serif; font-size: 1.9rem; font-weight: 800; color: #ffffff; margin: 0 0 0.4rem; line-height: 1.2; text-shadow: 0 2px 8px rgba(0,0,0,0.5);">
-          Biz Kimiz &amp;<br><span style="color: #F59E0B;">Ne İçin Varız?</span>
-        </h2>
-        <p style="font-size: 0.85rem; color: rgba(255,255,255,0.5); margin: 0 0 2rem;">Ağır Sanayide Aracısız · Dijital · Güvenilir</p>
+      <div style="padding: 1.25rem;">
+        <p style="font-size: 0.8rem; color: #94A3B8; margin: 0 0 1.25rem;">Ağır Sanayide Aracısız · Dijital · Güvenilir Platform</p>
 
         <!-- Q1 -->
-        <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-left: 3px solid #F59E0B; border-radius: 14px; padding: 1.1rem 1.25rem; margin-bottom: 1rem;">
-          <div style="font-family: 'Poppins', sans-serif; font-size: 0.88rem; font-weight: 700; color: #F59E0B; margin-bottom: 0.4rem;">Biz Kimiz?</div>
-          <p style="font-size: 0.84rem; color: rgba(255,255,255,0.7); line-height: 1.65; margin: 0;"><strong style="color:#fff;">KepçeBurada.com</strong>; Türkiye'nin 81 ilinde iş makinesi arayan müteahhitler ile kepçe, ekskavatör, vinç ve kamyon sahiplerini <strong style="color:#FCD34D;">aracısız, %0 komisyonla</strong> buluşturan bağımsız sanayi platformudur.</p>
+        <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-left: 3.5px solid #F59E0B; border-radius: 14px; padding: 1rem 1.1rem; margin-bottom: 0.85rem;">
+          <div style="font-family: 'Poppins', sans-serif; font-size: 0.86rem; font-weight: 700; color: #F59E0B; margin-bottom: 0.35rem;">Biz Kimiz?</div>
+          <p style="font-size: 0.82rem; color: rgba(255,255,255,0.8); line-height: 1.6; margin: 0;"><strong style="color:#fff;">KepçeBurada.com</strong>; Türkiye'nin 81 ilinde iş makinesi arayan müteahhitler ile kepçe, ekskavatör, vinç ve kamyon sahiplerini <strong style="color:#FCD34D;">aracısız, %0 komisyonla</strong> buluşturan bağımsız sanayi platformudur.</p>
         </div>
 
         <!-- Q2 -->
-        <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-left: 3px solid #60A5FA; border-radius: 14px; padding: 1.1rem 1.25rem; margin-bottom: 1rem;">
-          <div style="font-family: 'Poppins', sans-serif; font-size: 0.88rem; font-weight: 700; color: #60A5FA; margin-bottom: 0.4rem;">Ne İçin Varız?</div>
-          <p style="font-size: 0.84rem; color: rgba(255,255,255,0.7); line-height: 1.65; margin: 0;">Sektördeki <strong style="color:#fff;">komisyoncu ücretlerini, aracı bürokrasisini ve makine arama çilesini sonlandırmak</strong> için varız. Herkes en yakınındaki makine sahibine tek tıkla ulaşsın.</p>
+        <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-left: 3.5px solid #60A5FA; border-radius: 14px; padding: 1rem 1.1rem; margin-bottom: 0.85rem;">
+          <div style="font-family: 'Poppins', sans-serif; font-size: 0.86rem; font-weight: 700; color: #60A5FA; margin-bottom: 0.35rem;">Ne İçin Varız?</div>
+          <p style="font-size: 0.82rem; color: rgba(255,255,255,0.8); line-height: 1.6; margin: 0;">Sektördeki <strong style="color:#fff;">komisyoncu ücretlerini, aracı bürokrasisini ve makine arama çilesini sonlandırmak</strong> için varız. Herkes en yakınındaki makine sahibine tek tıkla ulaşsın.</p>
         </div>
 
         <!-- Q3 -->
-        <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-left: 3px solid #34D399; border-radius: 14px; padding: 1.1rem 1.25rem; margin-bottom: 1.75rem;">
-          <div style="font-family: 'Poppins', sans-serif; font-size: 0.88rem; font-weight: 700; color: #34D399; margin-bottom: 0.6rem;">Neden Çalışıyoruz?</div>
-          <div style="display: flex; flex-direction: column; gap: 0.45rem;">
-            <div style="font-size: 0.83rem; color: rgba(255,255,255,0.65); line-height: 1.55;"><span style="color:#F59E0B; font-weight:700;">› </span><strong style="color:rgba(255,255,255,0.9);">Makine Sahipleri İçin:</strong> Makineler boşta beklemesin, her gün kesintisiz kazanç sağlasın.</div>
-            <div style="font-size: 0.83rem; color: rgba(255,255,255,0.65); line-height: 1.55;"><span style="color:#60A5FA; font-weight:700;">› </span><strong style="color:rgba(255,255,255,0.9);">Kiralayanlar İçin:</strong> En yakın makine 1 dakikada şantiyeye ulaşsın, işler aksımasın.</div>
-            <div style="font-size: 0.83rem; color: rgba(255,255,255,0.65); line-height: 1.55;"><span style="color:#34D399; font-weight:700;">› </span><strong style="color:rgba(255,255,255,0.9);">Türkiye İçin:</strong> Altyapı ve sanayi çarklarının maksimum verimle dönmesi için çalışıyoruz.</div>
+        <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-left: 3.5px solid #34D399; border-radius: 14px; padding: 1rem 1.1rem; margin-bottom: 1.25rem;">
+          <div style="font-family: 'Poppins', sans-serif; font-size: 0.86rem; font-weight: 700; color: #34D399; margin-bottom: 0.5rem;">Neden Çalışıyoruz?</div>
+          <div style="display: flex; flex-direction: column; gap: 0.4rem;">
+            <div style="font-size: 0.81rem; color: rgba(255,255,255,0.75); line-height: 1.5;"><span style="color:#F59E0B; font-weight:700;">› </span><strong style="color:#fff;">Makine Sahipleri İçin:</strong> Makineler boşta beklemesin, her gün kesintisiz kazanç sağlasın.</div>
+            <div style="font-size: 0.81rem; color: rgba(255,255,255,0.75); line-height: 1.5;"><span style="color:#60A5FA; font-weight:700;">› </span><strong style="color:#fff;">Kiralayanlar İçin:</strong> En yakın makine 1 dakikada şantiyeye ulaşsın, işler aksımasın.</div>
+            <div style="font-size: 0.81rem; color: rgba(255,255,255,0.75); line-height: 1.5;"><span style="color:#34D399; font-weight:700;">› </span><strong style="color:#fff;">Türkiye İçin:</strong> Altyapı ve sanayi çarklarının maksimum verimle dönmesi için çalışıyoruz.</div>
           </div>
         </div>
 
-        <!-- Stats row -->
-        <div style="display: grid; grid-template-columns: repeat(4,1fr); gap: 0.6rem; margin-bottom: 1.5rem;">
-          <div style="background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.25); border-radius: 12px; padding: 0.65rem 0.4rem; text-align: center;">
-            <div style="font-size: 1.05rem; font-weight: 800; color: #F59E0B;">%0</div>
-            <div style="font-size: 0.65rem; color: rgba(255,255,255,0.45); margin-top: 2px;">Komisyon</div>
+        <!-- Stats row (4 Grid Columns) -->
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; margin-bottom: 1.25rem;">
+          <div style="background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.25); border-radius: 12px; padding: 0.6rem 0.2rem; text-align: center;">
+            <div style="font-size: 1rem; font-weight: 800; color: #F59E0B;">%0</div>
+            <div style="font-size: 0.64rem; color: rgba(255,255,255,0.6); margin-top: 2px;">Komisyon</div>
           </div>
-          <div style="background: rgba(96,165,250,0.1); border: 1px solid rgba(96,165,250,0.2); border-radius: 12px; padding: 0.65rem 0.4rem; text-align: center;">
-            <div style="font-size: 1.05rem; font-weight: 800; color: #60A5FA;">81 İl</div>
-            <div style="font-size: 0.65rem; color: rgba(255,255,255,0.45); margin-top: 2px;">Kapsama</div>
+          <div style="background: rgba(96,165,250,0.1); border: 1px solid rgba(96,165,250,0.2); border-radius: 12px; padding: 0.6rem 0.2rem; text-align: center;">
+            <div style="font-size: 1rem; font-weight: 800; color: #60A5FA;">81 İl</div>
+            <div style="font-size: 0.64rem; color: rgba(255,255,255,0.6); margin-top: 2px;">Kapsama</div>
           </div>
-          <div style="background: rgba(52,211,153,0.1); border: 1px solid rgba(52,211,153,0.2); border-radius: 12px; padding: 0.65rem 0.4rem; text-align: center;">
-            <div style="font-size: 1.05rem; font-weight: 800; color: #34D399;">✓</div>
-            <div style="font-size: 0.65rem; color: rgba(255,255,255,0.45); margin-top: 2px;">Doğrudan</div>
+          <div style="background: rgba(52,211,153,0.1); border: 1px solid rgba(52,211,153,0.2); border-radius: 12px; padding: 0.6rem 0.2rem; text-align: center;">
+            <div style="font-size: 1rem; font-weight: 800; color: #34D399;">✓</div>
+            <div style="font-size: 0.64rem; color: rgba(255,255,255,0.6); margin-top: 2px;">Doğrudan</div>
           </div>
-          <div style="background: rgba(167,139,250,0.1); border: 1px solid rgba(167,139,250,0.2); border-radius: 12px; padding: 0.65rem 0.4rem; text-align: center;">
-            <div style="font-size: 1.05rem; font-weight: 800; color: #A78BFA;">Free</div>
-            <div style="font-size: 0.65rem; color: rgba(255,255,255,0.45); margin-top: 2px;">İlan</div>
+          <div style="background: rgba(167,139,250,0.1); border: 1px solid rgba(167,139,250,0.2); border-radius: 12px; padding: 0.6rem 0.2rem; text-align: center;">
+            <div style="font-size: 1rem; font-weight: 800; color: #A78BFA;">Ücretsiz</div>
+            <div style="font-size: 0.64rem; color: rgba(255,255,255,0.6); margin-top: 2px;">İlan</div>
           </div>
-        <!-- CTA -->
-        <button onclick="closeAboutModal()" style="width: 100%; padding: 0.9rem; background: linear-gradient(135deg, #F59E0B, #D97706); color: #1F2937; font-weight: 800; font-family: 'Poppins', sans-serif; font-size: 0.95rem; border-radius: 14px; border: none; cursor: pointer; box-shadow: 0 6px 20px rgba(245,158,11,0.35);">
+        </div><!-- Properly closed grid div! -->
+
+        <!-- CTA Full-Width Button -->
+        <button onclick="closeAboutModal()" style="width: 100%; padding: 0.85rem; background: linear-gradient(135deg, #F59E0B, #D97706); color: #0F172A; font-weight: 800; font-family: 'Poppins', sans-serif; font-size: 0.92rem; border-radius: 12px; border: none; cursor: pointer; box-shadow: 0 4px 16px rgba(245,158,11,0.4); display: block;">
           Makineleri İncelemeye Başla
         </button>
 
