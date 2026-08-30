@@ -2333,31 +2333,3 @@ function showToast(message) {
   }, 3500);
 }
 
-// ==================== 100% NATIVE APP FEEL: PREVENT PINCH-TO-ZOOM & DOUBLE TAP ZOOM ====================
-document.addEventListener('gesturestart', function (e) {
-  e.preventDefault();
-});
-document.addEventListener('gesturechange', function (e) {
-  e.preventDefault();
-});
-document.addEventListener('gestureend', function (e) {
-  e.preventDefault();
-});
-
-document.addEventListener('touchmove', function (e) {
-  if (e.touches && e.touches.length > 1) {
-    e.preventDefault();
-  }
-}, { passive: false });
-
-let lastTouchTime = 0;
-document.addEventListener('touchend', function (event) {
-  const now = (new Date()).getTime();
-  if (now - lastTouchTime <= 300) {
-    if (!event.target.closest('input, select, textarea, button, a')) {
-      event.preventDefault();
-    }
-  }
-  lastTouchTime = now;
-}, false);
-
