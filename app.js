@@ -1193,6 +1193,71 @@ function handleMachineTypeChange(selectId, customInputId) {
   }
 }
 
+let fastUploadedImageDataUrl = "";
+
+function triggerFastPhotoUpload(e) {
+  if (e && e.target && e.target.closest && e.target.closest('.btn-3d-secondary')) return;
+  const input = document.getElementById("fast-photo-file");
+  if (input) input.click();
+}
+
+function previewFastPhotoImage(event) {
+  const file = event.target && event.target.files && event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const img = new Image();
+    img.onload = function() {
+      const canvas = document.createElement("canvas");
+      let width = img.width;
+      let height = img.height;
+      const MAX_SIZE = 800;
+      if (width > height) {
+        if (width > MAX_SIZE) {
+          height = Math.round((height * MAX_SIZE) / width);
+          width = MAX_SIZE;
+        }
+      } else {
+        if (height > MAX_SIZE) {
+          width = Math.round((width * MAX_SIZE) / height);
+          height = MAX_SIZE;
+        }
+      }
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, width, height);
+
+      fastUploadedImageDataUrl = canvas.toDataURL("image/jpeg", 0.85);
+
+      const promptBox = document.getElementById("fast-photo-prompt");
+      const previewBox = document.getElementById("fast-photo-preview-box");
+      const imgEl = document.getElementById("fast-photo-preview-img");
+
+      if (imgEl) imgEl.src = fastUploadedImageDataUrl;
+      if (promptBox) promptBox.style.display = "none";
+      if (previewBox) previewBox.style.display = "block";
+      showToast("📸 Makine fotoğrafı başarıyla yüklendi!");
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function removeFastPhoto(event) {
+  if (event) event.stopPropagation();
+  fastUploadedImageDataUrl = "";
+  const fileInput = document.getElementById("fast-photo-file");
+  if (fileInput) fileInput.value = "";
+  const promptBox = document.getElementById("fast-photo-prompt");
+  const previewBox = document.getElementById("fast-photo-preview-box");
+  const imgEl = document.getElementById("fast-photo-preview-img");
+  if (imgEl) imgEl.src = "";
+  if (promptBox) promptBox.style.display = "block";
+  if (previewBox) previewBox.style.display = "none";
+}
+
 function handleFastAddListing(event) {
   if (event) event.preventDefault();
 
@@ -1217,17 +1282,19 @@ function handleFastAddListing(event) {
     return;
   }
 
-  let image = type.toLowerCase().includes("beko") || type.toLowerCase().includes("jcb")
-    ? "assets/backhoe_loader.png" 
-    : type.toLowerCase().includes("mini") 
-    ? "assets/mini_excavator.png" 
-    : type.toLowerCase().includes("bobcat")
-    ? "assets/bobcat.png"
-    : type.toLowerCase().includes("manitou")
-    ? "assets/manitou.png"
-    : type.toLowerCase().includes("kamyon")
-    ? "assets/dump_truck.png"
-    : "assets/excavator1.png";
+  let image = fastUploadedImageDataUrl || (
+    type.toLowerCase().includes("beko") || type.toLowerCase().includes("jcb")
+      ? "assets/backhoe_loader.png" 
+      : type.toLowerCase().includes("mini") 
+      ? "assets/mini_excavator.png" 
+      : type.toLowerCase().includes("bobcat")
+      ? "assets/bobcat.png"
+      : type.toLowerCase().includes("manitou")
+      ? "assets/manitou.png"
+      : type.toLowerCase().includes("kamyon")
+      ? "assets/dump_truck.png"
+      : "assets/excavator1.png"
+  );
 
   const newListing = {
     id: "kepce-" + Date.now(),
@@ -1257,11 +1324,12 @@ function handleFastAddListing(event) {
     customTypeInput.style.display = "none";
   }
   document.getElementById("fast-reg-type").value = "JCB Beko Loder Kepçe";
+  removeFastPhoto();
 
   renderListings();
   renderMyListings();
 
-  showToast("🎉 Yeni kepçe ilanınız tek tıkla başarıyla yayınlandı!");
+  showToast("🎉 Yeni kepçe ilanınız başarıyla yayınlandı!");
 
   switchDashboardTab('listings');
 }

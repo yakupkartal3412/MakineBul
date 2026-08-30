@@ -288,7 +288,26 @@
                 </div>
               </div>
 
-              <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 0.85rem;">
+              <!-- Fast Photo Upload Box -->
+              <div style="margin-bottom: 0.75rem;">
+                <label style="font-size: 0.72rem; font-weight: 700; color: #CBD5E1; display: block; margin-bottom: 0.25rem;">İş Makinesi Fotoğrafı <span style="color:#94A3B8; font-weight:400;">(Galeriden Seçin)</span></label>
+                <div onclick="triggerFastPhotoUpload(event)" style="border: 1.5px dashed rgba(245,158,11,0.5); border-radius: 10px; padding: 0.65rem; text-align: center; background: rgba(15,23,42,0.6); cursor: pointer;">
+                  <input type="file" id="fast-photo-file" accept="image/*" style="display:none;" onchange="previewFastPhotoImage(event)">
+                  <div id="fast-photo-prompt">
+                    <div style="font-size: 1.4rem; margin-bottom: 2px;">📷</div>
+                    <div style="font-size: 0.76rem; font-weight: 700; color: #FCD34D;">Galeriden Kepçe Fotoğrafı Seç / Yükle</div>
+                    <p style="font-size: 0.65rem; color: #94A3B8; margin: 2px 0 0;">Kendi iş makinenizin gerçek fotoğrafını ekleyin</p>
+                  </div>
+                  <div id="fast-photo-preview-box" style="display:none; position: relative;">
+                    <img id="fast-photo-preview-img" src="" alt="Makine Fotoğrafı" style="max-height: 110px; border-radius: 8px; object-fit: contain; border: 1px solid rgba(245,158,11,0.4);">
+                    <div style="margin-top: 5px;">
+                      <button type="button" onclick="removeFastPhoto(event)" class="btn-3d-secondary" style="padding: 0.25rem 0.6rem; font-size: 0.68rem; border-radius: 6px;">✕ Değiştir</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 0.65rem;">
                 <button type="button" onclick="switchDashboardTab('listings')" class="btn-3d-secondary" style="padding: 0.45rem 0.85rem; font-size: 0.76rem; border-radius: 8px;">İptal</button>
                 <button type="submit" class="btn-3d-emerald-action" style="padding: 0.45rem 1.1rem; font-size: 0.78rem; border-radius: 8px;">🎉 İlanı Hemen Yayına Al</button>
               </div>
