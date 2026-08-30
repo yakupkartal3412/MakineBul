@@ -3845,10 +3845,20 @@ select:focus, input:focus {
     flex-shrink: 0 !important;
   }
   .brand-icon-3d-wrapper {
-    width: 30px !important;
-    height: 30px !important;
-    border-radius: 8px !important;
+    width: 38px !important;
+    height: 38px !important;
+    border-radius: 10px !important;
     flex-shrink: 0 !important;
+    padding: 2px !important;
+    background: rgba(15, 23, 42, 0.85) !important;
+    border: 1.5px solid #F59E0B !important;
+    box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3) !important;
+  }
+  .brand-icon-3d {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    border-radius: 6px !important;
   }
   .brand-text-3d {
     flex-shrink: 0 !important;
