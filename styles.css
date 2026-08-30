@@ -15,62 +15,41 @@
   --text-muted: #6B7280;
 }
 
-/* ==================== NATIVE APP FEEL & NON-SELECTABLE TEXT & ZOOM LOCK ==================== */
+/* ==================== GLOBAL STYLES & NATIVE SCROLL SYSTEM ==================== */
 * {
-  -webkit-user-select: none !important;
-  -moz-user-select: none !important;
-  -ms-user-select: none !important;
-  user-select: none !important;
-  -webkit-touch-callout: none !important;
-  -webkit-tap-highlight-color: transparent !important;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
-input, textarea, select {
-  -webkit-user-select: text !important;
-  -moz-user-select: text !important;
-  -ms-user-select: text !important;
-  user-select: text !important;
-  touch-action: manipulation !important;
-}
-
-button, a, .btn, .mode-btn, .pill-btn {
-  touch-action: manipulation !important;
-}
-
-html, body {
+html {
   margin: 0;
   padding: 0;
   width: 100%;
-  min-height: 100vh;
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
   overflow-x: hidden;
-  touch-action: pan-y !important;
-  overscroll-behavior-y: none !important;
-  -webkit-text-size-adjust: 100% !important;
   overflow-y: auto !important;
   -webkit-overflow-scrolling: touch !important;
   background-color: var(--bg-page);
-}
-
-.main-app-content,
-.main-content,
-.view-section,
-.splash-screen {
-  overflow-y: auto !important;
-  -webkit-overflow-scrolling: touch !important;
-}
-
-.main-app-content {
-  display: none;
-  pointer-events: none;
-  background-color: var(--bg-page);
-  min-height: 100vh;
   color: var(--dark-gray);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
+.main-app-content {
+  display: none;
+  background-color: var(--bg-page);
+  min-height: 100%;
+  width: 100%;
+}
+
 .main-app-content.active {
   display: block !important;
-  pointer-events: auto !important;
 }
 
 /* App Header (Koyu Gri #1F2937 + Turuncu #F59E0B Accent - Edge to Edge Corner Layout) */
@@ -4196,11 +4175,6 @@ select:focus, input:focus {
 }
 
 /* ==================== 100% SMOOTH MOBILE SCROLLING FIX ==================== */
-html, body, .main-app-content, .main-content, #mode-list, #mode-rent, #anon-auth-section, #main-wiz-container {
-  overflow-y: auto !important;
-  -webkit-overflow-scrolling: touch !important;
-}
-
 #mode-list, #mode-rent, .main-content {
   padding-bottom: 8rem !important;
 }
