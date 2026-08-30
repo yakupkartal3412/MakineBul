@@ -2,6 +2,10 @@ node_modules/
 .DS_Store
 *.apk
 .idea/
+.dart_tool/
+.flutter-plugins-dependencies
+build/
 android_app/build/
 android_app/.gradle/
 android_app/app/build/
+

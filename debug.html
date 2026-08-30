@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head><meta charset="UTF-8"><title>Debug Test</title></head>
+<body>
+<h2>Edit Modal Debug</h2>
+<button onclick="testEditModal()">TEST - openEditModal çağır</button>
+<div id="result" style="margin-top:20px; font-size:1.2rem; color:red;"></div>
+
+<div id="edit-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); z-index:99999; align-items:center; justify-content:center;">
+  <div style="background:white; padding:2rem; border-radius:12px; max-width:400px;">
+    <h3>MODAL AÇIK!</h3>
+    <input type="text" id="edit-title" value="">
+    <button onclick="document.getElementById('edit-modal').style.display='none'">Kapat</button>
+  </div>
+</div>
+
+<script src="app.js?v=debug1"></script>
+<script>
+function testEditModal() {
+  var r = document.getElementById('result');
+  
+  // 1. listings var mı?
+  r.innerHTML = 'listings length: ' + (typeof listings !== 'undefined' ? listings.length : 'UNDEFINED') + '<br>';
+  
+  // 2. edit-modal var mı?
+  var modal = document.getElementById('edit-modal');
+  r.innerHTML += 'edit-modal element: ' + (modal ? 'BULUNDU' : 'BULUNAMADI') + '<br>';
+  
+  // 3. openEditModal fonksiyonu var mı?
+  r.innerHTML += 'openEditModal func: ' + (typeof openEditModal !== 'undefined' ? 'VAR' : 'YOK') + '<br>';
+  
+  if (listings && listings.length > 0) {
+    r.innerHTML += 'İlk ilan ID: ' + listings[0].id + '<br>';
+    r.innerHTML += '<br>openEditModal çağrılıyor...';
+    try {
+      openEditModal(listings[0].id);
+      r.innerHTML += '<br>openEditModal ÇAĞRILDI - modal görünüyor mu?';
+    } catch(e) {
+      r.innerHTML += '<br>HATA: ' + e.message;
+    }
+  } else {
+    r.innerHTML += '<br>listings boş veya tanımsız!';
+  }
+}
+</script>
+</body>
+</html>
