@@ -209,9 +209,10 @@
                 </div>
               </div>
 
-              <!-- Quick Action Logout Button -->
-              <button type="button" onclick="logoutUser()" style="padding: 0.3rem 0.65rem; background: rgba(239,68,68,0.18); border: 1px solid rgba(239,68,68,0.4); color: #FCA5A5; font-weight: 700; border-radius: 8px; cursor: pointer; font-size: 0.7rem; display: flex; align-items: center; gap: 3px; backdrop-filter: blur(4px);">
-                🚪 Çıkış
+              <!-- Modern Profile Action: Secure Logout Button -->
+              <button type="button" onclick="logoutUser()" title="Hesaptan Güvenli Çıkış Yap" style="padding: 0.38rem 0.75rem; background: rgba(239,68,68,0.15); border: 1.5px solid rgba(239,68,68,0.45); color: #FCA5A5; font-weight: 700; border-radius: 9px; cursor: pointer; font-size: 0.73rem; display: flex; align-items: center; gap: 5px; backdrop-filter: blur(4px); box-shadow: 0 2px 8px rgba(239,68,68,0.2); transition: all 0.2s ease;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#F87171" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                <span>Çıkış Yap</span>
               </button>
             </div>
           </div>
@@ -238,6 +239,15 @@
             <!-- Injected Listing Cards -->
             <div id="my-listings-list" class="my-listings-grid">
               <!-- Rendered dynamically -->
+            </div>
+
+            <!-- Bottom Account Control Bar -->
+            <div style="margin-top: 1rem; padding: 0.65rem 0.85rem; background: rgba(15,23,42,0.6); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-size: 0.74rem; color: #94A3B8;">Makine Sahibi: <strong style="color: #F8FAFC;">Yakup Kartal</strong></span>
+              <button type="button" onclick="logoutUser()" style="background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.35); color: #FCA5A5; font-size: 0.72rem; font-weight: 700; padding: 0.3rem 0.75rem; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 5px;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#F87171" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                <span>Hesaptan Çıkış Yap</span>
+              </button>
             </div>
           </div>
 
