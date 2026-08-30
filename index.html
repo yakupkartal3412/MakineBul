@@ -216,12 +216,12 @@
             </div>
           </div>
 
-          <!-- Segmented Navigation Tabs (İlanlarımı Yönet vs Yeni İlan Ekle) -->
-          <div style="display: flex; background: rgba(15,23,42,0.9); border: 1.5px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 5px; margin-bottom: 1.25rem; gap: 6px;">
-            <button type="button" id="tab-btn-dash-listings" onclick="switchDashboardTab('listings')" style="flex: 1; padding: 0.8rem 1rem; border: none; border-radius: 12px; font-family: 'Poppins', sans-serif; font-size: 0.88rem; font-weight: 800; cursor: pointer; transition: all 0.25s ease; background: linear-gradient(135deg, #F59E0B, #D97706); color: #0F172A; box-shadow: 0 4px 15px rgba(245,158,11,0.35); display: flex; align-items: center; justify-content: center; gap: 6px;">
-              <span>📋 İlanlarımı Yönet (<span id="dash-stat-my-listings">1</span>)</span>
+          <!-- Segmented Navigation Tabs (İlanlarım vs Yeni İlan Ekle) -->
+          <div style="display: flex; background: rgba(15,23,42,0.9); border: 1.5px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 4px; margin-bottom: 1.25rem; gap: 6px;">
+            <button type="button" id="tab-btn-dash-listings" onclick="switchDashboardTab('listings')" style="flex: 1; padding: 0.75rem 0.6rem; border: none; border-radius: 12px; font-family: 'Poppins', sans-serif; font-size: 0.84rem; font-weight: 800; cursor: pointer; transition: all 0.25s ease; background: linear-gradient(135deg, #F59E0B, #D97706); color: #0F172A; box-shadow: 0 4px 15px rgba(245,158,11,0.35); white-space: nowrap; display: flex; align-items: center; justify-content: center; gap: 4px;">
+              <span>📋 İlanlarım (<span id="dash-stat-my-listings">1</span>)</span>
             </button>
-            <button type="button" id="tab-btn-dash-add" onclick="switchDashboardTab('add')" style="flex: 1; padding: 0.8rem 1rem; border: none; border-radius: 12px; font-family: 'Poppins', sans-serif; font-size: 0.88rem; font-weight: 700; cursor: pointer; transition: all 0.25s ease; background: transparent; color: #94A3B8; display: flex; align-items: center; justify-content: center; gap: 6px;">
+            <button type="button" id="tab-btn-dash-add" onclick="switchDashboardTab('add')" style="flex: 1; padding: 0.75rem 0.6rem; border: none; border-radius: 12px; font-family: 'Poppins', sans-serif; font-size: 0.84rem; font-weight: 700; cursor: pointer; transition: all 0.25s ease; background: transparent; color: #94A3B8; white-space: nowrap; display: flex; align-items: center; justify-content: center; gap: 4px;">
               <span>➕ Yeni İlan Ekle</span>
             </button>
           </div>
@@ -229,12 +229,9 @@
           <!-- TAB 1: LISTINGS VIEW (Directly shown, no scrolling down needed!) -->
           <div id="dash-view-listings" style="display: block;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem; padding: 0 0.25rem;">
-              <h4 style="font-family: 'Poppins', sans-serif; font-size: 1rem; font-weight: 800; color: #F59E0B; margin: 0; display: flex; align-items: center; gap: 6px;">
+              <h4 style="font-family: 'Poppins', sans-serif; font-size: 0.98rem; font-weight: 800; color: #F59E0B; margin: 0; display: flex; align-items: center; gap: 6px;">
                 <span>🚜 Yayındaki Makineleriniz</span>
               </h4>
-              <button type="button" onclick="switchDashboardTab('add')" style="padding: 0.35rem 0.75rem; background: rgba(245,158,11,0.18); border: 1px solid #F59E0B; color: #F59E0B; border-radius: 10px; font-size: 0.78rem; font-weight: 700; cursor: pointer;">
-                + Yeni Ekle
-              </button>
             </div>
             
             <!-- Injected Listing Cards -->

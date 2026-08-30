@@ -1718,72 +1718,111 @@ function handleCreateListing(event) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Render Owner's Own Listings (Grid Side-by-Side Layout)
+// Helper to filter strictly the logged-in user's listings
+function getMyListings() {
+  if (!currentUser) return [];
+  const cleanUserPhone = currentUser.phone ? currentUser.phone.replace(/\D/g, '') : '';
+  const userName = currentUser.name ? currentUser.name.toLowerCase().trim() : '';
+  const userCompany = currentUser.company ? currentUser.company.toLowerCase().trim() : '';
+  const userDisplayName = currentUser.displayName ? currentUser.displayName.toLowerCase().trim() : '';
+
+  return listings.filter(item => {
+    if (item.isMyListing === true) return true;
+    if (cleanUserPhone && item.phone) {
+      const itemPhoneClean = String(item.phone).replace(/\D/g, '');
+      if (itemPhoneClean.length >= 7 && cleanUserPhone.endsWith(itemPhoneClean.slice(-7))) return true;
+    }
+    if (userName && item.owner && item.owner.toLowerCase().includes(userName)) return true;
+    if (userDisplayName && item.owner && item.owner.toLowerCase().includes(userDisplayName)) return true;
+    if (userCompany && item.owner && item.owner.toLowerCase().includes(userCompany)) return true;
+    return false;
+  });
+}
+
+// Render Owner's Own Listings (Only strictly the user's machines)
 function renderMyListings() {
   const container = document.getElementById("my-listings-list");
   if (!container) return;
 
-  if (listings.length === 0) {
-    container.innerHTML = `<p style="color: var(--text-muted); font-size: 0.9rem; grid-column: 1 / -1;">Henüz yayınlanmış ilanınız bulunmuyor.</p>`;
+  const myList = getMyListings();
+
+  const statListingsEl = document.getElementById("dash-stat-my-listings");
+  if (statListingsEl) {
+    statListingsEl.textContent = `${myList.length}`;
+  }
+
+  if (myList.length === 0) {
+    container.innerHTML = `
+      <div style="background: rgba(15,23,42,0.7); border: 1.5px dashed rgba(245,158,11,0.35); border-radius: 18px; padding: 2.25rem 1.5rem; text-align: center; color: #fff; grid-column: 1 / -1; margin: 0.5rem 0;">
+        <div style="font-size: 2.75rem; margin-bottom: 0.6rem; filter: drop-shadow(0 4px 10px rgba(245,158,11,0.4));">🚜</div>
+        <h4 style="font-family: 'Poppins', sans-serif; font-size: 1.1rem; font-weight: 800; color: #F59E0B; margin-bottom: 0.4rem;">Henüz Yayında Makineniz Yok</h4>
+        <p style="font-size: 0.84rem; color: #94A3B8; margin-bottom: 1.25rem; max-width: 380px; margin-left: auto; margin-right: auto; line-height: 1.5;">Hemen 'Yeni İlan Ekle' sekmesine geçerek iş makinenizi 1 dakikada müşterilere ulaştırın.</p>
+        <button type="button" onclick="switchDashboardTab('add')" style="padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); border: none; color: #0F172A; font-weight: 800; border-radius: 12px; font-size: 0.88rem; cursor: pointer; box-shadow: 0 8px 20px rgba(245,158,11,0.35);">
+          ➕ İlk İlanımı Hemen Ekle
+        </button>
+      </div>
+    `;
     return;
   }
 
-  container.innerHTML = listings.map(item => {
+  container.innerHTML = myList.map(item => {
     const isAvailable = item.status === 'available';
     const statusClass = isAvailable ? 'available' : 'rented';
     const statusText = isAvailable ? '🟢 Müsait' : '🔴 Kirada';
     const hourlyPriceNum = item.hourlyPrice || Math.round(item.price / 8);
 
     return `
-      <div class="card card-listing-sahibinden">
-        <!-- Top Image Container -->
-        <div class="sahibinden-img-box">
-          <img src="${item.image}" alt="${item.title}" onerror="this.src='assets/excavator1.png'">
-          <span class="card-status-badge ${statusClass}">${statusText}</span>
+      <div class="card card-listing-sahibinden my-dark-listing-card" style="background: linear-gradient(145deg, #0F172A 0%, #1E293B 100%); border: 1.5px solid rgba(245,158,11,0.3); border-radius: 16px; padding: 0.65rem; box-shadow: 0 10px 25px rgba(0,0,0,0.5); display: flex; flex-direction: column; justify-content: space-between;">
+        
+        <!-- Top Image Box -->
+        <div class="sahibinden-img-box" style="position: relative; border-radius: 10px; overflow: hidden; background: #0B1120; height: 125px; margin-bottom: 0.5rem; border: 1px solid rgba(255,255,255,0.08);">
+          <img src="${item.image}" alt="${item.title}" onerror="this.src='assets/excavator1.png'" style="width: 100%; height: 100%; object-fit: cover;">
+          <span style="position: absolute; top: 6px; left: 6px; padding: 0.2rem 0.55rem; border-radius: 8px; font-size: 0.65rem; font-weight: 800; background: ${isAvailable ? 'rgba(16,185,129,0.9)' : 'rgba(239,68,68,0.9)'}; color: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.4); backdrop-filter: blur(4px);">
+            ${statusText}
+          </span>
         </div>
         
-        <!-- Middle Details Container -->
-        <div class="sahibinden-details-box">
-          <h3 class="sahibinden-title">${item.title}</h3>
+        <!-- Details Box -->
+        <div style="flex: 1; display: flex; flex-direction: column;">
+          <h3 style="font-family: 'Poppins', sans-serif; font-size: 0.88rem; font-weight: 800; color: #FFFFFF; margin: 0 0 0.25rem; line-height: 1.25; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+            ${item.title}
+          </h3>
           
-          <div class="sahibinden-owner-name" style="font-size: 0.76rem; font-weight: 700; color: #1E293B; margin-top: 0.15rem; margin-bottom: 0.2rem; display: flex; align-items: center; gap: 0.25rem;">
-            <span style="color: #F59E0B;">👤</span> <span>${item.owner || 'Makine Sahibi'}</span>
+          <div style="font-size: 0.74rem; color: #CBD5E1; margin-bottom: 0.25rem; display: flex; align-items: center; gap: 4px;">
+            <span style="color: #F59E0B;">👤</span> <span style="font-weight: 600;">${item.owner || (currentUser ? currentUser.displayName : 'Makine Sahibi')}</span>
           </div>
 
-          <div class="sahibinden-badge-row">
-            ${item.isMyListing ? `<span class="sahibinden-tag-pill my-tag">Sizin İlanınız</span>` : ''}
+          <div style="font-size: 0.72rem; color: #94A3B8; margin-bottom: 0.5rem;">
+            📍 ${item.city}, ${item.district || 'Merkez'}
           </div>
 
-          <div class="sahibinden-location">
-            📍 ${item.city}, ${item.district}
-          </div>
-
-          <div class="sahibinden-price-row">
-            <div class="sahibinden-price-main">
-              ${hourlyPriceNum.toLocaleString('tr-TR')} TL <span class="price-unit">/ Saat</span>
+          <div style="margin-top: auto; padding-top: 0.4rem; border-top: 1px solid rgba(255,255,255,0.08); margin-bottom: 0.6rem;">
+            <div style="font-size: 0.98rem; font-weight: 800; color: #F59E0B;">
+              ${hourlyPriceNum.toLocaleString('tr-TR')} TL <span style="font-size: 0.68rem; color: #CBD5E1; font-weight: 600;">/ Saat</span>
             </div>
-            <div class="sahibinden-price-sub">
-              Günlük: ${item.price.toLocaleString('tr-TR')} TL
+            <div style="font-size: 0.72rem; color: #94A3B8;">
+              Günlük: <strong style="color: #fff;">${item.price.toLocaleString('tr-TR')} TL</strong>
             </div>
           </div>
         </div>
 
-        <!-- Management Controls Buttons (Stacked 2-Row Layout) -->
-        <div class="my-listing-actions">
-          <button onclick="toggleStatus('${item.id}')" class="btn-my-status ${isAvailable ? 'avail' : 'rented'}">
-            ${isAvailable ? '🔴 Kirada Yap' : '🟢 Müsait Yap'}
+        <!-- Management Controls (Status Toggle, Edit, Delete) -->
+        <div style="display: flex; flex-direction: column; gap: 0.35rem;">
+          <button onclick="toggleStatus('${item.id}')" style="width: 100%; padding: 0.45rem; border-radius: 8px; font-weight: 800; font-size: 0.75rem; cursor: pointer; border: 1px solid ${isAvailable ? 'rgba(239,68,68,0.5)' : 'rgba(16,185,129,0.5)'}; background: ${isAvailable ? 'rgba(239,68,68,0.2)' : 'rgba(16,185,129,0.2)'}; color: ${isAvailable ? '#FCA5A5' : '#6EE7B7'};">
+            ${isAvailable ? '🔴 Kirada Olarak İşaretle' : '🟢 Müsait Olarak İşaretle'}
           </button>
 
-          <div class="my-actions-subrow">
-            <button onclick="openEditModal('${item.id}')" class="btn-my-edit" title="İlanı Düzenle">
+          <div style="display: flex; gap: 0.35rem;">
+            <button onclick="openEditModal('${item.id}')" style="flex: 1; padding: 0.4rem; background: rgba(245,158,11,0.2); border: 1px solid #F59E0B; color: #FCD34D; font-weight: 700; border-radius: 8px; font-size: 0.73rem; cursor: pointer;">
               ✏️ Düzenle
             </button>
 
-            <button onclick="deleteListing('${item.id}')" class="btn-my-delete" title="İlanı Sil">
+            <button onclick="deleteListing('${item.id}')" style="flex: 1; padding: 0.4rem; background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.4); color: #FCA5A5; font-weight: 700; border-radius: 8px; font-size: 0.73rem; cursor: pointer;">
               🗑️ Sil
             </button>
           </div>
         </div>
+
       </div>
     `;
   }).join('');
@@ -1946,6 +1985,7 @@ function toggleStatus(id) {
   if (target) {
     target.status = target.status === 'available' ? 'rented' : 'available';
     saveListings();
+    renderListings();
     renderMyListings();
     showToast(`İlan durumu "${target.status === 'available' ? 'Müsait' : 'Kirada'}" olarak güncellendi.`);
   }
@@ -1956,7 +1996,9 @@ function deleteListing(id) {
   if (confirm("Bu ilanı silmek istediğinizden emin misiniz?")) {
     listings = listings.filter(i => i.id !== id);
     saveListings();
+    renderListings();
     renderMyListings();
+    updateLoggedInDashboardUI();
     showToast("İlan silindi.");
   }
 }
