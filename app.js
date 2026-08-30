@@ -1143,6 +1143,24 @@ function renderUserBadge() {
   }
 }
 
+function formatCleanPhoneNumber(phoneStr) {
+  if (!phoneStr) return "";
+  let digits = String(phoneStr).replace(/\D/g, '');
+  if (digits.startsWith("90") && digits.length >= 12) {
+    digits = digits.substring(2);
+  } else if (digits.startsWith("090")) {
+    digits = digits.substring(3);
+  }
+
+  if (digits.length === 11 && digits.startsWith("0")) {
+    return `${digits.substring(0, 4)} ${digits.substring(4, 7)} ${digits.substring(7, 9)} ${digits.substring(9, 11)}`;
+  } else if (digits.length === 10) {
+    return `0${digits.substring(0, 3)} ${digits.substring(3, 6)} ${digits.substring(6, 8)} ${digits.substring(8, 10)}`;
+  }
+
+  return digits || phoneStr;
+}
+
 // Logged In Dashboard UI Controller
 function updateLoggedInDashboardUI() {
   const dashContainer = document.getElementById("logged-in-user-dashboard");
@@ -1161,20 +1179,16 @@ function updateLoggedInDashboardUI() {
       const nameEl = document.getElementById("dash-user-name");
       const subEl = document.getElementById("dash-user-sub");
       const statListingsEl = document.getElementById("dash-stat-my-listings");
-      const statReqsEl = document.getElementById("dash-stat-requests");
 
       if (nameEl) nameEl.textContent = `${currentUser.displayName || currentUser.name}`;
       if (subEl) {
-        subEl.innerHTML = `📞 Telefon: <strong style="color: #FCD34D;">${currentUser.phone || 'Girilmedi'}</strong> | 📍 Şehir: <strong style="color: #fff;">${currentUser.city || '81 İl'}</strong>`;
+        const cleanPhone = formatCleanPhoneNumber(currentUser.phone);
+        subEl.innerHTML = `📞 Telefon: <strong style="color: #FCD34D;">${cleanPhone || 'Girilmedi'}</strong> | 📍 Şehir: <strong style="color: #fff;">${currentUser.city || '81 İl'}</strong>`;
       }
       
       if (statListingsEl) {
         const myCount = listings.filter(i => i.isMyListing).length || listings.length || 0;
-        statListingsEl.textContent = `${myCount} Makine`;
-      }
-
-      if (statReqsEl) {
-        statReqsEl.textContent = `${requests.length} Talep`;
+        statListingsEl.textContent = `${myCount} Makine İlanı Yayında`;
       }
     }
     if (wizHeader) wizHeader.style.display = "none";
