@@ -251,14 +251,20 @@
               <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem;">
                 <div>
                   <label style="font-size: 0.72rem; font-weight: 700; color: #CBD5E1; display: block; margin-bottom: 0.2rem;">Makine Türü *</label>
-                  <select id="fast-reg-type" required class="input-3d-dark" style="width: 100%; padding: 0.45rem 0.6rem; font-size: 0.76rem; border-radius: 8px;">
-                    <option value="JCB Beko Loder Kepçe">🚜 JCB Beko Loder Kepçe</option>
-                    <option value="Paletli Ekskavatör">🏗️ Paletli Ekskavatör</option>
-                    <option value="Mini Ekskavatör / Kepçe">🚜 Mini Ekskavatör / Kepçe</option>
-                    <option value="Bobcat Mini Yükleyici">🚜 Bobcat Mini Yükleyici</option>
-                    <option value="Hafriyat Kamyonu">🚛 Hafriyat Kamyonu</option>
-                    <option value="Manitou Telehandler">🏗️ Manitou / Vinç</option>
+                  <select id="fast-reg-type" required onchange="handleMachineTypeChange('fast-reg-type', 'fast-custom-type')" class="input-3d-dark" style="width: 100%; padding: 0.45rem 0.6rem; font-size: 0.76rem; border-radius: 8px;">
+                    <option value="JCB Beko Loder Kepçe">JCB Beko Loder Kepçe</option>
+                    <option value="Paletli Ekskavatör">Paletli Ekskavatör</option>
+                    <option value="Lastikli Ekskavatör">Lastikli Ekskavatör</option>
+                    <option value="Mini Ekskavatör / Kepçe">Mini Ekskavatör / Kepçe</option>
+                    <option value="Bobcat Mini Yükleyici">Bobcat Mini Yükleyici</option>
+                    <option value="Hafriyat Kamyonu">Hafriyat Kamyonu</option>
+                    <option value="Manitou Telehandler">Manitou Telehandler</option>
+                    <option value="Mobil / Kule Vinç">Mobil / Kule Vinç</option>
+                    <option value="Dozer / Greyder / Silindir">Dozer / Greyder / Silindir</option>
+                    <option value="Forklift">Forklift</option>
+                    <option value="Diğer">+ Farklı Bir Makine Yaz</option>
                   </select>
+                  <input type="text" id="fast-custom-type" placeholder="Makinenizin Türünü Yazın (Örn: Finişer, Sondaj...)" class="input-3d-dark" style="display: none; width: 100%; margin-top: 0.35rem; padding: 0.45rem 0.6rem; font-size: 0.76rem; border-radius: 8px; border: 1.5px solid #F59E0B;">
                 </div>
                 <div>
                   <label style="font-size: 0.72rem; font-weight: 700; color: #CBD5E1; display: block; margin-bottom: 0.2rem;">İlan Başlığı / Model *</label>
@@ -387,14 +393,20 @@
               <div class="form-3d-grid-2">
                 <div class="form-group-3d">
                   <label for="main-wiz-type">Makine Türü *</label>
-                  <select id="main-wiz-type" required class="input-3d-dark">
-                    <option value="JCB Beko Loder Kepçe">🚜 JCB Beko Loder Kepçe</option>
-                    <option value="Paletli Ekskavatör">🏗️ Paletli Ekskavatör</option>
-                    <option value="Mini Ekskavatör / Kepçe">🚜 Mini Ekskavatör / Kepçe</option>
-                    <option value="Bobcat Mini Yükleyici">🚜 Bobcat Mini Yükleyici</option>
-                    <option value="Hafriyat Kamyonu">🚛 Hafriyat Kamyonu</option>
-                    <option value="Manitou Telehandler">🏗️ Manitou / Vinç</option>
+                  <select id="main-wiz-type" required onchange="handleMachineTypeChange('main-wiz-type', 'main-wiz-custom-type')" class="input-3d-dark">
+                    <option value="JCB Beko Loder Kepçe">JCB Beko Loder Kepçe</option>
+                    <option value="Paletli Ekskavatör">Paletli Ekskavatör</option>
+                    <option value="Lastikli Ekskavatör">Lastikli Ekskavatör</option>
+                    <option value="Mini Ekskavatör / Kepçe">Mini Ekskavatör / Kepçe</option>
+                    <option value="Bobcat Mini Yükleyici">Bobcat Mini Yükleyici</option>
+                    <option value="Hafriyat Kamyonu">Hafriyat Kamyonu</option>
+                    <option value="Manitou Telehandler">Manitou Telehandler</option>
+                    <option value="Mobil / Kule Vinç">Mobil / Kule Vinç</option>
+                    <option value="Dozer / Greyder / Silindir">Dozer / Greyder / Silindir</option>
+                    <option value="Forklift">Forklift</option>
+                    <option value="Diğer">+ Farklı Bir Makine Yaz</option>
                   </select>
+                  <input type="text" id="main-wiz-custom-type" placeholder="Makinenizin Türünü Yazın (Örn: Sondaj Makinesi, Greyder...)" class="input-3d-dark" style="display: none; width: 100%; margin-top: 0.5rem; border: 1.5px solid #F59E0B;">
                 </div>
 
                 <div class="form-group-3d">
@@ -662,14 +674,20 @@
 
         <div class="form-group" style="margin-bottom: 0.85rem;">
           <label for="wiz-machine-type" style="font-size: 0.83rem; font-weight: 600; color: #CBD5E1; display: block; margin-bottom: 0.3rem;">Makine / Kepçe Türü *</label>
-          <select id="wiz-machine-type" required style="width: 100%; padding: 0.7rem 0.85rem; background: #1E293B; border: 1.5px solid #334155; border-radius: 10px; font-size: 0.88rem; color: #FFFFFF; outline: none;">
-            <option value="JCB Beko Loder Kepçe">🚜 JCB Beko Loder Kepçe</option>
-            <option value="Paletli Ekskavatör">🏗️ Paletli Ekskavatör</option>
-            <option value="Mini Ekskavatör / Kepçe">🚜 Mini Ekskavatör / Kepçe</option>
-            <option value="Bobcat Mini Yükleyici">🚜 Bobcat Mini Yükleyici</option>
-            <option value="Hafriyat Kamyonu">🚛 Hafriyat Kamyonu</option>
-            <option value="Manitou Telehandler">🏗️ Manitou / Vinç</option>
+          <select id="wiz-machine-type" required onchange="handleMachineTypeChange('wiz-machine-type', 'modal-wiz-custom-type')" style="width: 100%; padding: 0.7rem 0.85rem; background: #1E293B; border: 1.5px solid #334155; border-radius: 10px; font-size: 0.88rem; color: #FFFFFF; outline: none;">
+            <option value="JCB Beko Loder Kepçe">JCB Beko Loder Kepçe</option>
+            <option value="Paletli Ekskavatör">Paletli Ekskavatör</option>
+            <option value="Lastikli Ekskavatör">Lastikli Ekskavatör</option>
+            <option value="Mini Ekskavatör / Kepçe">Mini Ekskavatör / Kepçe</option>
+            <option value="Bobcat Mini Yükleyici">Bobcat Mini Yükleyici</option>
+            <option value="Hafriyat Kamyonu">Hafriyat Kamyonu</option>
+            <option value="Manitou Telehandler">Manitou Telehandler</option>
+            <option value="Mobil / Kule Vinç">Mobil / Kule Vinç</option>
+            <option value="Dozer / Greyder / Silindir">Dozer / Greyder / Silindir</option>
+            <option value="Forklift">Forklift</option>
+            <option value="Diğer">+ Farklı Bir Makine Yaz</option>
           </select>
+          <input type="text" id="modal-wiz-custom-type" placeholder="Makinenizin Türünü Yazın (Örn: Greyder, Silindir...)" style="display: none; width: 100%; margin-top: 0.5rem; padding: 0.7rem 0.85rem; background: #1E293B; border: 1.5px solid #F59E0B; border-radius: 10px; font-size: 0.88rem; color: #FFFFFF; outline: none;">
         </div>
 
         <div class="form-group" style="margin-bottom: 0.85rem;">

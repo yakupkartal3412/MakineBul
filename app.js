@@ -547,10 +547,16 @@ function backToMainWizStep1() {
 
 function handleMainWizStep2(event) {
   event.preventDefault();
-  const type = document.getElementById("main-reg-type").value;
-  const title = document.getElementById("main-reg-title").value.trim();
-  const hourlyPrice = parseFloat(document.getElementById("main-reg-hourly").value) || 0;
-  const dailyPrice = parseFloat(document.getElementById("main-reg-daily").value) || 0;
+  const typeEl = document.getElementById("main-wiz-type") || document.getElementById("main-reg-type");
+  let type = typeEl ? typeEl.value : "JCB Beko Loder Kepçe";
+  const customInput = document.getElementById("main-wiz-custom-type");
+  if ((type === 'Diğer' || type.includes('Farklı')) && customInput && customInput.value.trim()) {
+    type = customInput.value.trim();
+  }
+
+  const title = (document.getElementById("main-wiz-title") || document.getElementById("main-reg-title")).value.trim();
+  const hourlyPrice = parseFloat((document.getElementById("main-wiz-hourly") || document.getElementById("main-reg-hourly")).value) || 0;
+  const dailyPrice = parseFloat((document.getElementById("main-wiz-daily") || document.getElementById("main-reg-daily")).value) || 0;
 
   if (!title || !hourlyPrice || !dailyPrice) {
     showToast("⚠️ Lütfen 2. Adımdaki makine ve ücret bilgilerini doldurunuz.");
@@ -959,7 +965,12 @@ function backToWizardStep1() {
 
 function goToWizardStep3(event) {
   event.preventDefault();
-  const type = document.getElementById("wiz-machine-type").value;
+  let type = document.getElementById("wiz-machine-type").value;
+  const customInput = document.getElementById("modal-wiz-custom-type");
+  if ((type === 'Diğer' || type.includes('Farklı')) && customInput && customInput.value.trim()) {
+    type = customInput.value.trim();
+  }
+
   const title = document.getElementById("wiz-listing-title").value.trim();
   const hourlyPrice = parseFloat(document.getElementById("wiz-hourly-price").value) || 0;
   const dailyPrice = parseFloat(document.getElementById("wiz-daily-price").value) || 0;
@@ -1166,6 +1177,22 @@ function updateLoggedInDashboardUI() {
   }
 }
 
+// Dynamic Machine Type Dropdown Change Handler
+function handleMachineTypeChange(selectId, customInputId) {
+  const select = document.getElementById(selectId);
+  const customInput = document.getElementById(customInputId);
+  if (!select || !customInput) return;
+  if (select.value === 'Diğer' || select.value.includes('Farklı')) {
+    customInput.style.display = 'block';
+    customInput.required = true;
+    customInput.focus();
+  } else {
+    customInput.style.display = 'none';
+    customInput.required = false;
+    customInput.value = '';
+  }
+}
+
 function handleFastAddListing(event) {
   if (event) event.preventDefault();
 
@@ -1174,7 +1201,12 @@ function handleFastAddListing(event) {
     return;
   }
 
-  const type = document.getElementById("fast-reg-type").value;
+  let type = document.getElementById("fast-reg-type").value;
+  const customTypeInput = document.getElementById("fast-custom-type");
+  if ((type === 'Diğer' || type.includes('Farklı')) && customTypeInput && customTypeInput.value.trim()) {
+    type = customTypeInput.value.trim();
+  }
+
   const title = document.getElementById("fast-reg-title").value.trim();
   const city = document.getElementById("fast-reg-city").value || currentUser.city || userCurrentCity || "İstanbul";
   const hourlyPrice = parseFloat(document.getElementById("fast-reg-hourly").value) || 1500;
@@ -1185,15 +1217,15 @@ function handleFastAddListing(event) {
     return;
   }
 
-  let image = type.includes("Beko") || type.includes("JCB")
+  let image = type.toLowerCase().includes("beko") || type.toLowerCase().includes("jcb")
     ? "assets/backhoe_loader.png" 
-    : type.includes("Mini") 
+    : type.toLowerCase().includes("mini") 
     ? "assets/mini_excavator.png" 
-    : type.includes("Bobcat")
+    : type.toLowerCase().includes("bobcat")
     ? "assets/bobcat.png"
-    : type.includes("Manitou")
+    : type.toLowerCase().includes("manitou")
     ? "assets/manitou.png"
-    : type.includes("Kamyon")
+    : type.toLowerCase().includes("kamyon")
     ? "assets/dump_truck.png"
     : "assets/excavator1.png";
 
@@ -1220,6 +1252,11 @@ function handleFastAddListing(event) {
   saveListings();
 
   document.getElementById("fast-reg-title").value = "";
+  if (customTypeInput) {
+    customTypeInput.value = "";
+    customTypeInput.style.display = "none";
+  }
+  document.getElementById("fast-reg-type").value = "JCB Beko Loder Kepçe";
 
   renderListings();
   renderMyListings();
