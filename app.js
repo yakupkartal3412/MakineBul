@@ -1086,79 +1086,53 @@ document.addEventListener("click", () => {
 
 function goToMyListings() {
   switchMode('list');
-  setTimeout(() => {
-    const el = document.getElementById("my-listings-list");
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
-  }, 100);
+  switchDashboardTab('listings');
 }
 
 function openFastAddListingModal() {
   switchMode('list');
-  showFastAddFormInline();
+  switchDashboardTab('add');
 }
 
-function renderUserBadge() {
-  const badgeEl = document.getElementById("user-profile-badge");
-  if (!badgeEl) return;
+function switchDashboardTab(tab) {
+  const listingsView = document.getElementById("dash-view-listings");
+  const addView = document.getElementById("dash-view-add");
+  const btnListings = document.getElementById("tab-btn-dash-listings");
+  const btnAdd = document.getElementById("tab-btn-dash-add");
 
-  if (currentUser && currentUser.name) {
-    const firstName = currentUser.name.split(' ')[0];
-    badgeEl.innerHTML = `
-      <div style="position: relative;">
-        <button type="button" onclick="toggleUserMenu(event)" style="background: rgba(245,158,11,0.18); border: 1px solid rgba(245,158,11,0.4); padding: 0.28rem 0.5rem; border-radius: 20px; font-size: 0.73rem; font-weight: 700; color: #F59E0B; cursor: pointer; display: flex; align-items: center; gap: 3px; box-shadow: 0 2px 8px rgba(245,158,11,0.15); white-space: nowrap;">
-          <span style="max-width: 68px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block; vertical-align: middle;">👤 ${firstName}</span>
-          <span style="font-size: 0.6rem; opacity: 0.8;">▼</span>
-        </button>
-
-        <!-- Dropdown User Menu Card -->
-        <div id="user-dropdown-menu" style="display: none; position: absolute; right: 0; top: 115%; width: 220px; background: #0F172A; border: 1px solid rgba(245,158,11,0.4); border-radius: 14px; padding: 0.85rem; box-shadow: 0 12px 30px rgba(0,0,0,0.7); z-index: 99999; color: #F8FAFC; text-align: left;">
-          <div style="font-size: 0.84rem; font-weight: 800; color: #F59E0B; margin-bottom: 0.2rem; word-break: break-word;">
-            👤 ${currentUser.name}
-          </div>
-          ${currentUser.company ? `<div style="font-size: 0.75rem; color: #CBD5E1; margin-bottom: 0.3rem;">🏢 ${currentUser.company}</div>` : ''}
-          <div style="font-size: 0.72rem; color: #94A3B8; margin-bottom: 0.65rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.4rem;">
-            📍 ${currentUser.city || '81 İl'}
-          </div>
-          
-          <button onclick="goToMyListings()" style="width: 100%; padding: 0.45rem; background: rgba(245,158,11,0.25); border: 1px solid #F59E0B; color: #F59E0B; font-size: 0.74rem; font-weight: 700; border-radius: 8px; cursor: pointer; margin-bottom: 0.4rem; text-align: center;">
-            📋 Yayınladığım İlanlarım
-          </button>
-
-          <button onclick="openFastAddListingModal()" style="width: 100%; padding: 0.45rem; background: rgba(16,185,129,0.2); border: 1px solid #10B981; color: #10B981; font-size: 0.74rem; font-weight: 700; border-radius: 8px; cursor: pointer; margin-bottom: 0.4rem; text-align: center;">
-            ➕ Yeni İlan Ekle
-          </button>
-          
-          <button onclick="logoutUser()" style="width: 100%; padding: 0.45rem; background: rgba(239,68,68,0.2); border: 1px solid #EF4444; color: #EF4444; font-size: 0.74rem; font-weight: 700; border-radius: 8px; cursor: pointer; text-align: center;">
-            🚪 Çıkış Yap (Oturumu Kapat)
-          </button>
-        </div>
-      </div>
-    `;
+  if (tab === 'add') {
+    if (listingsView) listingsView.style.display = "none";
+    if (addView) addView.style.display = "block";
+    if (btnListings) {
+      btnListings.style.background = "transparent";
+      btnListings.style.color = "#94A3B8";
+      btnListings.style.boxShadow = "none";
+      btnListings.style.fontWeight = "700";
+    }
+    if (btnAdd) {
+      btnAdd.style.background = "linear-gradient(135deg, #F59E0B, #D97706)";
+      btnAdd.style.color = "#0F172A";
+      btnAdd.style.boxShadow = "0 4px 15px rgba(245,158,11,0.35)";
+      btnAdd.style.fontWeight = "800";
+    }
+    try { populateCitySelect("fast-reg-city"); } catch(e) {}
   } else {
-    badgeEl.innerHTML = `
-      <button onclick="openAuthModal()" style="background: rgba(245,158,11,0.25); border: 1.5px solid #F59E0B; color: #F59E0B; padding: 0.3rem 0.65rem; border-radius: 20px; font-size: 0.74rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 4px; box-shadow: 0 2px 8px rgba(245,158,11,0.25); white-space: nowrap;">
-        🚜 İlan Ver (Kayıt Ol)
-      </button>
-    `;
+    if (addView) addView.style.display = "none";
+    if (listingsView) listingsView.style.display = "block";
+    if (btnAdd) {
+      btnAdd.style.background = "transparent";
+      btnAdd.style.color = "#94A3B8";
+      btnAdd.style.boxShadow = "none";
+      btnAdd.style.fontWeight = "700";
+    }
+    if (btnListings) {
+      btnListings.style.background = "linear-gradient(135deg, #F59E0B, #D97706)";
+      btnListings.style.color = "#0F172A";
+      btnListings.style.boxShadow = "0 4px 15px rgba(245,158,11,0.35)";
+      btnListings.style.fontWeight = "800";
+    }
+    renderMyListings();
   }
-}
-
-function formatCleanPhoneNumber(phoneStr) {
-  if (!phoneStr) return "";
-  let digits = String(phoneStr).replace(/\D/g, '');
-  if (digits.startsWith("90") && digits.length >= 12) {
-    digits = digits.substring(2);
-  } else if (digits.startsWith("090")) {
-    digits = digits.substring(3);
-  }
-
-  if (digits.length === 11 && digits.startsWith("0")) {
-    return `${digits.substring(0, 4)} ${digits.substring(4, 7)} ${digits.substring(7, 9)} ${digits.substring(9, 11)}`;
-  } else if (digits.length === 10) {
-    return `0${digits.substring(0, 3)} ${digits.substring(3, 6)} ${digits.substring(6, 8)} ${digits.substring(8, 10)}`;
-  }
-
-  return digits || phoneStr;
 }
 
 // Logged In Dashboard UI Controller
@@ -1188,13 +1162,15 @@ function updateLoggedInDashboardUI() {
       
       if (statListingsEl) {
         const myCount = listings.filter(i => i.isMyListing).length || listings.length || 0;
-        statListingsEl.textContent = `${myCount} Makine İlanı Yayında`;
+        statListingsEl.textContent = `${myCount}`;
       }
     }
     if (wizHeader) wizHeader.style.display = "none";
     if (authTabs) authTabs.style.display = "none";
     if (wizContainer) wizContainer.style.display = "none";
     if (loginContainer) loginContainer.style.display = "none";
+
+    switchDashboardTab('listings');
   } else {
     if (dashContainer) dashContainer.style.display = "none";
     if (wizHeader) wizHeader.style.display = "flex";
@@ -1256,7 +1232,6 @@ function handleFastAddListing(event) {
   listings.unshift(newListing);
   saveListings();
 
-  hideFastAddFormInline();
   document.getElementById("fast-reg-title").value = "";
 
   renderListings();
@@ -1264,29 +1239,7 @@ function handleFastAddListing(event) {
 
   showToast("🎉 Yeni kepçe ilanınız tek tıkla başarıyla yayınlandı!");
 
-  scrollToMyListingsList();
-}
-
-function showFastAddFormInline() {
-  const formBox = document.getElementById("fast-add-listing-box");
-  if (formBox) {
-    formBox.style.display = "block";
-    formBox.scrollIntoView({ behavior: 'smooth' });
-  }
-}
-
-function hideFastAddFormInline() {
-  const formBox = document.getElementById("fast-add-listing-box");
-  if (formBox) formBox.style.display = "none";
-}
-
-function scrollToMyListingsList() {
-  renderMyListings();
-  const container = document.getElementById("owner-tab-manage");
-  if (container) {
-    container.style.display = "block";
-    container.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
+  switchDashboardTab('listings');
 }
 
 // Mode Switcher (Kirala vs Kiralat)
