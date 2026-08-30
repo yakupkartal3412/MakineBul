@@ -1741,7 +1741,9 @@ function renderMyListings() {
   if (myList.length === 0) {
     container.innerHTML = `
       <div style="background: rgba(15,23,42,0.7); border: 1.5px dashed rgba(245,158,11,0.35); border-radius: 18px; padding: 2.25rem 1.5rem; text-align: center; color: #fff; grid-column: 1 / -1; margin: 0.5rem 0;">
-        <div style="font-size: 2.75rem; margin-bottom: 0.6rem; filter: drop-shadow(0 4px 10px rgba(245,158,11,0.4));">🚜</div>
+        <div style="margin-bottom: 0.6rem;">
+          <img src="assets/logo_3d.png" alt="MakineBul 3D Logo" style="width: 48px; height: 48px; object-fit: contain; filter: drop-shadow(0 4px 10px rgba(245,158,11,0.4));">
+        </div>
         <h4 style="font-family: 'Poppins', sans-serif; font-size: 1.1rem; font-weight: 800; color: #F59E0B; margin-bottom: 0.4rem;">Henüz Yayında Makineniz Yok</h4>
         <p style="font-size: 0.84rem; color: #94A3B8; margin-bottom: 1.25rem; max-width: 380px; margin-left: auto; margin-right: auto; line-height: 1.5;">Hemen 'Yeni İlan Ekle' sekmesine geçerek iş makinenizi 1 dakikada müşterilere ulaştırın.</p>
         <button type="button" onclick="switchDashboardTab('add')" style="padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); border: none; color: #0F172A; font-weight: 800; border-radius: 12px; font-size: 0.88rem; cursor: pointer; box-shadow: 0 8px 20px rgba(245,158,11,0.35);">
