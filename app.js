@@ -1281,8 +1281,12 @@ function hideFastAddFormInline() {
 }
 
 function scrollToMyListingsList() {
+  renderMyListings();
   const container = document.getElementById("owner-tab-manage");
-  if (container) container.scrollIntoView({ behavior: 'smooth' });
+  if (container) {
+    container.style.display = "block";
+    container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
 }
 
 // Mode Switcher (Kirala vs Kiralat)
