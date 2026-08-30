@@ -273,18 +273,27 @@
                 </div>
               </div>
 
-              <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem; margin-bottom: 0.65rem;">
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem;">
                 <div>
-                  <label style="font-size: 0.72rem; font-weight: 700; color: #CBD5E1; display: block; margin-bottom: 0.2rem;">Bulunduğu İl *</label>
-                  <select id="fast-reg-city" required class="input-3d-dark" style="width: 100%; padding: 0.45rem 0.6rem; font-size: 0.76rem; border-radius: 8px;">
+                  <label style="font-size: 0.72rem; font-weight: 700; color: #CBD5E1; display: block; margin-bottom: 0.2rem;">Bulunduğu İl (81 İl) *</label>
+                  <select id="fast-reg-city" required onchange="handleFastCityChange(this.value)" class="input-3d-dark" style="width: 100%; padding: 0.45rem 0.6rem; font-size: 0.76rem; border-radius: 8px;">
                   </select>
                 </div>
                 <div>
-                  <label style="font-size: 0.72rem; font-weight: 700; color: #CBD5E1; display: block; margin-bottom: 0.2rem;">Saatlik (TL) *</label>
+                  <label style="font-size: 0.72rem; font-weight: 700; color: #CBD5E1; display: block; margin-bottom: 0.2rem;">Bulunduğu İlçe *</label>
+                  <select id="fast-reg-district" required class="input-3d-dark" style="width: 100%; padding: 0.45rem 0.6rem; font-size: 0.76rem; border-radius: 8px;">
+                    <option value="Merkez">Merkez</option>
+                  </select>
+                </div>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.65rem;">
+                <div>
+                  <label style="font-size: 0.72rem; font-weight: 700; color: #CBD5E1; display: block; margin-bottom: 0.2rem;">Saatlik Ücret (TL) *</label>
                   <input type="number" id="fast-reg-hourly" placeholder="1500" required class="input-3d-dark" style="width: 100%; padding: 0.45rem 0.6rem; font-size: 0.76rem; border-radius: 8px;">
                 </div>
                 <div>
-                  <label style="font-size: 0.72rem; font-weight: 700; color: #CBD5E1; display: block; margin-bottom: 0.2rem;">Günlük (TL) *</label>
+                  <label style="font-size: 0.72rem; font-weight: 700; color: #CBD5E1; display: block; margin-bottom: 0.2rem;">Günlük Ücret (TL) *</label>
                   <input type="number" id="fast-reg-daily" placeholder="10000" required class="input-3d-dark" style="width: 100%; padding: 0.45rem 0.6rem; font-size: 0.76rem; border-radius: 8px;">
                 </div>
               </div>
@@ -392,10 +401,18 @@
                 </div>
               </div>
 
-              <div class="form-group-3d">
-                <label for="main-reg-city">Bulunduğunuz Şehir (81 İl) *</label>
-                <select id="main-reg-city" required class="input-3d-dark">
-                </select>
+              <div class="form-3d-grid-2">
+                <div class="form-group-3d">
+                  <label for="main-reg-city">Bulunduğunuz Şehir (81 İl) *</label>
+                  <select id="main-reg-city" required onchange="handleMainRegCityChange(this.value)" class="input-3d-dark">
+                  </select>
+                </div>
+                <div class="form-group-3d">
+                  <label for="main-reg-district">Bulunduğunuz İlçe *</label>
+                  <select id="main-reg-district" required class="input-3d-dark">
+                    <option value="Merkez">Merkez</option>
+                  </select>
+                </div>
               </div>
 
               <button type="submit" class="btn-3d-gold-action">
@@ -730,10 +747,18 @@
           </div>
         </div>
 
-        <div class="form-group" style="margin-bottom: 1.25rem;">
-          <label for="auth-city" style="font-size: 0.83rem; font-weight: 600; color: #CBD5E1; display: block; margin-bottom: 0.3rem;">Bulunduğunuz Şehir *</label>
-          <select id="auth-city" required style="width: 100%; padding: 0.7rem 0.85rem; background: #1E293B; border: 1.5px solid #334155; border-radius: 10px; font-size: 0.88rem; color: #FFFFFF; outline: none;">
-          </select>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-bottom: 1.25rem;">
+          <div class="form-group">
+            <label for="auth-city" style="font-size: 0.83rem; font-weight: 600; color: #CBD5E1; display: block; margin-bottom: 0.3rem;">Bulunduğunuz Şehir *</label>
+            <select id="auth-city" required onchange="handleAuthCityChange(this.value)" style="width: 100%; padding: 0.7rem 0.85rem; background: #1E293B; border: 1.5px solid #334155; border-radius: 10px; font-size: 0.88rem; color: #FFFFFF; outline: none;">
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="auth-district" style="font-size: 0.83rem; font-weight: 600; color: #CBD5E1; display: block; margin-bottom: 0.3rem;">Bulunduğunuz İlçe *</label>
+            <select id="auth-district" required style="width: 100%; padding: 0.7rem 0.85rem; background: #1E293B; border: 1.5px solid #334155; border-radius: 10px; font-size: 0.88rem; color: #FFFFFF; outline: none;">
+              <option value="Merkez">Merkez</option>
+            </select>
+          </div>
         </div>
 
         <button type="submit" style="width: 100%; padding: 0.85rem; background: linear-gradient(135deg, #F59E0B, #D97706); border: none; color: #0F172A; font-weight: 800; font-size: 0.92rem; border-radius: 12px; cursor: pointer; box-shadow: 0 4px 14px rgba(245,158,11,0.35);">

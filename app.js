@@ -472,12 +472,36 @@ function populateCitySelect(id) {
   }
 }
 
+// District Dropdown Helpers
+function handleFastCityChange(city) {
+  const districtEl = document.getElementById("fast-reg-district");
+  if (!districtEl) return;
+  const districts = TURKEY_CITIES[city] || ["Merkez"];
+  districtEl.innerHTML = districts.map(d => `<option value="${d}">${d}</option>`).join('');
+}
+
+function handleMainRegCityChange(city) {
+  const districtEl = document.getElementById("main-reg-district");
+  if (!districtEl) return;
+  const districts = TURKEY_CITIES[city] || ["Merkez"];
+  districtEl.innerHTML = districts.map(d => `<option value="${d}">${d}</option>`).join('');
+}
+
+function handleAuthCityChange(city) {
+  const districtEl = document.getElementById("auth-district");
+  if (!districtEl) return;
+  const districts = TURKEY_CITIES[city] || ["Merkez"];
+  districtEl.innerHTML = districts.map(d => `<option value="${d}">${d}</option>`).join('');
+}
+
 let mainPendingAuthData = {};
 let mainWizPhotoDataUrl = "";
 
 function switchMainAuthTab(tab) {
   try {
     populateCitySelect("main-reg-city");
+    const firstCity = document.getElementById("main-reg-city") ? document.getElementById("main-reg-city").value : "";
+    if (firstCity) handleMainRegCityChange(firstCity);
   } catch(e) {}
 
   const wizTab = document.getElementById("main-tab-wiz");
@@ -518,13 +542,14 @@ function handleMainWizStep1(event) {
   const password = document.getElementById("main-reg-password").value.trim();
   const phone = document.getElementById("main-reg-phone").value.trim();
   const city = document.getElementById("main-reg-city").value;
+  const district = (document.getElementById("main-reg-district") ? document.getElementById("main-reg-district").value : "") || "Merkez";
 
   if (!name || !password || !phone || !city) {
     showToast("⚠️ Lütfen 1. Adımdaki tüm zorunlu alanları doldurunuz.");
     return;
   }
 
-  mainPendingAuthData = { name, company, password, phone, city };
+  mainPendingAuthData = { name, company, password, phone, city, district };
 
   document.getElementById("main-wiz-form-step1").style.display = "none";
   document.getElementById("main-wiz-form-step2").style.display = "block";
@@ -683,7 +708,7 @@ function handleMainWizStep3(event) {
     title: mainPendingAuthData.title || "Kiralık İş Makinesi",
     type: mainPendingAuthData.type || "Beko Loder (JCB)",
     city: mainPendingAuthData.city || userCurrentCity || "İstanbul",
-    district: "Merkez",
+    district: mainPendingAuthData.district || "Merkez",
     price: mainPendingAuthData.dailyPrice || 10000,
     hourlyPrice: mainPendingAuthData.hourlyPrice || 1500,
     period: "Günlük",
@@ -884,6 +909,8 @@ function openAuthModal() {
 
   try {
     populateCitySelect("auth-city");
+    const firstCity = document.getElementById("auth-city") ? document.getElementById("auth-city").value : "";
+    if (firstCity) handleAuthCityChange(firstCity);
   } catch(e) {
     console.log("Error populating auth city:", e);
   }
@@ -1052,13 +1079,14 @@ function goToWizardStep2(event) {
   const password = document.getElementById("auth-password").value.trim();
   const phone = document.getElementById("auth-phone").value.trim();
   const city = document.getElementById("auth-city").value;
+  const district = (document.getElementById("auth-district") ? document.getElementById("auth-district").value : "") || "Merkez";
 
   if (!name || !password || !phone || !city) {
     showToast("⚠️ Lütfen 1. Adımdaki tüm zorunlu alanları doldurunuz.");
     return;
   }
 
-  pendingAuthData = { name, company, password, phone, city };
+  pendingAuthData = { name, company, password, phone, city, district };
 
   document.getElementById("auth-form-step1").style.display = "none";
   document.getElementById("auth-form-step2").style.display = "block";
@@ -1158,7 +1186,7 @@ function completeWizardListing(event) {
     title: pendingAuthData.title,
     type: pendingAuthData.type,
     city: pendingAuthData.city,
-    district: "Merkez",
+    district: pendingAuthData.district || "Merkez",
     price: pendingAuthData.dailyPrice,
     hourlyPrice: pendingAuthData.hourlyPrice,
     period: "Günlük",
@@ -1269,6 +1297,16 @@ function updateLoggedInDashboardUI() {
 
   try {
     populateCitySelect("fast-reg-city");
+    if (currentUser && currentUser.city) {
+      const citySelect = document.getElementById("fast-reg-city");
+      if (citySelect) {
+        citySelect.value = currentUser.city;
+        handleFastCityChange(currentUser.city);
+      }
+    } else {
+      const firstCity = document.getElementById("fast-reg-city") ? document.getElementById("fast-reg-city").value : "";
+      if (firstCity) handleFastCityChange(firstCity);
+    }
   } catch(e) {}
 
   if (currentUser && currentUser.name) {
@@ -1395,6 +1433,7 @@ function handleFastAddListing(event) {
 
   const title = document.getElementById("fast-reg-title").value.trim();
   const city = document.getElementById("fast-reg-city").value || currentUser.city || userCurrentCity || "İstanbul";
+  const district = (document.getElementById("fast-reg-district") ? document.getElementById("fast-reg-district").value : "") || "Merkez";
   const hourlyPrice = parseFloat(document.getElementById("fast-reg-hourly").value) || 1500;
   const dailyPrice = parseFloat(document.getElementById("fast-reg-daily").value) || 10000;
 
@@ -1422,7 +1461,7 @@ function handleFastAddListing(event) {
     title: title,
     type: type,
     city: city,
-    district: "Merkez",
+    district: district,
     price: dailyPrice,
     hourlyPrice: hourlyPrice,
     period: "Günlük",
