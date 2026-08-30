@@ -714,10 +714,92 @@ function handleMainWizStep3(event) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+function showForgotPasswordForm() {
+  const loginForm = document.getElementById("main-quick-login-form");
+  const forgotForm = document.getElementById("main-forgot-password-form");
+  if (loginForm) loginForm.style.display = "none";
+  if (forgotForm) forgotForm.style.display = "block";
+}
+
+function hideForgotPasswordForm() {
+  const loginForm = document.getElementById("main-quick-login-form");
+  const forgotForm = document.getElementById("main-forgot-password-form");
+  if (loginForm) loginForm.style.display = "block";
+  if (forgotForm) forgotForm.style.display = "none";
+}
+
+function showModalForgotPasswordForm() {
+  const loginForm = document.getElementById("auth-login-form");
+  const forgotForm = document.getElementById("modal-forgot-password-form");
+  if (loginForm) loginForm.style.display = "none";
+  if (forgotForm) forgotForm.style.display = "block";
+}
+
+function hideModalForgotPasswordForm() {
+  const loginForm = document.getElementById("auth-login-form");
+  const forgotForm = document.getElementById("modal-forgot-password-form");
+  if (loginForm) loginForm.style.display = "block";
+  if (forgotForm) forgotForm.style.display = "none";
+}
+
+function handleResetPassword(event) {
+  if (event) event.preventDefault();
+  const phoneEl = document.getElementById("reset-phone") || document.getElementById("modal-reset-phone");
+  const newPassEl = document.getElementById("reset-new-password") || document.getElementById("modal-reset-new-password");
+
+  const phone = phoneEl ? phoneEl.value.trim() : "";
+  const newPass = newPassEl ? newPassEl.value.trim() : "";
+
+  if (!phone || !newPass) {
+    showToast("⚠️ Lütfen telefon numaranızı ve yeni şifrenizi giriniz.");
+    return;
+  }
+
+  const cleanPhone = phone.replace(/\D/g, '');
+  
+  let user = null;
+  const storedUser = localStorage.getItem("makinebul_current_user");
+  if (storedUser) {
+    try {
+      user = JSON.parse(storedUser);
+    } catch(e) {}
+  }
+
+  if (!user) {
+    const userListing = listings.find(i => i.phone && i.phone.replace(/\D/g, '').endsWith(cleanPhone.slice(-7)));
+    const ownerName = userListing ? userListing.owner : "Yakup Kartal (Bey Hafriyat)";
+    user = {
+      name: ownerName,
+      displayName: ownerName,
+      company: "Bey Hafriyat",
+      phone: phone,
+      city: userListing ? userListing.city : "Bingöl",
+      createdAt: new Date().toISOString()
+    };
+  }
+
+  user.password = newPass;
+  user.phone = phone;
+  currentUser = user;
+  localStorage.setItem("makinebul_current_user", JSON.stringify(currentUser));
+
+  showToast("🎉 Şifreniz başarıyla yenilendi ve giriş yapıldı!");
+  
+  hideForgotPasswordForm();
+  hideModalForgotPasswordForm();
+  closeAuthModal();
+  updateLoggedInDashboardUI();
+  renderUserBadge();
+  renderListings();
+  renderMyListings();
+  switchMode('list');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 function handleMainQuickLogin(event) {
   if (event) event.preventDefault();
   const phone = document.getElementById("main-login-phone").value.trim();
-  const password = document.getElementById("main-login-password").value.trim();
+  const password = document.getElementById("main-login-password") ? document.getElementById("main-login-password").value.trim() : "";
 
   if (!phone) {
     showToast("⚠️ Lütfen telefon numaranızı giriniz.");
@@ -737,13 +819,14 @@ function handleMainQuickLogin(event) {
   if (foundUser) {
     currentUser = foundUser;
     if (phone) currentUser.phone = phone;
+    if (password) currentUser.password = password;
   } else {
     currentUser = {
-      name: "İş Makinesi Sahibi",
-      company: "",
-      displayName: "İş Makinesi Sahibi",
+      name: "Yakup Kartal",
+      company: "Bey Hafriyat",
+      displayName: "Yakup Kartal (Bey Hafriyat)",
       phone: phone,
-      city: userCurrentCity || "İstanbul",
+      city: userCurrentCity || "Bingöl",
       password: password,
       verifiedCode: "213091",
       createdAt: new Date().toISOString()
@@ -1074,7 +1157,11 @@ function logoutUser() {
   localStorage.removeItem("makinebul_current_user");
   renderUserBadge();
   updateLoggedInDashboardUI();
-  showToast("Çıkış yapıldı.");
+  renderListings();
+  renderMyListings();
+  showToast("🚪 Hesabınızdan başarıyla çıkış yapıldı.");
+  switchMode('list');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function toggleUserMenu(e) {
