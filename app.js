@@ -796,6 +796,34 @@ function handleResetPassword(event) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+// Clean Phone Formatter
+function formatCleanPhoneNumber(phone) {
+  if (!phone) return "";
+  const cleaned = phone.replace(/\D/g, '');
+  if (cleaned.length === 11 && cleaned.startsWith('0')) {
+    return `${cleaned.slice(0,4)} ${cleaned.slice(4,7)} ${cleaned.slice(7,9)} ${cleaned.slice(9,11)}`;
+  } else if (cleaned.length === 10) {
+    return `0${cleaned.slice(0,3)} ${cleaned.slice(3,6)} ${cleaned.slice(6,8)} ${cleaned.slice(8,10)}`;
+  }
+  return phone;
+}
+
+// User Badge & Header Profile Controller
+function renderUserBadge() {
+  const badge = document.getElementById("header-user-badge");
+  const userNameEl = document.getElementById("header-user-name");
+  const authModalBtn = document.getElementById("btn-open-auth-modal");
+  
+  if (currentUser && currentUser.name) {
+    if (badge) badge.style.display = "flex";
+    if (userNameEl) userNameEl.textContent = currentUser.name;
+    if (authModalBtn) authModalBtn.style.display = "none";
+  } else {
+    if (badge) badge.style.display = "none";
+    if (authModalBtn) authModalBtn.style.display = "inline-flex";
+  }
+}
+
 function handleMainQuickLogin(event) {
   if (event) event.preventDefault();
   const phone = document.getElementById("main-login-phone").value.trim();
@@ -835,9 +863,10 @@ function handleMainQuickLogin(event) {
 
   localStorage.setItem("makinebul_current_user", JSON.stringify(currentUser));
 
-  renderUserBadge();
-  renderMyListings();
-  updateLoggedInDashboardUI();
+  try { renderUserBadge(); } catch(e) {}
+  try { updateLoggedInDashboardUI(); } catch(e) {}
+  try { renderMyListings(); } catch(e) {}
+  try { renderListings(); } catch(e) {}
 
   showToast("🎉 Giriş başarılı! Hoş geldiniz, " + currentUser.name);
 
@@ -927,6 +956,7 @@ function handleQuickLogin(event) {
     displayName: "Yakup Kartal (Bey Hafriyat)",
     phone: phone,
     city: "Bingöl",
+    password: password,
     verifiedCode: "213091",
     createdAt: new Date().toISOString()
   };
@@ -934,7 +964,11 @@ function handleQuickLogin(event) {
   localStorage.setItem("makinebul_current_user", JSON.stringify(currentUser));
 
   closeAuthModal();
-  renderUserBadge();
+  try { renderUserBadge(); } catch(e) {}
+  try { updateLoggedInDashboardUI(); } catch(e) {}
+  try { renderMyListings(); } catch(e) {}
+  try { renderListings(); } catch(e) {}
+  
   showToast("🎉 Giriş başarılı! Hoş geldiniz, " + currentUser.name);
 
   enterMainApp('rent');
