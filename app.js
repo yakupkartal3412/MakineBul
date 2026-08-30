@@ -1714,14 +1714,20 @@ function getMyListings() {
   const userDisplayName = currentUser.displayName ? currentUser.displayName.toLowerCase().trim() : '';
 
   return listings.filter(item => {
-    if (item.isMyListing === true) return true;
+    // 1. Check matching phone number (Exact or last 7 digits)
     if (cleanUserPhone && item.phone) {
       const itemPhoneClean = String(item.phone).replace(/\D/g, '');
-      if (itemPhoneClean.length >= 7 && cleanUserPhone.endsWith(itemPhoneClean.slice(-7))) return true;
+      if (itemPhoneClean.length >= 7 && (cleanUserPhone.endsWith(itemPhoneClean.slice(-7)) || itemPhoneClean.endsWith(cleanUserPhone.slice(-7)))) {
+        return true;
+      }
     }
-    if (userName && item.owner && item.owner.toLowerCase().includes(userName)) return true;
-    if (userDisplayName && item.owner && item.owner.toLowerCase().includes(userDisplayName)) return true;
-    if (userCompany && item.owner && item.owner.toLowerCase().includes(userCompany)) return true;
+
+    // 2. Check matching owner name or company
+    const itemOwner = (item.owner || '').toLowerCase().trim();
+    if (userName && userName.length > 2 && itemOwner.includes(userName)) return true;
+    if (userDisplayName && userDisplayName.length > 2 && itemOwner.includes(userDisplayName)) return true;
+    if (userCompany && userCompany.length > 2 && itemOwner.includes(userCompany)) return true;
+
     return false;
   });
 }
