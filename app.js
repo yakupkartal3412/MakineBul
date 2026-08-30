@@ -758,6 +758,12 @@ function handleMainQuickLogin(event) {
 }
 
 function openAuthModal() {
+  if (currentUser) {
+    switchMode('list');
+    switchDashboardTab('add');
+    return;
+  }
+
   try {
     populateCitySelect("auth-city");
   } catch(e) {
@@ -766,17 +772,6 @@ function openAuthModal() {
   
   const modal = document.getElementById("auth-modal");
   if (!modal) return;
-  
-  if (currentUser) {
-    const nameEl = document.getElementById("auth-name");
-    const companyEl = document.getElementById("auth-company");
-    const phoneEl = document.getElementById("auth-phone");
-    const cityEl = document.getElementById("auth-city");
-    if (nameEl) nameEl.value = currentUser.name || "";
-    if (companyEl) companyEl.value = currentUser.company || "";
-    if (phoneEl) phoneEl.value = currentUser.phone || "";
-    if (cityEl && currentUser.city) cityEl.value = currentUser.city;
-  }
   
   switchAuthTab('register');
 
@@ -1138,43 +1133,35 @@ function switchDashboardTab(tab) {
 // Logged In Dashboard UI Controller
 function updateLoggedInDashboardUI() {
   const dashContainer = document.getElementById("logged-in-user-dashboard");
-  const wizHeader = document.querySelector(".card-3d-hero");
-  const authTabs = document.querySelector(".main-3d-auth-tabs");
-  const wizContainer = document.getElementById("main-wiz-container");
-  const loginContainer = document.getElementById("main-login-container");
+  const anonAuthSection = document.getElementById("anon-auth-section");
 
   try {
     populateCitySelect("fast-reg-city");
   } catch(e) {}
 
   if (currentUser && currentUser.name) {
-    if (dashContainer) {
-      dashContainer.style.display = "block";
-      const nameEl = document.getElementById("dash-user-name");
-      const subEl = document.getElementById("dash-user-sub");
-      const statListingsEl = document.getElementById("dash-stat-my-listings");
+    if (dashContainer) dashContainer.style.display = "block";
+    if (anonAuthSection) anonAuthSection.style.display = "none";
 
-      if (nameEl) nameEl.textContent = `${currentUser.displayName || currentUser.name}`;
-      if (subEl) {
-        const cleanPhone = formatCleanPhoneNumber(currentUser.phone);
-        subEl.innerHTML = `📞 Telefon: <strong style="color: #FCD34D;">${cleanPhone || 'Girilmedi'}</strong> | 📍 Şehir: <strong style="color: #fff;">${currentUser.city || '81 İl'}</strong>`;
-      }
-      
-      if (statListingsEl) {
-        const myCount = listings.filter(i => i.isMyListing).length || listings.length || 0;
-        statListingsEl.textContent = `${myCount}`;
-      }
+    const nameEl = document.getElementById("dash-user-name");
+    const subEl = document.getElementById("dash-user-sub");
+    const statListingsEl = document.getElementById("dash-stat-my-listings");
+
+    if (nameEl) nameEl.textContent = `${currentUser.displayName || currentUser.name}`;
+    if (subEl) {
+      const cleanPhone = formatCleanPhoneNumber(currentUser.phone);
+      subEl.innerHTML = `📞 Telefon: <strong style="color: #FCD34D;">${cleanPhone || 'Girilmedi'}</strong> | 📍 Şehir: <strong style="color: #fff;">${currentUser.city || '81 İl'}</strong>`;
     }
-    if (wizHeader) wizHeader.style.display = "none";
-    if (authTabs) authTabs.style.display = "none";
-    if (wizContainer) wizContainer.style.display = "none";
-    if (loginContainer) loginContainer.style.display = "none";
+    
+    if (statListingsEl) {
+      const myList = getMyListings();
+      statListingsEl.textContent = `${myList.length}`;
+    }
 
     switchDashboardTab('listings');
   } else {
     if (dashContainer) dashContainer.style.display = "none";
-    if (wizHeader) wizHeader.style.display = "flex";
-    if (authTabs) authTabs.style.display = "flex";
+    if (anonAuthSection) anonAuthSection.style.display = "block";
     switchMainAuthTab('wizard');
   }
 }

@@ -290,188 +290,191 @@
 
         </div>
 
-        <!-- 3D Ultra-Premium Header Banner -->
-        <div class="card-3d-hero">
-          <div class="hero-3d-icon-badge">
-            <img src="assets/logo_3d.png" alt="3D Logo" class="hero-3d-logo-img">
-          </div>
-          <div class="hero-3d-text-content">
-            <h2 class="hero-3d-title">Makine Sahibi Kayıt &amp; İlan Sihirbazı</h2>
-            <p class="hero-3d-sub">81 İlde Komisyonsuz · %0 Aracı · Doğrudan Müteahhit ve Müşteri</p>
-          </div>
-        </div>
-
-        <!-- 3D Auth Switcher Tabs (Ana Sayfada Canlı!) -->
-        <div class="main-3d-auth-tabs">
-          <button type="button" id="main-tab-wiz" class="btn-3d-auth-tab active" onclick="switchMainAuthTab('wizard')">
-            <span>🚜 3D Makine Sahibi Kaydı (3 Adım)</span>
-          </button>
-          <button type="button" id="main-tab-login" class="btn-3d-auth-tab" onclick="switchMainAuthTab('login')">
-            <span>🔐 Zaten Üyeyim: Şifreli Hızlı Giriş</span>
-          </button>
-        </div>
-
-        <!-- 3D WIZARD CONTAINER -->
-        <div id="main-wiz-container" class="card-3d-glass-container">
-          
-          <!-- 3D Step Progress Bar -->
-          <div class="wiz-3d-steps-indicator">
-            <div id="main-step-pill-1" class="step-3d-pill active">
-              <span class="step-3d-num">1</span>
-              <span class="step-3d-label">Üyelik &amp; Şifre</span>
+        <!-- ANONYMOUS AUTH SECTION (Sadece giriş yapmamış ziyaretçilere görünür) -->
+        <div id="anon-auth-section" style="display: block;">
+          <!-- 3D Ultra-Premium Header Banner -->
+          <div class="card-3d-hero">
+            <div class="hero-3d-icon-badge">
+              <img src="assets/logo_3d.png" alt="3D Logo" class="hero-3d-logo-img">
             </div>
-            <div class="step-3d-line"></div>
-            <div id="main-step-pill-2" class="step-3d-pill">
-              <span class="step-3d-num">2</span>
-              <span class="step-3d-label">Hizmet &amp; Ücret</span>
-            </div>
-            <div class="step-3d-line"></div>
-            <div id="main-step-pill-3" class="step-3d-pill">
-              <span class="step-3d-num">3</span>
-              <span class="step-3d-label">Kepçe Fotoğrafı</span>
+            <div class="hero-3d-text-content">
+              <h2 class="hero-3d-title">Makine Sahibi Kayıt &amp; İlan Sihirbazı</h2>
+              <p class="hero-3d-sub">81 İlde Komisyonsuz · %0 Aracı · Doğrudan Müteahhit ve Müşteri</p>
             </div>
           </div>
 
-          <!-- Step 1 Form -->
-          <form id="main-wiz-form-step1" onsubmit="handleMainWizStep1(event)" class="form-3d-step">
-            <div class="form-3d-header">
-              <span class="icon-3d-step">🔑</span>
-              <h3>1. Adım: Kişisel Bilgiler, Şifre &amp; WhatsApp</h3>
-            </div>
-
-            <div class="form-3d-grid-2">
-              <div class="form-group-3d">
-                <label for="main-reg-name">Adınız Soyadınız *</label>
-                <input type="text" id="main-reg-name" placeholder="Örn: Yakup Kartal" required class="input-3d-dark">
-              </div>
-
-              <div class="form-group-3d">
-                <label for="main-reg-company">Firma / İşletme Adı <span class="label-opt">(Opsiyonel)</span></label>
-                <input type="text" id="main-reg-company" placeholder="Örn: Bey Hafriyat Ltd." class="input-3d-dark">
-              </div>
-            </div>
-
-            <div class="form-3d-grid-2">
-              <div class="form-group-3d">
-                <label for="main-reg-password">Giriş Şifreniz *</label>
-                <input type="password" id="main-reg-password" placeholder="••••••••" required class="input-3d-dark">
-              </div>
-
-              <div class="form-group-3d">
-                <label for="main-reg-phone">Telefon Numaranız (WhatsApp) *</label>
-                <input type="tel" id="main-reg-phone" placeholder="Örn: 0532 123 45 67" required class="input-3d-dark">
-              </div>
-            </div>
-
-            <div class="form-group-3d">
-              <label for="main-reg-city">Bulunduğunuz Şehir (81 İl) *</label>
-              <select id="main-reg-city" required class="input-3d-dark">
-              </select>
-            </div>
-
-            <button type="submit" class="btn-3d-gold-action">
-              <span>İlerle: Hizmet Bölgesi &amp; Ücret Bilgisi ›</span>
+          <!-- 3D Auth Switcher Tabs (Ana Sayfada Canlı!) -->
+          <div class="main-3d-auth-tabs">
+            <button type="button" id="main-tab-wiz" class="btn-3d-auth-tab active" onclick="switchMainAuthTab('wizard')">
+              <span>🚜 3D Makine Sahibi Kaydı (3 Adım)</span>
             </button>
-          </form>
+            <button type="button" id="main-tab-login" class="btn-3d-auth-tab" onclick="switchMainAuthTab('login')">
+              <span>🔐 Zaten Üyeyim: Şifreli Hızlı Giriş</span>
+            </button>
+          </div>
 
-          <!-- Step 2 Form -->
-          <form id="main-wiz-form-step2" onsubmit="handleMainWizStep2(event)" class="form-3d-step" style="display:none;">
-            <div class="form-3d-header">
-              <span class="icon-3d-step">📍</span>
-              <h3>2. Adım: Nerelere Hizmet Ediyor &amp; Kiralama Ücreti</h3>
+          <!-- 3D WIZARD CONTAINER -->
+          <div id="main-wiz-container" class="card-3d-glass-container">
+            
+            <!-- 3D Step Progress Bar -->
+            <div class="wiz-3d-steps-indicator">
+              <div id="main-step-pill-1" class="step-3d-pill active">
+                <span class="step-3d-num">1</span>
+                <span class="step-3d-label">Üyelik &amp; Şifre</span>
+              </div>
+              <div class="step-3d-line"></div>
+              <div id="main-step-pill-2" class="step-3d-pill">
+                <span class="step-3d-num">2</span>
+                <span class="step-3d-label">Hizmet &amp; Ücret</span>
+              </div>
+              <div class="step-3d-line"></div>
+              <div id="main-step-pill-3" class="step-3d-pill">
+                <span class="step-3d-num">3</span>
+                <span class="step-3d-label">Kepçe Fotoğrafı</span>
+              </div>
             </div>
 
-            <div class="form-3d-grid-2">
+            <!-- Step 1 Form -->
+            <form id="main-wiz-form-step1" onsubmit="handleMainWizStep1(event)" class="form-3d-step">
+              <div class="form-3d-header">
+                <span class="icon-3d-step">🔑</span>
+                <h3>1. Adım: Kişisel Bilgiler, Şifre &amp; WhatsApp</h3>
+              </div>
+
+              <div class="form-3d-grid-2">
+                <div class="form-group-3d">
+                  <label for="main-reg-name">Adınız Soyadınız *</label>
+                  <input type="text" id="main-reg-name" placeholder="Örn: Yakup Kartal" required class="input-3d-dark">
+                </div>
+
+                <div class="form-group-3d">
+                  <label for="main-reg-company">Firma / İşletme Adı <span class="label-opt">(Opsiyonel)</span></label>
+                  <input type="text" id="main-reg-company" placeholder="Örn: Bey Hafriyat Ltd." class="input-3d-dark">
+                </div>
+              </div>
+
+              <div class="form-3d-grid-2">
+                <div class="form-group-3d">
+                  <label for="main-reg-password">Giriş Şifreniz *</label>
+                  <input type="password" id="main-reg-password" placeholder="••••••••" required class="input-3d-dark">
+                </div>
+
+                <div class="form-group-3d">
+                  <label for="main-reg-phone">Telefon Numaranız (WhatsApp) *</label>
+                  <input type="tel" id="main-reg-phone" placeholder="Örn: 0532 123 45 67" required class="input-3d-dark">
+                </div>
+              </div>
+
               <div class="form-group-3d">
-                <label for="main-reg-type">Makine / Kepçe Türü *</label>
-                <select id="main-reg-type" required class="input-3d-dark">
-                  <option value="JCB Beko Loder Kepçe">🚜 JCB Beko Loder Kepçe</option>
-                  <option value="Paletli Ekskavatör">🏗️ Paletli Ekskavatör</option>
-                  <option value="Mini Ekskavatör / Kepçe">🚜 Mini Ekskavatör / Kepçe</option>
-                  <option value="Bobcat Mini Yükleyici">🚜 Bobcat Mini Yükleyici</option>
-                  <option value="Hafriyat Kamyonu">🚛 Hafriyat Kamyonu</option>
-                  <option value="Manitou Telehandler">🏗️ Manitou / Vinç</option>
+                <label for="main-reg-city">Bulunduğunuz Şehir (81 İl) *</label>
+                <select id="main-reg-city" required class="input-3d-dark">
                 </select>
               </div>
 
-              <div class="form-group-3d">
-                <label for="main-reg-title">İlan Başlığı / Model *</label>
-                <input type="text" id="main-reg-title" placeholder="Örn: JCB 3CX Beko Loder Kiralık Kepçe" required class="input-3d-dark">
-              </div>
-            </div>
-
-            <div class="form-3d-grid-2">
-              <div class="form-group-3d">
-                <label for="main-reg-hourly">Saatlik Ücret (TL) *</label>
-                <input type="number" id="main-reg-hourly" placeholder="Örn: 500" required class="input-3d-dark">
-              </div>
-
-              <div class="form-group-3d">
-                <label for="main-reg-daily">Günlük Ücret (TL) *</label>
-                <input type="number" id="main-reg-daily" placeholder="Örn: 4000" required class="input-3d-dark">
-              </div>
-            </div>
-
-            <div class="btn-3d-row">
-              <button type="button" onclick="backToMainWizStep1()" class="btn-3d-secondary">
-                ‹ Geri
+              <button type="submit" class="btn-3d-gold-action">
+                <span>2. Adıma Geç (Makine &amp; Fiyat Bilgileri) ›</span>
               </button>
-              <button type="submit" class="btn-3d-gold-action" style="flex:2;">
-                <span>İlerle: Fotoğraf Yüklemeye Geç ›</span>
-              </button>
-            </div>
-          </form>
+            </form>
 
-          <!-- Step 3 Form -->
-          <form id="main-wiz-form-step3" onsubmit="handleMainWizStep3(event)" class="form-3d-step" style="display:none;">
-            <div class="form-3d-header">
-              <span class="icon-3d-step">📸</span>
-              <h3>3. Adım: Kepçe Fotoğrafı &amp; Yayına Alma</h3>
-            </div>
+            <!-- Step 2 Form -->
+            <form id="main-wiz-form-step2" onsubmit="handleMainWizStep2(event)" class="form-3d-step" style="display:none;">
+              <div class="form-3d-header">
+                <span class="icon-3d-step">🚜</span>
+                <h3>2. Adım: Kiralık Makine Türü &amp; Ücretler</h3>
+              </div>
 
-            <div class="form-group-3d">
-              <label>Kepçe Fotoğrafı <span class="label-opt">(Opsiyonel)</span></label>
-              <div class="dropzone-3d-glow" onclick="document.getElementById('main-reg-photo-file').click()">
-                <input type="file" id="main-reg-photo-file" accept="image/*" onchange="previewMainWizPhoto(event)" style="display:none;">
-                <div id="main-wiz-prompt" class="dropzone-3d-prompt">
-                  <span style="font-size: 2.2rem;">📸</span>
-                  <span class="dropzone-3d-title">Fotoğraf Yüklemek İçin Tıklayın veya Galeriden Seçin</span>
-                  <span class="dropzone-3d-sub">Net bir fotoğraf ilanın kiralanma şansını %80 artırır.</span>
+              <div class="form-3d-grid-2">
+                <div class="form-group-3d">
+                  <label for="main-wiz-type">Makine Türü *</label>
+                  <select id="main-wiz-type" required class="input-3d-dark">
+                    <option value="JCB Beko Loder Kepçe">🚜 JCB Beko Loder Kepçe</option>
+                    <option value="Paletli Ekskavatör">🏗️ Paletli Ekskavatör</option>
+                    <option value="Mini Ekskavatör / Kepçe">🚜 Mini Ekskavatör / Kepçe</option>
+                    <option value="Bobcat Mini Yükleyici">🚜 Bobcat Mini Yükleyici</option>
+                    <option value="Hafriyat Kamyonu">🚛 Hafriyat Kamyonu</option>
+                    <option value="Manitou Telehandler">🏗️ Manitou / Vinç</option>
+                  </select>
                 </div>
-                <div id="main-wiz-preview-box" class="dropzone-3d-preview" style="display:none;">
-                  <img id="main-wiz-preview-img" src="" alt="Kepçe Fotoğrafı" class="img-3d-preview">
-                  <span class="preview-3d-success">✓ Fotoğraf Başarıyla Yüklendi</span>
+
+                <div class="form-group-3d">
+                  <label for="main-wiz-title">İlan Başlığı *</label>
+                  <input type="text" id="main-wiz-title" placeholder="Örn: Bey Hafriyat - Kiralık JCB Kepçe" required class="input-3d-dark">
                 </div>
               </div>
-            </div>
 
-            <div class="btn-3d-row">
-              <button type="button" onclick="backToMainWizStep2()" class="btn-3d-secondary">
-                ‹ Geri
+              <div class="form-3d-grid-2">
+                <div class="form-group-3d">
+                  <label for="main-wiz-hourly">Saatlik Ücret (TL) *</label>
+                  <input type="number" id="main-wiz-hourly" placeholder="Örn: 2500" required class="input-3d-dark">
+                </div>
+
+                <div class="form-group-3d">
+                  <label for="main-wiz-daily">Günlük Ücret (TL) *</label>
+                  <input type="number" id="main-wiz-daily" placeholder="Örn: 20000" required class="input-3d-dark">
+                </div>
+              </div>
+
+              <div style="display:flex; gap:0.75rem; margin-top:1.5rem;">
+                <button type="button" onclick="backToMainWizStep1()" class="btn-3d-secondary" style="flex:1;">
+                  ‹ Geri
+                </button>
+                <button type="submit" class="btn-3d-gold-action" style="flex:2;">
+                  <span>3. Adıma Geç (Fotoğraf) ›</span>
+                </button>
+              </div>
+            </form>
+
+            <!-- Step 3 Form -->
+            <form id="main-wiz-form-step3" onsubmit="completeMainWizardListing(event)" class="form-3d-step" style="display:none;">
+              <div class="form-3d-header">
+                <span class="icon-3d-step">📸</span>
+                <h3>3. Adım: İş Makinesi Fotoğrafı</h3>
+              </div>
+
+              <!-- Upload Area -->
+              <div class="dropzone-3d-box" onclick="triggerMainWizPhotoUpload(event)">
+                <input type="file" id="main-wiz-file" accept="image/*" style="display:none;" onchange="previewMainWizImage(event)">
+                <div id="main-wiz-prompt">
+                  <div class="icon-3d-camera">📷</div>
+                  <h4>Kepçenizin Fotoğrafını Ekleyin</h4>
+                  <p>Galeriden gerçek iş makinesi fotoğrafınızı seçin</p>
+                  <button type="button" class="btn-3d-upload-action">📁 Fotoğraf Seç</button>
+                </div>
+                <div id="main-wiz-preview-box" style="display:none;">
+                  <img id="main-wiz-preview-img" src="" alt="Önizleme">
+                  <button type="button" onclick="removeMainWizPhoto(event)" class="btn-3d-remove-photo">✕ Değiştir</button>
+                </div>
+              </div>
+
+              <div style="display:flex; gap:0.75rem; margin-top:1.5rem;">
+                <button type="button" onclick="backToMainWizStep2()" class="btn-3d-secondary" style="flex:1;">
+                  ‹ Geri
+                </button>
+                <button type="submit" class="btn-3d-emerald-action" style="flex:2;">
+                  <span>🎉 İlanı Yayına Al &amp; Üye Ol</span>
+                </button>
+              </div>
+            </form>
+
+          </div>
+
+          <!-- 3D LOGIN CONTAINER -->
+          <div id="main-login-container" class="card-3d-glass-container" style="display:none;">
+            <form id="main-quick-login-form" onsubmit="handleMainQuickLogin(event)" class="form-3d-step">
+              <div class="form-3d-header">
+                <span class="icon-3d-step">🔐</span>
+                <h3>Mevcut Üye Girişi</h3>
+              </div>
+              <div class="form-group-3d">
+                <label for="main-login-phone">Telefon Numaranız *</label>
+                <input type="tel" id="main-login-phone" placeholder="Örn: 0532 123 45 67" required class="input-3d-dark">
+              </div>
+              <button type="submit" class="btn-3d-gold-action">
+                <span>Giriş Yap ›</span>
               </button>
-              <button type="submit" class="btn-3d-emerald-action" style="flex:2;">
-                <span>🎉 İlanı Yayına Al &amp; Üye Ol</span>
-              </button>
-            </div>
-          </form>
+            </form>
+          </div>
 
-        </div>
-
-        <!-- 3D LOGIN CONTAINER -->
-        <div id="main-login-container" class="card-3d-glass-container" style="display:none;">
-          <form id="main-quick-login-form" onsubmit="handleMainQuickLogin(event)" class="form-3d-step">
-            <div class="form-3d-header">
-              <span class="icon-3d-step">🔐</span>
-              <h3>Mevcut Üye Girişi</h3>
-            </div>
-            <div class="form-group-3d">
-              <label for="main-login-phone">Telefon Numaranız *</label>
-              <input type="tel" id="main-login-phone" placeholder="Örn: 0532 123 45 67" required class="input-3d-dark">
-            </div>
-            <button type="submit" class="btn-3d-gold-action">
-              <span>Giriş Yap ›</span>
-            </button>
-          </form>
         </div>
 
       </section>
