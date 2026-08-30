@@ -15,7 +15,7 @@
   --text-muted: #6B7280;
 }
 
-/* ==================== NATIVE APP FEEL & NON-SELECTABLE TEXT ==================== */
+/* ==================== NATIVE APP FEEL & NON-SELECTABLE TEXT & ZOOM LOCK ==================== */
 * {
   -webkit-user-select: none !important;
   -moz-user-select: none !important;
@@ -30,6 +30,11 @@ input, textarea, select {
   -moz-user-select: text !important;
   -ms-user-select: text !important;
   user-select: text !important;
+  touch-action: manipulation !important;
+}
+
+button, a, .btn, .mode-btn, .pill-btn {
+  touch-action: manipulation !important;
 }
 
 html, body {
@@ -38,6 +43,9 @@ html, body {
   width: 100%;
   min-height: 100vh;
   overflow-x: hidden;
+  touch-action: pan-y !important;
+  overscroll-behavior-y: none !important;
+  -webkit-text-size-adjust: 100% !important;
   overflow-y: auto !important;
   -webkit-overflow-scrolling: touch !important;
   background-color: var(--bg-page);
