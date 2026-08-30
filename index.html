@@ -189,47 +189,47 @@
       <section id="list-view" class="view-section">
         
         <!-- LOGGED-IN USER DASHBOARD (Giriş yapıldığında görünen Profesyonel Makine Sahibi Paneli) -->
-        <div id="logged-in-user-dashboard" style="display: none; margin-bottom: 2rem;">
+        <div id="logged-in-user-dashboard" style="display: none; margin-bottom: 1.25rem;">
           
-          <!-- Top Profile Header Card -->
-          <div style="background: linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #0F172A 100%); border: 1.5px solid rgba(245,158,11,0.4); border-radius: 20px; padding: 1.1rem 1.2rem; margin-bottom: 1rem; box-shadow: 0 16px 40px rgba(0,0,0,0.5), 0 0 25px rgba(245,158,11,0.12); color: #fff; position: relative; overflow: hidden;">
-            <div style="position: absolute; top: -40px; right: -40px; width: 130px; height: 130px; background: radial-gradient(circle, rgba(245,158,11,0.18) 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
+          <!-- Top Profile Header Card (Kompakt & Zarif) -->
+          <div style="background: linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #0F172A 100%); border: 1.5px solid rgba(245,158,11,0.35); border-radius: 14px; padding: 0.65rem 0.85rem; margin-bottom: 0.6rem; box-shadow: 0 10px 25px rgba(0,0,0,0.4); color: #fff; position: relative; overflow: hidden;">
+            <div style="position: absolute; top: -30px; right: -30px; width: 100px; height: 100px; background: radial-gradient(circle, rgba(245,158,11,0.15) 0%, transparent 70%); border-radius: 50%; pointer-events: none;"></div>
             
-            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem;">
-              <div style="display: flex; align-items: center; gap: 0.75rem;">
-                <div style="width: 48px; height: 48px; border-radius: 16px; background: rgba(15,23,42,0.85); border: 2px solid #F59E0B; box-shadow: 0 6px 16px rgba(245,158,11,0.35); display: flex; align-items: center; justify-content: center; padding: 5px; flex-shrink: 0;">
+            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
+              <div style="display: flex; align-items: center; gap: 0.6rem;">
+                <div style="width: 38px; height: 38px; border-radius: 10px; background: rgba(15,23,42,0.85); border: 1.5px solid #F59E0B; box-shadow: 0 4px 10px rgba(245,158,11,0.3); display: flex; align-items: center; justify-content: center; padding: 3px; flex-shrink: 0;">
                   <img src="assets/logo_3d.png" alt="MakineBul 3D Logo" style="width: 100%; height: 100%; object-fit: contain;">
                 </div>
                 <div>
-                  <div style="display: flex; align-items: center; gap: 5px; flex-wrap: wrap;">
-                    <span style="background: rgba(16,185,129,0.2); color: #34D399; border: 1px solid rgba(16,185,129,0.4); padding: 0.12rem 0.55rem; border-radius: 8px; font-size: 0.65rem; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase;">🟢 Aktif Makine Sahibi</span>
+                  <div style="display: flex; align-items: center; gap: 4px; flex-wrap: wrap;">
+                    <span style="background: rgba(16,185,129,0.2); color: #34D399; border: 1px solid rgba(16,185,129,0.4); padding: 0.08rem 0.45rem; border-radius: 6px; font-size: 0.6rem; font-weight: 800; letter-spacing: 0.4px; text-transform: uppercase;">🟢 Aktif Makine Sahibi</span>
                   </div>
-                  <h3 id="dash-user-name" style="font-family: 'Poppins', sans-serif; font-size: 1.15rem; font-weight: 800; color: #FFFFFF; margin: 0.15rem 0 0.05rem; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">Yakup Kartal (Bey Hafriyat)</h3>
-                  <p id="dash-user-sub" style="font-size: 0.8rem; color: #94A3B8; margin: 0;">📞 Telefon: <strong style="color: #FCD34D;">0531 726 84 54</strong> | 📍 Şehir: <strong style="color: #fff;">Bingöl</strong></p>
+                  <h3 id="dash-user-name" style="font-family: 'Poppins', sans-serif; font-size: 0.95rem; font-weight: 800; color: #FFFFFF; margin: 0.1rem 0 0.05rem; text-shadow: 0 1px 3px rgba(0,0,0,0.5);">Yakup Kartal (Bey Hafriyat)</h3>
+                  <p id="dash-user-sub" style="font-size: 0.72rem; color: #94A3B8; margin: 0;">📞 Telefon: <strong style="color: #FCD34D;">0531 726 84 54</strong> | 📍 Şehir: <strong style="color: #fff;">Bingöl</strong></p>
                 </div>
               </div>
 
               <!-- Quick Action Logout Button -->
-              <button type="button" onclick="logoutUser()" style="padding: 0.45rem 0.8rem; background: rgba(239,68,68,0.18); border: 1px solid rgba(239,68,68,0.4); color: #FCA5A5; font-weight: 700; border-radius: 10px; cursor: pointer; font-size: 0.78rem; display: flex; align-items: center; gap: 4px; backdrop-filter: blur(4px);">
-                🚪 Çıkış Yap
+              <button type="button" onclick="logoutUser()" style="padding: 0.3rem 0.65rem; background: rgba(239,68,68,0.18); border: 1px solid rgba(239,68,68,0.4); color: #FCA5A5; font-weight: 700; border-radius: 8px; cursor: pointer; font-size: 0.7rem; display: flex; align-items: center; gap: 3px; backdrop-filter: blur(4px);">
+                🚪 Çıkış
               </button>
             </div>
           </div>
 
-          <!-- Segmented Navigation Tabs (İlanlarım vs Yeni İlan Ekle) -->
-          <div style="display: flex; background: rgba(15,23,42,0.9); border: 1.5px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 4px; margin-bottom: 1.25rem; gap: 6px;">
-            <button type="button" id="tab-btn-dash-listings" onclick="switchDashboardTab('listings')" style="flex: 1; padding: 0.75rem 0.6rem; border: none; border-radius: 12px; font-family: 'Poppins', sans-serif; font-size: 0.84rem; font-weight: 800; cursor: pointer; transition: all 0.25s ease; background: linear-gradient(135deg, #F59E0B, #D97706); color: #0F172A; box-shadow: 0 4px 15px rgba(245,158,11,0.35); white-space: nowrap; display: flex; align-items: center; justify-content: center; gap: 4px;">
+          <!-- Segmented Navigation Tabs (Kompakt) -->
+          <div style="display: flex; background: rgba(15,23,42,0.9); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 3px; margin-bottom: 0.65rem; gap: 4px;">
+            <button type="button" id="tab-btn-dash-listings" onclick="switchDashboardTab('listings')" style="flex: 1; padding: 0.55rem 0.5rem; border: none; border-radius: 9px; font-family: 'Poppins', sans-serif; font-size: 0.76rem; font-weight: 800; cursor: pointer; transition: all 0.25s ease; background: linear-gradient(135deg, #F59E0B, #D97706); color: #0F172A; box-shadow: 0 3px 10px rgba(245,158,11,0.3); white-space: nowrap; display: flex; align-items: center; justify-content: center; gap: 4px;">
               <span>📋 İlanlarım (<span id="dash-stat-my-listings">1</span>)</span>
             </button>
-            <button type="button" id="tab-btn-dash-add" onclick="switchDashboardTab('add')" style="flex: 1; padding: 0.75rem 0.6rem; border: none; border-radius: 12px; font-family: 'Poppins', sans-serif; font-size: 0.84rem; font-weight: 700; cursor: pointer; transition: all 0.25s ease; background: transparent; color: #94A3B8; white-space: nowrap; display: flex; align-items: center; justify-content: center; gap: 4px;">
+            <button type="button" id="tab-btn-dash-add" onclick="switchDashboardTab('add')" style="flex: 1; padding: 0.55rem 0.5rem; border: none; border-radius: 9px; font-family: 'Poppins', sans-serif; font-size: 0.76rem; font-weight: 700; cursor: pointer; transition: all 0.25s ease; background: transparent; color: #94A3B8; white-space: nowrap; display: flex; align-items: center; justify-content: center; gap: 4px;">
               <span>➕ Yeni İlan Ekle</span>
             </button>
           </div>
 
           <!-- TAB 1: LISTINGS VIEW (Directly shown, no scrolling down needed!) -->
           <div id="dash-view-listings" style="display: block;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem; padding: 0 0.25rem;">
-              <h4 style="font-family: 'Poppins', sans-serif; font-size: 0.98rem; font-weight: 800; color: #F59E0B; margin: 0; display: flex; align-items: center; gap: 6px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; padding: 0 0.15rem;">
+              <h4 style="font-family: 'Poppins', sans-serif; font-size: 0.86rem; font-weight: 800; color: #F59E0B; margin: 0; display: flex; align-items: center; gap: 5px;">
                 <span>🚜 Yayındaki Makineleriniz</span>
               </h4>
             </div>
@@ -240,17 +240,17 @@
             </div>
           </div>
 
-          <!-- TAB 2: FAST ADD FORM VIEW (Directly shown when clicking + Yeni İlan Ekle) -->
-          <div id="dash-view-add" style="display: none; background: linear-gradient(145deg, #0F172A 0%, #1E293B 100%); border: 1.5px solid rgba(245,158,11,0.4); border-radius: 20px; padding: 1.35rem 1.2rem; box-shadow: 0 15px 40px rgba(0,0,0,0.5);">
-            <div style="font-family: 'Poppins', sans-serif; font-size: 1.1rem; font-weight: 800; color: #F59E0B; margin-bottom: 1rem; display: flex; align-items: center; gap: 6px;">
+          <!-- TAB 2: FAST ADD FORM VIEW (Kompakt & Şık Form) -->
+          <div id="dash-view-add" style="display: none; background: linear-gradient(145deg, #0F172A 0%, #1E293B 100%); border: 1.5px solid rgba(245,158,11,0.35); border-radius: 14px; padding: 0.85rem 0.85rem; box-shadow: 0 10px 25px rgba(0,0,0,0.4);">
+            <div style="font-family: 'Poppins', sans-serif; font-size: 0.9rem; font-weight: 800; color: #F59E0B; margin-bottom: 0.65rem; display: flex; align-items: center; gap: 5px;">
               <span>➕ Hızlı Yeni Makine / İlan Ekle</span>
             </div>
             
             <form onsubmit="handleFastAddListing(event)">
-              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; margin-bottom: 0.85rem;">
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem;">
                 <div>
-                  <label style="font-size: 0.8rem; font-weight: 700; color: #CBD5E1; display: block; margin-bottom: 0.3rem;">Makine Türü *</label>
-                  <select id="fast-reg-type" required class="input-3d-dark" style="width: 100%;">
+                  <label style="font-size: 0.72rem; font-weight: 700; color: #CBD5E1; display: block; margin-bottom: 0.2rem;">Makine Türü *</label>
+                  <select id="fast-reg-type" required class="input-3d-dark" style="width: 100%; padding: 0.45rem 0.6rem; font-size: 0.76rem; border-radius: 8px;">
                     <option value="JCB Beko Loder Kepçe">🚜 JCB Beko Loder Kepçe</option>
                     <option value="Paletli Ekskavatör">🏗️ Paletli Ekskavatör</option>
                     <option value="Mini Ekskavatör / Kepçe">🚜 Mini Ekskavatör / Kepçe</option>
@@ -260,30 +260,30 @@
                   </select>
                 </div>
                 <div>
-                  <label style="font-size: 0.8rem; font-weight: 700; color: #CBD5E1; display: block; margin-bottom: 0.3rem;">İlan Başlığı / Model *</label>
-                  <input type="text" id="fast-reg-title" placeholder="Örn: 2022 Model JCB 3CX Kiralık Kepçe" required class="input-3d-dark" style="width: 100%;">
+                  <label style="font-size: 0.72rem; font-weight: 700; color: #CBD5E1; display: block; margin-bottom: 0.2rem;">İlan Başlığı / Model *</label>
+                  <input type="text" id="fast-reg-title" placeholder="Örn: 2022 Model JCB 3CX Kepçe" required class="input-3d-dark" style="width: 100%; padding: 0.45rem 0.6rem; font-size: 0.76rem; border-radius: 8px;">
                 </div>
               </div>
 
-              <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.85rem; margin-bottom: 0.85rem;">
+              <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem; margin-bottom: 0.65rem;">
                 <div>
-                  <label style="font-size: 0.8rem; font-weight: 700; color: #CBD5E1; display: block; margin-bottom: 0.3rem;">Bulunduğu İl *</label>
-                  <select id="fast-reg-city" required class="input-3d-dark" style="width: 100%;">
+                  <label style="font-size: 0.72rem; font-weight: 700; color: #CBD5E1; display: block; margin-bottom: 0.2rem;">Bulunduğu İl *</label>
+                  <select id="fast-reg-city" required class="input-3d-dark" style="width: 100%; padding: 0.45rem 0.6rem; font-size: 0.76rem; border-radius: 8px;">
                   </select>
                 </div>
                 <div>
-                  <label style="font-size: 0.8rem; font-weight: 700; color: #CBD5E1; display: block; margin-bottom: 0.3rem;">Saatlik Ücret (TL) *</label>
-                  <input type="number" id="fast-reg-hourly" placeholder="1500" required class="input-3d-dark" style="width: 100%;">
+                  <label style="font-size: 0.72rem; font-weight: 700; color: #CBD5E1; display: block; margin-bottom: 0.2rem;">Saatlik (TL) *</label>
+                  <input type="number" id="fast-reg-hourly" placeholder="1500" required class="input-3d-dark" style="width: 100%; padding: 0.45rem 0.6rem; font-size: 0.76rem; border-radius: 8px;">
                 </div>
                 <div>
-                  <label style="font-size: 0.8rem; font-weight: 700; color: #CBD5E1; display: block; margin-bottom: 0.3rem;">Günlük Ücret (TL) *</label>
-                  <input type="number" id="fast-reg-daily" placeholder="10000" required class="input-3d-dark" style="width: 100%;">
+                  <label style="font-size: 0.72rem; font-weight: 700; color: #CBD5E1; display: block; margin-bottom: 0.2rem;">Günlük (TL) *</label>
+                  <input type="number" id="fast-reg-daily" placeholder="10000" required class="input-3d-dark" style="width: 100%; padding: 0.45rem 0.6rem; font-size: 0.76rem; border-radius: 8px;">
                 </div>
               </div>
 
-              <div style="display: flex; gap: 0.65rem; justify-content: flex-end; margin-top: 1.25rem;">
-                <button type="button" onclick="switchDashboardTab('listings')" class="btn-3d-secondary" style="padding: 0.65rem 1.1rem;">İptal</button>
-                <button type="submit" class="btn-3d-emerald-action" style="padding: 0.65rem 1.5rem;">🎉 İlanı Hemen Yayına Al</button>
+              <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 0.85rem;">
+                <button type="button" onclick="switchDashboardTab('listings')" class="btn-3d-secondary" style="padding: 0.45rem 0.85rem; font-size: 0.76rem; border-radius: 8px;">İptal</button>
+                <button type="submit" class="btn-3d-emerald-action" style="padding: 0.45rem 1.1rem; font-size: 0.78rem; border-radius: 8px;">🎉 İlanı Hemen Yayına Al</button>
               </div>
             </form>
           </div>
