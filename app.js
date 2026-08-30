@@ -1286,19 +1286,21 @@ function renderListings() {
     );
   });
 
-  // 2. Location Filtering: User-created listings (item.isMyListing) ALWAYS pass through!
+  // 2. Location Filtering: User's own listings ALWAYS pass through!
   if (userCurrentCity && !searchInput) {
     const allowedCities = NEARBY_CITIES_MAP[userCurrentCity] || [userCurrentCity];
     filtered = filtered.filter(item => {
-      if (item.isMyListing) return true; // User's own listing is ALWAYS shown!
+      if (isItemMine(item)) return true; // User's own listing is ALWAYS shown!
       return allowedCities.some(city => item.city.toLowerCase().includes(city.toLowerCase()));
     });
   }
 
   // 3. Sort listings: User's own listings FIRST, then user's city machines!
   filtered.sort((a, b) => {
-    if (a.isMyListing && !b.isMyListing) return -1;
-    if (!a.isMyListing && b.isMyListing) return 1;
+    const aMine = isItemMine(a);
+    const bMine = isItemMine(b);
+    if (aMine && !bMine) return -1;
+    if (!aMine && bMine) return 1;
     if (userCurrentCity) {
       const aMatches = a.city.toLowerCase() === userCurrentCity.toLowerCase();
       const bMatches = b.city.toLowerCase() === userCurrentCity.toLowerCase();
@@ -1335,6 +1337,7 @@ function renderListings() {
     const statusClass = isAvailable ? 'available' : 'rented';
     const statusText = isAvailable ? '🟢 Müsait' : '🔴 Kirada';
     const hourlyPriceNum = item.hourlyPrice || Math.round(item.price / 8);
+    const isMine = isItemMine(item);
 
     return `
       <div class="card card-listing-sahibinden">
@@ -1353,7 +1356,7 @@ function renderListings() {
           </div>
 
           <div class="sahibinden-badge-row">
-            ${item.isMyListing ? `<span class="sahibinden-tag-pill my-tag">Sizin İlanınız</span>` : ''}
+            ${isMine ? `<span class="sahibinden-tag-pill my-tag">Sizin İlanınız</span>` : ''}
           </div>
 
           <div class="sahibinden-location">
@@ -1705,31 +1708,35 @@ function handleCreateListing(event) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Helper to filter strictly the logged-in user's listings
-function getMyListings() {
-  if (!currentUser) return [];
+// Central Helper: Check if an item strictly belongs to the logged-in user
+function isItemMine(item) {
+  if (!currentUser || !item) return false;
   const cleanUserPhone = currentUser.phone ? currentUser.phone.replace(/\D/g, '') : '';
   const userName = currentUser.name ? currentUser.name.toLowerCase().trim() : '';
   const userCompany = currentUser.company ? currentUser.company.toLowerCase().trim() : '';
   const userDisplayName = currentUser.displayName ? currentUser.displayName.toLowerCase().trim() : '';
 
-  return listings.filter(item => {
-    // 1. Check matching phone number (Exact or last 7 digits)
-    if (cleanUserPhone && item.phone) {
-      const itemPhoneClean = String(item.phone).replace(/\D/g, '');
-      if (itemPhoneClean.length >= 7 && (cleanUserPhone.endsWith(itemPhoneClean.slice(-7)) || itemPhoneClean.endsWith(cleanUserPhone.slice(-7)))) {
-        return true;
-      }
+  // 1. Check matching phone number (Exact or last 7 digits)
+  if (cleanUserPhone && item.phone) {
+    const itemPhoneClean = String(item.phone).replace(/\D/g, '');
+    if (itemPhoneClean.length >= 7 && (cleanUserPhone.endsWith(itemPhoneClean.slice(-7)) || itemPhoneClean.endsWith(cleanUserPhone.slice(-7)))) {
+      return true;
     }
+  }
 
-    // 2. Check matching owner name or company
-    const itemOwner = (item.owner || '').toLowerCase().trim();
-    if (userName && userName.length > 2 && itemOwner.includes(userName)) return true;
-    if (userDisplayName && userDisplayName.length > 2 && itemOwner.includes(userDisplayName)) return true;
-    if (userCompany && userCompany.length > 2 && itemOwner.includes(userCompany)) return true;
+  // 2. Check matching owner name or company
+  const itemOwner = (item.owner || '').toLowerCase().trim();
+  if (userName && userName.length > 2 && itemOwner.includes(userName)) return true;
+  if (userDisplayName && userDisplayName.length > 2 && itemOwner.includes(userDisplayName)) return true;
+  if (userCompany && userCompany.length > 2 && itemOwner.includes(userCompany)) return true;
 
-    return false;
-  });
+  return false;
+}
+
+// Helper to filter strictly the logged-in user's listings
+function getMyListings() {
+  if (!currentUser) return [];
+  return listings.filter(item => isItemMine(item));
 }
 
 // Render Owner's Own Listings (Only strictly the user's machines)
